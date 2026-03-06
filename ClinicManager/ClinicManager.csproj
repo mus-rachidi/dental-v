@@ -13,6 +13,8 @@
     <Product>Clinic Management System</Product>
     <Description>Professional Clinic Management System</Description>
     <Copyright>Copyright © 2026 ClinicSoft. All rights reserved.</Copyright>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>

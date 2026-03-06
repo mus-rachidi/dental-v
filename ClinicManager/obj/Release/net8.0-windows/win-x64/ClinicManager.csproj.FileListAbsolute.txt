@@ -2,7 +2,6 @@
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/bin/Release/net8.0-windows/win-x64/ClinicManager.deps.json
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/bin/Release/net8.0-windows/win-x64/ClinicManager.runtimeconfig.json
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/bin/Release/net8.0-windows/win-x64/ClinicManager.dll
-/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/bin/Release/net8.0-windows/win-x64/ClinicManager.pdb
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/bin/Release/net8.0-windows/win-x64/fr/ClinicManager.resources.dll
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/bin/Release/net8.0-windows/win-x64/ClosedXML.dll
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/bin/Release/net8.0-windows/win-x64/CommunityToolkit.Mvvm.dll
@@ -592,12 +591,10 @@
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/ClinicManager.AssemblyInfoInputs.cache
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/ClinicManager.AssemblyInfo.cs
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/ClinicManager.csproj.CoreCompileInputs.cache
-/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/ClinicManager.sourcelink.json
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/fr/ClinicManager.resources.cs
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/fr/ClinicManager.resources.dll
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/ClinicMa.AF03995A.Up2Date
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/ClinicManager.dll
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/refint/ClinicManager.dll
-/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/ClinicManager.pdb
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/ClinicManager.genruntimeconfig.cache
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/ref/ClinicManager.dll
