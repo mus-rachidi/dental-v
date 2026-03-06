@@ -2,41 +2,43 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- ═══════════════════════════════════════════════ -->
-    <!-- COLOR PALETTE - DARK                            -->
+    <!-- COLOR PALETTE - MEDICAL DARK                    -->
     <!-- ═══════════════════════════════════════════════ -->
-    <Color x:Key="PrimaryColor">#818CF8</Color>
-    <Color x:Key="PrimaryHoverColor">#6366F1</Color>
-    <Color x:Key="PrimaryLightColor">#1E1B4B</Color>
-    <Color x:Key="PrimaryDarkColor">#4F46E5</Color>
-    <Color x:Key="AccentColor">#A78BFA</Color>
+    <Color x:Key="PrimaryColor">#2DD4BF</Color>
+    <Color x:Key="PrimaryHoverColor">#14B8A6</Color>
+    <Color x:Key="PrimaryLightColor">#134E4A</Color>
+    <Color x:Key="PrimaryDarkColor">#0D9488</Color>
+    <Color x:Key="AccentColor">#5EEAD4</Color>
     <Color x:Key="SuccessColor">#34D399</Color>
     <Color x:Key="SuccessLightColor">#064E3B</Color>
     <Color x:Key="WarningColor">#FBBF24</Color>
     <Color x:Key="WarningLightColor">#78350F</Color>
     <Color x:Key="DangerColor">#F87171</Color>
     <Color x:Key="DangerLightColor">#7F1D1D</Color>
-    <Color x:Key="InfoColor">#22D3EE</Color>
-    <Color x:Key="InfoLightColor">#164E63</Color>
+    <Color x:Key="InfoColor">#60A5FA</Color>
+    <Color x:Key="InfoLightColor">#1E3A5F</Color>
 
-    <Color x:Key="BackgroundColor">#0B1120</Color>
-    <Color x:Key="SurfaceColor">#1E293B</Color>
-    <Color x:Key="SidebarColor">#0B1120</Color>
+    <Color x:Key="BackgroundColor">#0A1628</Color>
+    <Color x:Key="SurfaceColor">#132337</Color>
+    <Color x:Key="SidebarColor">#081420</Color>
     <Color x:Key="SidebarTextColor">#64748B</Color>
-    <Color x:Key="SidebarHoverColor">#1E293B</Color>
-    <Color x:Key="SidebarActiveColor">#818CF8</Color>
-    <Color x:Key="SidebarActiveBgColor">#1E1B4B</Color>
+    <Color x:Key="SidebarHoverColor">#132337</Color>
+    <Color x:Key="SidebarActiveColor">#2DD4BF</Color>
+    <Color x:Key="SidebarActiveBgColor">#134E4A</Color>
 
-    <Color x:Key="TextPrimaryColor">#F1F5F9</Color>
+    <Color x:Key="TextPrimaryColor">#E2E8F0</Color>
     <Color x:Key="TextSecondaryColor">#94A3B8</Color>
     <Color x:Key="TextMutedColor">#475569</Color>
-    <Color x:Key="BorderColor">#1E293B</Color>
-    <Color x:Key="InputBgColor">#0F172A</Color>
-    <Color x:Key="InputFocusBgColor">#1E293B</Color>
-    <Color x:Key="RowHoverColor">#1E293B</Color>
-    <Color x:Key="RowAlternateColor">#0F172A</Color>
-    <Color x:Key="RowSelectedColor">#1E1B4B</Color>
+    <Color x:Key="BorderColor">#1E3448</Color>
+    <Color x:Key="InputBgColor">#0C1C2E</Color>
+    <Color x:Key="InputFocusBgColor">#132337</Color>
+    <Color x:Key="RowHoverColor">#1E3448</Color>
+    <Color x:Key="RowAlternateColor">#0C1C2E</Color>
+    <Color x:Key="RowSelectedColor">#134E4A</Color>
 
-    <!-- BRUSHES -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- BRUSHES                                         -->
+    <!-- ═══════════════════════════════════════════════ -->
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}" />
     <SolidColorBrush x:Key="PrimaryHoverBrush" Color="{StaticResource PrimaryHoverColor}" />
     <SolidColorBrush x:Key="PrimaryLightBrush" Color="{StaticResource PrimaryLightColor}" />
@@ -64,15 +66,20 @@
     <SolidColorBrush x:Key="TextMutedBrush" Color="{StaticResource TextMutedColor}" />
     <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}" />
     <SolidColorBrush x:Key="InputBgBrush" Color="{StaticResource InputBgColor}" />
+    <SolidColorBrush x:Key="InputFocusBgBrush" Color="{StaticResource InputFocusBgColor}" />
 
-    <!-- TYPOGRAPHY -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- TYPOGRAPHY                                      -->
+    <!-- ═══════════════════════════════════════════════ -->
     <FontFamily x:Key="PrimaryFont">Segoe UI, Arial</FontFamily>
     <FontFamily x:Key="MonoFont">Cascadia Code, Consolas</FontFamily>
 
-    <!-- CARD STYLES -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- CARD STYLES                                     -->
+    <!-- ═══════════════════════════════════════════════ -->
     <Style x:Key="CardStyle" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
-        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="CornerRadius" Value="14" />
         <Setter Property="Padding" Value="24" />
         <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
@@ -88,7 +95,9 @@
         <Setter Property="MinWidth" Value="220" />
     </Style>
 
-    <!-- BUTTON STYLES -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- BUTTON STYLES                                   -->
+    <!-- ═══════════════════════════════════════════════ -->
     <Style x:Key="PrimaryButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
         <Setter Property="Foreground" Value="White" />
@@ -102,9 +111,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="border" Background="{TemplateBinding Background}" 
-                            CornerRadius="10" Padding="{TemplateBinding Padding}">
+                            CornerRadius="10" Padding="{TemplateBinding Padding}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
                         <Border.Effect>
-                            <DropShadowEffect ShadowDepth="1" BlurRadius="6" Opacity="0.2" Color="{StaticResource PrimaryColor}" />
+                            <DropShadowEffect ShadowDepth="1" BlurRadius="6" Opacity="0.25" Color="{StaticResource PrimaryColor}" />
                         </Border.Effect>
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
@@ -155,7 +165,9 @@
         <Setter Property="Background" Value="{StaticResource DangerBrush}" />
     </Style>
 
-    <!-- TEXTBOX -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- TEXTBOX STYLE                                   -->
+    <!-- ═══════════════════════════════════════════════ -->
     <Style x:Key="ModernTextBoxStyle" TargetType="TextBox">
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
         <Setter Property="FontSize" Value="13.5" />
@@ -164,7 +176,7 @@
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
         <Setter Property="BorderThickness" Value="1.5" />
-        <Setter Property="CaretBrush" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="CaretBrush" Value="{StaticResource PrimaryBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
@@ -177,9 +189,10 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsFocused" Value="True">
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource InputFocusBgBrush}" />
                             <Setter TargetName="border" Property="Effect">
                                 <Setter.Value>
-                                    <DropShadowEffect ShadowDepth="0" BlurRadius="8" Opacity="0.2" Color="{StaticResource PrimaryColor}" />
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="8" Opacity="0.3" Color="{StaticResource PrimaryColor}" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
@@ -189,7 +202,9 @@
         </Setter>
     </Style>
 
-    <!-- DATAGRID -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- DATAGRID STYLES                                 -->
+    <!-- ═══════════════════════════════════════════════ -->
     <Style x:Key="ModernDataGridStyle" TargetType="DataGrid">
         <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
@@ -200,7 +215,7 @@
         <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource BorderBrush}" />
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
         <Setter Property="FontSize" Value="13" />
-        <Setter Property="RowHeight" Value="52" />
+        <Setter Property="RowHeight" Value="48" />
         <Setter Property="ColumnHeaderHeight" Value="48" />
         <Setter Property="HeadersVisibility" Value="Column" />
         <Setter Property="SelectionMode" Value="Single" />
@@ -211,16 +226,19 @@
     </Style>
 
     <Style x:Key="ModernDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
-        <Setter Property="Background" Value="#0F172A" />
+        <Setter Property="Background" Value="#0C1C2E" />
         <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="FontSize" Value="11.5" />
         <Setter Property="Padding" Value="16,0" />
         <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
         <Setter Property="BorderThickness" Value="0,0,0,2" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
     </Style>
 
-    <!-- NAVIGATION -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- NAVIGATION BUTTON                               -->
+    <!-- ═══════════════════════════════════════════════ -->
     <Style x:Key="NavButtonStyle" TargetType="RadioButton">
         <Setter Property="Foreground" Value="{StaticResource SidebarTextBrush}" />
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
@@ -256,7 +274,9 @@
         </Setter>
     </Style>
 
-    <!-- TYPOGRAPHY -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- TYPOGRAPHY STYLES                               -->
+    <!-- ═══════════════════════════════════════════════ -->
     <Style x:Key="FormLabelStyle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
         <Setter Property="FontSize" Value="12.5" />
@@ -279,6 +299,9 @@
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
     </Style>
 
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- STATUS BADGE                                    -->
+    <!-- ═══════════════════════════════════════════════ -->
     <Style x:Key="BadgeStyle" TargetType="Border">
         <Setter Property="CornerRadius" Value="20" />
         <Setter Property="Padding" Value="12,5" />

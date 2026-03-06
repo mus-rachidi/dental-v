@@ -12,7 +12,11 @@
         <!-- Main List -->
         <DockPanel Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
             <DockPanel DockPanel.Dock="Top" Margin="32,24,32,16">
-                <TextBlock Text="{local:Localize Appointments}" Style="{DynamicResource PageTitleStyle}" VerticalAlignment="Center" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets" FontSize="22"
+                               Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,10,0" />
+                    <TextBlock Text="{local:Localize Appointments}" Style="{DynamicResource PageTitleStyle}" VerticalAlignment="Center" />
+                </StackPanel>
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Content="{local:Localize TodayAppointments}" Command="{Binding ShowTodayCommand}"
                             Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,8,0" Padding="16,8" />
@@ -22,16 +26,18 @@
             </DockPanel>
 
             <!-- Date Filter -->
-            <Border DockPanel.Dock="Top" Margin="32,0,32,16">
+            <Border DockPanel.Dock="Top" Margin="32,0,32,16" Style="{DynamicResource CardStyle}" Padding="16,12">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{local:Localize From}" VerticalAlignment="Center" Margin="0,0,8,0"
-                               Foreground="{DynamicResource TextSecondaryBrush}" />
+                    <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                               Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <TextBlock Text="{local:Localize From}" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="12.5"
+                               Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold" />
                     <DatePicker SelectedDate="{Binding FilterFrom}" Width="140" />
-                    <TextBlock Text="{local:Localize To}" VerticalAlignment="Center" Margin="16,0,8,0"
-                               Foreground="{DynamicResource TextSecondaryBrush}" />
+                    <TextBlock Text="{local:Localize To}" VerticalAlignment="Center" Margin="16,0,8,0" FontSize="12.5"
+                               Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold" />
                     <DatePicker SelectedDate="{Binding FilterTo}" Width="140" />
                     <Button Content="{local:Localize Apply}" Command="{Binding FilterCommand}"
-                            Style="{DynamicResource PrimaryButtonStyle}" Margin="16,0,0,0" Padding="16,6" />
+                            Style="{DynamicResource PrimaryButtonStyle}" Margin="16,0,0,0" Padding="18,7" />
                 </StackPanel>
             </Border>
 
@@ -69,15 +75,27 @@
         <!-- Edit Form -->
         <ScrollViewer Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}"
                       VerticalScrollBarVisibility="Auto" Padding="32,24">
-            <Border Style="{DynamicResource CardStyle}" MaxWidth="600" HorizontalAlignment="Center">
+            <Border Style="{DynamicResource CardStyle}" MaxWidth="640" HorizontalAlignment="Center">
                 <StackPanel>
-                    <TextBlock Text="{local:Localize AddAppointment}" 
-                               Style="{DynamicResource PageTitleStyle}" Margin="0,0,0,24" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                        <Border Width="40" Height="40" CornerRadius="10" Margin="0,0,12,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#0891B2" Offset="0" />
+                                    <GradientStop Color="#14B8A6" Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets" FontSize="16"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <TextBlock Text="{local:Localize AddAppointment}" 
+                                   Style="{DynamicResource PageTitleStyle}" VerticalAlignment="Center" />
+                    </StackPanel>
 
                     <TextBlock Text="{local:Localize SelectPatient}" Style="{DynamicResource FormLabelStyle}" />
                     <ComboBox ItemsSource="{Binding AvailablePatients}" 
                               SelectedValue="{Binding EditPatientId}" SelectedValuePath="Id"
-                              DisplayMemberPath="FullName" FontSize="13" Padding="8" Margin="0,0,0,16" />
+                              DisplayMemberPath="FullName" FontSize="13" Padding="10" Margin="0,0,0,16" />
 
                     <TextBlock Text="{local:Localize Doctor}" Style="{DynamicResource FormLabelStyle}" />
                     <TextBox Text="{Binding EditDoctor, UpdateSourceTrigger=PropertyChanged}"
@@ -97,7 +115,7 @@
 
                         <StackPanel Grid.Column="2">
                             <TextBlock Text="{local:Localize Duration}" Style="{DynamicResource FormLabelStyle}" />
-                            <ComboBox SelectedItem="{Binding EditDuration}" FontSize="13" Padding="8">
+                            <ComboBox SelectedItem="{Binding EditDuration}" FontSize="13" Padding="10">
                                 <sys:Int32 xmlns:sys="clr-namespace:System;assembly=mscorlib">15</sys:Int32>
                                 <sys:Int32 xmlns:sys="clr-namespace:System;assembly=mscorlib">30</sys:Int32>
                                 <sys:Int32 xmlns:sys="clr-namespace:System;assembly=mscorlib">45</sys:Int32>

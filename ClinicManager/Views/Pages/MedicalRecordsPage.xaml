@@ -12,7 +12,11 @@
         <!-- Main List -->
         <DockPanel Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
             <DockPanel DockPanel.Dock="Top" Margin="32,24,32,16">
-                <TextBlock Text="{local:Localize MedicalRecords}" Style="{DynamicResource PageTitleStyle}" VerticalAlignment="Center" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE82D;" FontFamily="Segoe MDL2 Assets" FontSize="22"
+                               Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,10,0" />
+                    <TextBlock Text="{local:Localize MedicalRecords}" Style="{DynamicResource PageTitleStyle}" VerticalAlignment="Center" />
+                </StackPanel>
                 <Button DockPanel.Dock="Right" Content="{local:Localize AddRecord}" 
                         Command="{Binding AddCommand}"
                         Style="{DynamicResource PrimaryButtonStyle}" Padding="16,8" HorizontalAlignment="Right" />
@@ -52,13 +56,25 @@
                       VerticalScrollBarVisibility="Auto" Padding="32,24">
             <Border Style="{DynamicResource CardStyle}" MaxWidth="700" HorizontalAlignment="Center">
                 <StackPanel>
-                    <TextBlock Text="{local:Localize AddRecord}" 
-                               Style="{DynamicResource PageTitleStyle}" Margin="0,0,0,24" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                        <Border Width="40" Height="40" CornerRadius="10" Margin="0,0,12,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#2563EB" Offset="0" />
+                                    <GradientStop Color="#3B82F6" Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="&#xE82D;" FontFamily="Segoe MDL2 Assets" FontSize="16"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <TextBlock Text="{local:Localize AddRecord}" 
+                                   Style="{DynamicResource PageTitleStyle}" VerticalAlignment="Center" />
+                    </StackPanel>
 
                     <TextBlock Text="{local:Localize SelectPatient}" Style="{DynamicResource FormLabelStyle}" />
                     <ComboBox ItemsSource="{Binding AvailablePatients}" 
                               SelectedValue="{Binding EditPatientId}" SelectedValuePath="Id"
-                              DisplayMemberPath="FullName" FontSize="13" Padding="8" Margin="0,0,0,16" />
+                              DisplayMemberPath="FullName" FontSize="13" Padding="10" Margin="0,0,0,16" />
 
                     <Grid Margin="0,0,0,16">
                         <Grid.ColumnDefinitions>

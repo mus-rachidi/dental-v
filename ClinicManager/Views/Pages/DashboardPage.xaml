@@ -3,134 +3,163 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ClinicManager.Localization">
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-        <StackPanel Margin="36,28,36,36">
+        <StackPanel Margin="32,24,32,32">
 
-            <!-- Header Row -->
-            <DockPanel Margin="0,0,0,28">
+            <!-- Header -->
+            <DockPanel Margin="0,0,0,24">
                 <StackPanel>
                     <TextBlock Text="{local:Localize Dashboard}" Style="{DynamicResource PageTitleStyle}" />
                     <TextBlock Text="{local:Localize Welcome}" Foreground="{DynamicResource TextSecondaryBrush}" 
-                               FontSize="14" Margin="0,4,0,0" />
+                               FontSize="13.5" Margin="0,4,0,0" />
                 </StackPanel>
-                <Button DockPanel.Dock="Right" Content="{local:Localize Refresh}" 
+                <Button DockPanel.Dock="Right" Content="&#xE72C;  Refresh" FontFamily="Segoe UI"
                         Command="{Binding RefreshCommand}" 
                         Style="{DynamicResource SecondaryButtonStyle}"
-                        HorizontalAlignment="Right" VerticalAlignment="Center" Padding="20,9" />
+                        HorizontalAlignment="Right" VerticalAlignment="Center" Padding="18,9" />
             </DockPanel>
 
-            <!-- Quick Search Bar -->
-            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,24" Padding="8">
+            <!-- Quick Search -->
+            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,20" Padding="6">
                 <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
                          Style="{DynamicResource ModernTextBoxStyle}" BorderThickness="0"
-                         FontSize="15" Padding="16,14" Background="Transparent" />
+                         FontSize="14" Padding="14,12" Background="Transparent" />
             </Border>
 
-            <!-- Stats Cards Row -->
-            <UniformGrid Columns="4" Margin="0,0,0,24">
+            <!-- Stats Cards -->
+            <UniformGrid Columns="4" Margin="0,0,0,20">
                 <!-- Total Patients -->
-                <Border Style="{DynamicResource StatCardStyle}" Margin="0,0,10,0">
+                <Border Style="{DynamicResource StatCardStyle}" Margin="0,0,8,0">
                     <DockPanel>
-                        <Border DockPanel.Dock="Left" Width="48" Height="48" CornerRadius="12" 
-                                Background="{DynamicResource PrimaryLightBrush}" Margin="0,0,16,0">
-                            <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="20"
-                                       Foreground="{DynamicResource PrimaryBrush}" 
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border DockPanel.Dock="Left" Width="46" Height="46" CornerRadius="12" Margin="0,0,14,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#0891B2" Offset="0" />
+                                    <GradientStop Color="#14B8A6" Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="{local:Localize TotalPatients}" 
-                                       Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" FontWeight="SemiBold" />
-                            <TextBlock Text="{Binding TotalPatients}" FontSize="28" FontWeight="Bold"
-                                       Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,4,0,0" />
+                                       Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" />
+                            <TextBlock Text="{Binding TotalPatients}" FontSize="26" FontWeight="Bold"
+                                       Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,2,0,0" />
                         </StackPanel>
                     </DockPanel>
                 </Border>
 
                 <!-- Today Appointments -->
-                <Border Style="{DynamicResource StatCardStyle}" Margin="5,0">
+                <Border Style="{DynamicResource StatCardStyle}" Margin="4,0">
                     <DockPanel>
-                        <Border DockPanel.Dock="Left" Width="48" Height="48" CornerRadius="12" 
-                                Background="{DynamicResource InfoLightBrush}" Margin="0,0,16,0">
-                            <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets" FontSize="20"
-                                       Foreground="{DynamicResource InfoBrush}" 
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border DockPanel.Dock="Left" Width="46" Height="46" CornerRadius="12" Margin="0,0,14,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#2563EB" Offset="0" />
+                                    <GradientStop Color="#3B82F6" Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="{local:Localize TodayAppointments}" 
-                                       Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" FontWeight="SemiBold" />
-                            <TextBlock Text="{Binding TodayAppointments}" FontSize="28" FontWeight="Bold"
-                                       Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,4,0,0" />
+                                       Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" />
+                            <TextBlock Text="{Binding TodayAppointments}" FontSize="26" FontWeight="Bold"
+                                       Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,2,0,0" />
                         </StackPanel>
                     </DockPanel>
                 </Border>
 
                 <!-- Today Revenue -->
-                <Border Style="{DynamicResource StatCardStyle}" Margin="5,0">
+                <Border Style="{DynamicResource StatCardStyle}" Margin="4,0">
                     <DockPanel>
-                        <Border DockPanel.Dock="Left" Width="48" Height="48" CornerRadius="12" 
-                                Background="{DynamicResource SuccessLightBrush}" Margin="0,0,16,0">
-                            <TextBlock Text="&#xE8C7;" FontFamily="Segoe MDL2 Assets" FontSize="20"
-                                       Foreground="{DynamicResource SuccessBrush}" 
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border DockPanel.Dock="Left" Width="46" Height="46" CornerRadius="12" Margin="0,0,14,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#059669" Offset="0" />
+                                    <GradientStop Color="#10B981" Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="&#xE8C7;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="{local:Localize TodayRevenue}" 
-                                       Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" FontWeight="SemiBold" />
-                            <TextBlock Text="{Binding TodayRevenue, StringFormat='{}{0:C}'}" FontSize="28" FontWeight="Bold"
-                                       Foreground="{DynamicResource SuccessBrush}" Margin="0,4,0,0" />
+                                       Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" />
+                            <TextBlock Text="{Binding TodayRevenue, StringFormat='{}{0:C}'}" FontSize="26" FontWeight="Bold"
+                                       Foreground="{DynamicResource SuccessBrush}" Margin="0,2,0,0" />
                         </StackPanel>
                     </DockPanel>
                 </Border>
 
                 <!-- Month Revenue -->
-                <Border Style="{DynamicResource StatCardStyle}" Margin="10,0,0,0">
+                <Border Style="{DynamicResource StatCardStyle}" Margin="8,0,0,0">
                     <DockPanel>
-                        <Border DockPanel.Dock="Left" Width="48" Height="48" CornerRadius="12" 
-                                Background="{DynamicResource WarningLightBrush}" Margin="0,0,16,0">
-                            <TextBlock Text="&#xE9D9;" FontFamily="Segoe MDL2 Assets" FontSize="20"
-                                       Foreground="{DynamicResource WarningBrush}" 
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border DockPanel.Dock="Left" Width="46" Height="46" CornerRadius="12" Margin="0,0,14,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#D97706" Offset="0" />
+                                    <GradientStop Color="#F59E0B" Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="&#xE9D9;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="{local:Localize MonthRevenue}" 
-                                       Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" FontWeight="SemiBold" />
-                            <TextBlock Text="{Binding MonthRevenue, StringFormat='{}{0:C}'}" FontSize="28" FontWeight="Bold"
-                                       Foreground="{DynamicResource WarningBrush}" Margin="0,4,0,0" />
+                                       Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" />
+                            <TextBlock Text="{Binding MonthRevenue, StringFormat='{}{0:C}'}" FontSize="26" FontWeight="Bold"
+                                       Foreground="{DynamicResource WarningBrush}" Margin="0,2,0,0" />
                         </StackPanel>
                     </DockPanel>
                 </Border>
             </UniformGrid>
 
-            <!-- Content Row -->
+            <!-- Content: Appointments + Recent Patients -->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="16" />
-                    <ColumnDefinition Width="380" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="360" />
                 </Grid.ColumnDefinitions>
 
                 <!-- Today's Appointments -->
                 <Border Style="{DynamicResource CardStyle}" Grid.Column="0">
                     <DockPanel>
-                        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,20">
-                            <TextBlock Text="{local:Localize TodayAppointments}" Style="{DynamicResource SectionTitleStyle}" />
+                        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,16">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets" FontSize="16"
+                                           Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                <TextBlock Text="{local:Localize TodayAppointments}" Style="{DynamicResource SectionTitleStyle}" />
+                            </StackPanel>
                             <Button Content="{local:Localize Appointments}" DockPanel.Dock="Right" 
                                     Command="{Binding ViewAllAppointmentsCommand}"
                                     Style="{DynamicResource SecondaryButtonStyle}" Padding="14,6"
-                                    HorizontalAlignment="Right" FontSize="12" />
+                                    HorizontalAlignment="Right" FontSize="11.5" />
                         </DockPanel>
 
                         <ItemsControl ItemsSource="{Binding TodayAppointmentsList}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Margin="0,0,0,4" CornerRadius="10" Padding="16,14"
-                                            Background="{DynamicResource BackgroundBrush}">
+                                    <Border Margin="0,0,0,6" CornerRadius="10" Padding="14,12"
+                                            Background="{DynamicResource BackgroundBrush}"
+                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                                         <DockPanel>
-                                            <Border Width="4" CornerRadius="2" Margin="0,0,14,0"
-                                                    Background="{DynamicResource PrimaryBrush}" />
+                                            <Border Width="4" CornerRadius="2" Margin="0,0,12,0">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                        <GradientStop Color="#0891B2" Offset="0" />
+                                                        <GradientStop Color="#14B8A6" Offset="1" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                            </Border>
                                             <StackPanel>
                                                 <TextBlock Text="{Binding Patient.FullName}" FontWeight="SemiBold" 
-                                                           Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14" />
-                                                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                                           Foreground="{DynamicResource TextPrimaryBrush}" FontSize="13.5" />
+                                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                                    <TextBlock Text="&#xE823;" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                                                               Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,4,0" />
                                                     <TextBlock Text="{Binding Time, StringFormat='{}{0:hh\\:mm}'}" 
                                                                Foreground="{DynamicResource PrimaryBrush}" FontSize="12" FontWeight="SemiBold" />
                                                     <TextBlock Text="  ·  " Foreground="{DynamicResource TextMutedBrush}" />
@@ -141,9 +170,9 @@
                                                                Foreground="{DynamicResource TextMutedBrush}" FontSize="12" />
                                                 </StackPanel>
                                             </StackPanel>
-                                            <Border DockPanel.Dock="Right" HorizontalAlignment="Right" CornerRadius="20" 
-                                                    Padding="12,5" Background="{DynamicResource PrimaryLightBrush}" VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding Status}" FontSize="11" 
+                                            <Border DockPanel.Dock="Right" HorizontalAlignment="Right" CornerRadius="16" 
+                                                    Padding="10,4" Background="{DynamicResource PrimaryLightBrush}" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Status}" FontSize="10.5" 
                                                            Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" />
                                             </Border>
                                         </DockPanel>
@@ -157,30 +186,40 @@
                 <!-- Recent Patients -->
                 <Border Style="{DynamicResource CardStyle}" Grid.Column="2">
                     <DockPanel>
-                        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,20">
-                            <TextBlock Text="{local:Localize RecentPatients}" Style="{DynamicResource SectionTitleStyle}" />
+                        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,16">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="16"
+                                           Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                <TextBlock Text="{local:Localize RecentPatients}" Style="{DynamicResource SectionTitleStyle}" />
+                            </StackPanel>
                             <Button Content="{local:Localize Patients}" DockPanel.Dock="Right"
                                     Command="{Binding ViewAllPatientsCommand}"
                                     Style="{DynamicResource SecondaryButtonStyle}" Padding="14,6"
-                                    HorizontalAlignment="Right" FontSize="12" />
+                                    HorizontalAlignment="Right" FontSize="11.5" />
                         </DockPanel>
 
                         <ItemsControl ItemsSource="{Binding RecentPatients}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Margin="0,0,0,4" CornerRadius="10" Padding="14,12"
-                                            Background="{DynamicResource BackgroundBrush}">
+                                    <Border Margin="0,0,0,6" CornerRadius="10" Padding="12,10"
+                                            Background="{DynamicResource BackgroundBrush}"
+                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                                         <DockPanel>
-                                            <Border Width="42" Height="42" CornerRadius="21" Margin="0,0,14,0"
-                                                    Background="{DynamicResource PrimaryLightBrush}">
-                                                <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="16"
-                                                           Foreground="{DynamicResource PrimaryBrush}"
+                                            <Border Width="38" Height="38" CornerRadius="19" Margin="0,0,12,0">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                        <GradientStop Color="#0891B2" Offset="0" />
+                                                        <GradientStop Color="#14B8A6" Offset="1" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                                <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                                           Foreground="White"
                                                            HorizontalAlignment="Center" VerticalAlignment="Center" />
                                             </Border>
                                             <StackPanel VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding FullName}" FontWeight="SemiBold" FontSize="13.5"
+                                                <TextBlock Text="{Binding FullName}" FontWeight="SemiBold" FontSize="13"
                                                            Foreground="{DynamicResource TextPrimaryBrush}" />
-                                                <TextBlock Text="{Binding Phone}" FontSize="12" Margin="0,3,0,0"
+                                                <TextBlock Text="{Binding Phone}" FontSize="11.5" Margin="0,2,0,0"
                                                            Foreground="{DynamicResource TextSecondaryBrush}" />
                                             </StackPanel>
                                         </DockPanel>

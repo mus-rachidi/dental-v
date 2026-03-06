@@ -5,21 +5,37 @@
              xmlns:local="clr-namespace:ClinicManager.Localization">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-        <StackPanel MaxWidth="720" Margin="36,28,36,36">
-            <TextBlock Text="{local:Localize Settings}" Style="{DynamicResource PageTitleStyle}" Margin="0,0,0,28" />
+        <StackPanel MaxWidth="740" Margin="36,28,36,36">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                <TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="22"
+                           Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,10,0" />
+                <TextBlock Text="{local:Localize Settings}" Style="{DynamicResource PageTitleStyle}" />
+            </StackPanel>
 
             <!-- General Settings -->
-            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,16">
+            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,14">
                 <StackPanel>
-                    <TextBlock Text="{local:Localize General}" Style="{DynamicResource SectionTitleStyle}" Margin="0,0,0,20" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,18">
+                        <Border Width="32" Height="32" CornerRadius="8" Margin="0,0,10,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#0891B2" Offset="0" />
+                                    <GradientStop Color="#14B8A6" Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="&#xE7FC;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <TextBlock Text="{local:Localize General}" Style="{DynamicResource SectionTitleStyle}" VerticalAlignment="Center" />
+                    </StackPanel>
 
                     <TextBlock Text="{local:Localize ClinicName}" Style="{DynamicResource FormLabelStyle}" />
                     <TextBox Text="{Binding ClinicName, UpdateSourceTrigger=PropertyChanged}"
-                             Style="{DynamicResource ModernTextBoxStyle}" Margin="0,0,0,16" />
+                             Style="{DynamicResource ModernTextBoxStyle}" Margin="0,0,0,14" />
 
                     <TextBlock Text="{local:Localize ClinicAddress}" Style="{DynamicResource FormLabelStyle}" />
                     <TextBox Text="{Binding ClinicAddress, UpdateSourceTrigger=PropertyChanged}"
-                             Style="{DynamicResource ModernTextBoxStyle}" Margin="0,0,0,16" />
+                             Style="{DynamicResource ModernTextBoxStyle}" Margin="0,0,0,14" />
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -44,9 +60,16 @@
             </Border>
 
             <!-- Appearance -->
-            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,16">
+            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,14">
                 <StackPanel>
-                    <TextBlock Text="Appearance" Style="{DynamicResource SectionTitleStyle}" Margin="0,0,0,20" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,18">
+                        <Border Width="32" Height="32" CornerRadius="8" Margin="0,0,10,0"
+                                Background="{DynamicResource AccentBrush}">
+                            <TextBlock Text="&#xE790;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <TextBlock Text="Appearance" Style="{DynamicResource SectionTitleStyle}" VerticalAlignment="Center" />
+                    </StackPanel>
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -75,17 +98,24 @@
                     </Grid>
 
                     <CheckBox Content="{local:Localize MinimizeToTray}" IsChecked="{Binding MinimizeToTray}" 
-                              Margin="0,20,0,0" FontSize="13" Foreground="{DynamicResource TextPrimaryBrush}" />
+                              Margin="0,18,0,0" FontSize="13" Foreground="{DynamicResource TextPrimaryBrush}" />
                 </StackPanel>
             </Border>
 
             <!-- Backup Settings -->
-            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,16">
+            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,14">
                 <StackPanel>
-                    <TextBlock Text="{local:Localize BackupSettings}" Style="{DynamicResource SectionTitleStyle}" Margin="0,0,0,20" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,18">
+                        <Border Width="32" Height="32" CornerRadius="8" Margin="0,0,10,0"
+                                Background="{DynamicResource WarningBrush}">
+                            <TextBlock Text="&#xE895;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <TextBlock Text="{local:Localize BackupSettings}" Style="{DynamicResource SectionTitleStyle}" VerticalAlignment="Center" />
+                    </StackPanel>
 
                     <CheckBox Content="{local:Localize AutoBackup}" IsChecked="{Binding AutoBackup}" 
-                              FontSize="13" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,16" />
+                              FontSize="13" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,14" />
 
                     <StackPanel Orientation="Horizontal">
                         <Button Content="{local:Localize BackupNow}" Command="{Binding BackupNowCommand}"
@@ -97,13 +127,20 @@
             </Border>
 
             <!-- License Info -->
-            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,16">
+            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,14">
                 <StackPanel>
-                    <TextBlock Text="{local:Localize LicenseInfo}" Style="{DynamicResource SectionTitleStyle}" Margin="0,0,0,20" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,18">
+                        <Border Width="32" Height="32" CornerRadius="8" Margin="0,0,10,0"
+                                Background="{DynamicResource SuccessBrush}">
+                            <TextBlock Text="&#xE8D7;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <TextBlock Text="{local:Localize LicenseInfo}" Style="{DynamicResource SectionTitleStyle}" VerticalAlignment="Center" />
+                    </StackPanel>
 
-                    <TextBlock Text="MACHINE ID" Style="{DynamicResource FormLabelStyle}" FontSize="11" FontWeight="Bold" />
+                    <TextBlock Text="MACHINE ID" Style="{DynamicResource FormLabelStyle}" FontSize="10.5" FontWeight="Bold" />
                     <TextBox Text="{Binding MachineId, Mode=OneWay}" Style="{DynamicResource ModernTextBoxStyle}" 
-                             IsReadOnly="True" Margin="0,0,0,16" FontFamily="Cascadia Code, Consolas" />
+                             IsReadOnly="True" Margin="0,0,0,14" FontFamily="Cascadia Code, Consolas" FontSize="12" />
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -131,7 +168,7 @@
                 </StackPanel>
             </Border>
 
-            <!-- Save Button -->
+            <!-- Save -->
             <Button Content="{local:Localize Save}" Command="{Binding SaveCommand}"
                     Style="{DynamicResource PrimaryButtonStyle}" HorizontalAlignment="Right" Padding="36,12" />
         </StackPanel>
