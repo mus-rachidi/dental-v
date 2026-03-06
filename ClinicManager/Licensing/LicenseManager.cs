@@ -23,7 +23,7 @@ public class LicenseManager
     private static readonly string LicensePath = Path.Combine(LicenseDir, ".license");
 
     // AES key for encrypting the license file on disk (32 bytes for AES-256)
-    private static readonly byte[] AesKey = Encoding.UTF8.GetBytes("Cl!n1cM@nager$LicKey2026!Sec#re");
+    private static readonly byte[] AesKey = Encoding.UTF8.GetBytes("Cl!n1cM@nager$LicKey2026!Sec#re!");
     private static readonly byte[] AesIv = Encoding.UTF8.GetBytes("CM$IV2026!Secure");
 
     // Shared secret used by both the app and the LicenseGenerator tool
