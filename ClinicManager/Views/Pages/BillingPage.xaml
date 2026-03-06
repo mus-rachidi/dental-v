@@ -12,7 +12,7 @@
     <Grid>
         <!-- Main List -->
         <DockPanel Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
-            <DockPanel DockPanel.Dock="Top" Margin="32,24,32,16">
+            <DockPanel DockPanel.Dock="Top" Margin="20,16,20,10">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xE8C7;" FontFamily="Segoe MDL2 Assets" FontSize="22"
                                Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,10,0" />
@@ -27,7 +27,7 @@
             </DockPanel>
 
             <!-- Filter + Total -->
-            <Border DockPanel.Dock="Top" Margin="32,0,32,16">
+            <Border DockPanel.Dock="Top" Margin="20,0,20,10">
                 <DockPanel>
                     <Border Style="{DynamicResource CardStyle}" Padding="14,10">
                         <StackPanel Orientation="Horizontal">
@@ -60,7 +60,7 @@
                 </DockPanel>
             </Border>
 
-            <Border Margin="32,0,32,24" Style="{DynamicResource CardStyle}" Padding="0">
+            <Border Margin="20,0,20,16" Style="{DynamicResource CardStyle}" Padding="0">
                 <DataGrid ItemsSource="{Binding Payments}" 
                           SelectedItem="{Binding SelectedPayment}"
                           Style="{DynamicResource ModernDataGridStyle}"
@@ -91,7 +91,7 @@
             <Border Style="{DynamicResource CardStyle}" MaxWidth="640" HorizontalAlignment="Center">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
-                        <Border Width="40" Height="40" CornerRadius="10" Margin="0,0,12,0">
+                        <Border Width="32" Height="32" CornerRadius="8" Margin="0,0,12,0">
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                     <GradientStop Color="#059669" Offset="0" />

@@ -22,7 +22,7 @@
             </Grid.RowDefinitions>
 
             <!-- Header Bar -->
-            <DockPanel Grid.Row="0" Margin="32,24,32,16">
+            <DockPanel Grid.Row="0" Margin="20,16,20,10">
                 <TextBlock Text="{local:Localize Patients}" Style="{DynamicResource PageTitleStyle}" VerticalAlignment="Center" />
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Content="{local:Localize ExportToPDF}" Command="{Binding ExportPdfCommand}"
@@ -35,18 +35,18 @@
             </DockPanel>
 
             <!-- Search Bar -->
-            <Border Grid.Row="1" Margin="32,0,32,16">
+            <Border Grid.Row="1" Margin="20,0,20,10">
                 <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
                          Style="{DynamicResource ModernTextBoxStyle}"
                          Tag="{local:Localize SearchPatients}" />
             </Border>
 
             <!-- Content: Patient Grid + Right Detail Panel -->
-            <Grid Grid.Row="2" Margin="32,0,32,24">
+            <Grid Grid.Row="2" Margin="20,0,20,16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="16" />
-                    <ColumnDefinition Width="420" />
+                    <ColumnDefinition Width="340" />
                 </Grid.ColumnDefinitions>
 
                 <!-- Patient Data Grid -->
@@ -114,11 +114,11 @@
                             <ScrollViewer x:Name="InfoPanel" VerticalScrollBarVisibility="Auto" Padding="20,16">
                                 <StackPanel>
                                     <!-- Patient Photo -->
-                                    <Border Width="90" Height="90" CornerRadius="45" 
+                                    <Border Width="64" Height="64" CornerRadius="32" 
                                             Background="{DynamicResource SurfaceBrush}" 
                                             HorizontalAlignment="Center" Margin="0,0,0,12"
                                             BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="3">
-                                        <Border CornerRadius="45">
+                                        <Border CornerRadius="32">
                                             <Border.Background>
                                                 <ImageBrush ImageSource="{Binding SelectedPatient.PhotoPath, TargetNullValue={x:Null}}" 
                                                             Stretch="UniformToFill" />
@@ -399,8 +399,8 @@
 
         <!-- ==================== EDIT FORM ==================== -->
         <ScrollViewer Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}"
-                      VerticalScrollBarVisibility="Auto" Padding="32,24">
-            <Border Style="{DynamicResource CardStyle}" MaxWidth="700" HorizontalAlignment="Center">
+                      VerticalScrollBarVisibility="Auto" Padding="20,16">
+            <Border Style="{DynamicResource CardStyle}" MaxWidth="580" HorizontalAlignment="Center">
                 <StackPanel>
                     <TextBlock Text="{Binding EditingPatient.Id, StringFormat='Patient #{0}', FallbackValue='New Patient'}" 
                                Style="{DynamicResource PageTitleStyle}" Margin="0,0,0,24" />
@@ -409,10 +409,10 @@
                     <Border Margin="0,0,0,24" Padding="20" CornerRadius="12" 
                             Background="{DynamicResource SurfaceBrush}">
                         <StackPanel Orientation="Horizontal">
-                            <Border Width="100" Height="100" CornerRadius="50" 
+                            <Border Width="70" Height="70" CornerRadius="35" 
                                     Background="{DynamicResource BackgroundBrush}"
                                     BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="2">
-                                <Border CornerRadius="50">
+                                <Border CornerRadius="35">
                                     <Border.Background>
                                         <ImageBrush ImageSource="{Binding PatientPhoto}" Stretch="UniformToFill" />
                                     </Border.Background>

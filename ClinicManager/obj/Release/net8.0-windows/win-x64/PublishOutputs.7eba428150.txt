@@ -1,1 +1,8 @@
+/Users/mustapharachidi/Desktop/untitled folder 2/publish/D3DCompiler_47_cor3.dll
+/Users/mustapharachidi/Desktop/untitled folder 2/publish/PenImc_cor3.dll
+/Users/mustapharachidi/Desktop/untitled folder 2/publish/PresentationNative_cor3.dll
+/Users/mustapharachidi/Desktop/untitled folder 2/publish/vcruntime140_cor3.dll
+/Users/mustapharachidi/Desktop/untitled folder 2/publish/wpfgfx_cor3.dll
+/Users/mustapharachidi/Desktop/untitled folder 2/publish/QuestPdfSkia.dll
+/Users/mustapharachidi/Desktop/untitled folder 2/publish/e_sqlite3.dll
 /Users/mustapharachidi/Desktop/untitled folder 2/publish/ClinicManager.exe
