@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Security.Cryptography;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using ClinicManager.Models;
 
@@ -13,9 +15,6 @@ public class ClinicDbContext : DbContext
 
     private static readonly string DbPath = Path.Combine(DbDirectory, "clinic.db");
 
-    // Password for SQLCipher-style encryption via SQLite connection string
-    private const string DbPassword = "Cl1n!cM@nager#2026$Secure";
-
     public DbSet<Patient> Patients => Set<Patient>();
     public DbSet<Appointment> Appointments => Set<Appointment>();
     public DbSet<Payment> Payments => Set<Payment>();
@@ -25,12 +24,13 @@ public class ClinicDbContext : DbContext
     {
         Directory.CreateDirectory(DbDirectory);
 
-        var connectionString = $"Data Source={DbPath};Password={DbPassword}";
-        optionsBuilder.UseSqlite(connectionString);
+        var connectionString = new SqliteConnectionStringBuilder
+        {
+            DataSource = DbPath,
+            Mode = SqliteOpenMode.ReadWriteCreate
+        }.ToString();
 
-#if DEBUG
-        optionsBuilder.EnableSensitiveDataLogging();
-#endif
+        optionsBuilder.UseSqlite(connectionString);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
