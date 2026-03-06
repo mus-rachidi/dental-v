@@ -4,55 +4,45 @@ using System.Text;
 
 namespace LicenseGenerator;
 
-/// <summary>
-/// Standalone console tool for generating license keys.
-/// Run this on your machine (the vendor), NOT on the client machine.
-/// The client provides their Machine ID (displayed on first launch),
-/// and this tool outputs the corresponding license key.
-/// </summary>
 class Program
 {
     private const string LicenseSecret = "ClinicManager-License-Secret-2026-XK9#mP2$vL";
 
     static void Main(string[] args)
     {
-        Console.WriteLine("===========================================");
-        Console.WriteLine("  Clinic Manager - License Key Generator");
-        Console.WriteLine("===========================================");
-        Console.WriteLine();
+        Console.Title = "Clinic Manager - License Key Generator";
 
-        string? machineId;
-
-        if (args.Length > 0)
+        while (true)
         {
-            machineId = args[0];
-        }
-        else
-        {
-            Console.Write("Enter Machine ID: ");
-            machineId = Console.ReadLine();
-        }
-
-        if (string.IsNullOrWhiteSpace(machineId))
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Error: Machine ID is required.");
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔═══════════════════════════════════════════════╗");
+            Console.WriteLine("║   Clinic Manager - License Key Generator      ║");
+            Console.WriteLine("╚═══════════════════════════════════════════════╝");
             Console.ResetColor();
-            return;
+            Console.WriteLine();
+
+            Console.Write("  Enter Machine ID (or 'q' to quit): ");
+            var machineId = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(machineId) || machineId.Trim().ToLower() == "q")
+                break;
+
+            machineId = machineId.Trim().ToUpper();
+            var licenseKey = GenerateLicenseKey(machineId);
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"  Machine ID:   {machineId}");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"  License Key:  {licenseKey}");
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine("  Give this license key to the client.");
+            Console.WriteLine();
+            Console.WriteLine("  Press any key to generate another key...");
+            Console.ReadKey(true);
         }
-
-        machineId = machineId.Trim().ToUpper();
-        var licenseKey = GenerateLicenseKey(machineId);
-
-        Console.WriteLine();
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine($"Machine ID:  {machineId}");
-        Console.WriteLine($"License Key: {licenseKey}");
-        Console.ResetColor();
-        Console.WriteLine();
-        Console.WriteLine("Provide this license key to the client.");
-        Console.WriteLine("Press any key to exit...");
-        Console.ReadKey();
     }
 
     static string GenerateLicenseKey(string machineId)

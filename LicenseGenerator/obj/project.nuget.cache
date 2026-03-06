@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "IDUY22rN+l8=",
+  "success": true,
+  "projectFilePath": "/Users/mustapharachidi/Desktop/untitled folder 2/LicenseGenerator/LicenseGenerator.csproj",
+  "expectedPackageFiles": [
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/microsoft.net.illink.tasks/8.0.24/microsoft.net.illink.tasks.8.0.24.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/microsoft.netcore.app.ref/8.0.24/microsoft.netcore.app.ref.8.0.24.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/microsoft.netcore.app.runtime.win-x64/8.0.24/microsoft.netcore.app.runtime.win-x64.8.0.24.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/microsoft.aspnetcore.app.ref/8.0.24/microsoft.aspnetcore.app.ref.8.0.24.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/microsoft.aspnetcore.app.runtime.win-x64/8.0.24/microsoft.aspnetcore.app.runtime.win-x64.8.0.24.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/microsoft.netcore.app.host.win-x64/8.0.24/microsoft.netcore.app.host.win-x64.8.0.24.nupkg.sha512"
+  ],
+  "logs": []
+}
