@@ -1,7 +1,7 @@
 # Clinic Manager - Professional Clinic Management System
 
 A fully offline Windows desktop application for managing clinic operations, built with .NET 8, WPF, and SQLite.
-
+ZYQSW82LGDURY0IOY8YZKAPEOGFXRDSL
 ---
 
 ## Features
