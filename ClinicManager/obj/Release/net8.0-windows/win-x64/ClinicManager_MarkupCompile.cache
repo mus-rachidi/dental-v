@@ -1,0 +1,20 @@
+﻿ClinicManager
+
+
+winexe
+C#
+.cs
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/
+ClinicManager
+none
+false
+TRACE;RELEASE;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/App.xaml
+10-2033388326
+
+371856545947
+250524840305
+Resources/Themes/DarkTheme.xaml;Resources/Themes/LightTheme.xaml;Views/Dialogs/LicenseDialog.xaml;Views/MainWindow.xaml;Views/Pages/AppointmentsPage.xaml;Views/Pages/BillingPage.xaml;Views/Pages/DashboardPage.xaml;Views/Pages/MedicalRecordsPage.xaml;Views/Pages/PatientsPage.xaml;Views/Pages/SettingsPage.xaml;
+
+False
+
