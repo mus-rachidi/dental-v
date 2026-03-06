@@ -22,8 +22,8 @@ public class SettingsViewModel : ViewModelBase, ILoadable
     private string _licensedTo = string.Empty;
     private string _activationDate = string.Empty;
     private bool _isLicensed;
-    private string _selectedLanguage = "en";
-    private string _selectedTheme = "Light";
+    private int _selectedLanguageIndex;
+    private int _selectedThemeIndex;
     private bool _isLoading;
 
     public AppSettings Settings { get => _settings; set => SetProperty(ref _settings, value); }
@@ -33,30 +33,28 @@ public class SettingsViewModel : ViewModelBase, ILoadable
     public bool IsLicensed { get => _isLicensed; set => SetProperty(ref _isLicensed, value); }
     public bool IsLoading { get => _isLoading; set => SetProperty(ref _isLoading, value); }
 
-    public string SelectedLanguage
+    public int SelectedLanguageIndex
     {
-        get => _selectedLanguage;
-        set
-        {
-            if (SetProperty(ref _selectedLanguage, value))
-            {
-                Settings.Language = value;
-                TranslationSource.Instance.SetLanguage(value);
-            }
-        }
+        get => _selectedLanguageIndex;
+        set => SetProperty(ref _selectedLanguageIndex, value);
     }
 
-    public string SelectedTheme
+    public int SelectedThemeIndex
     {
-        get => _selectedTheme;
-        set
-        {
-            if (SetProperty(ref _selectedTheme, value))
-            {
-                Settings.Theme = value;
-                ApplyTheme(value);
-            }
-        }
+        get => _selectedThemeIndex;
+        set => SetProperty(ref _selectedThemeIndex, value);
+    }
+
+    public void ApplyLanguage(string lang)
+    {
+        Settings.Language = lang;
+        TranslationSource.Instance.SetLanguage(lang);
+    }
+
+    public void ApplyThemeFromUI(string theme)
+    {
+        Settings.Theme = theme;
+        ApplyTheme(theme);
     }
 
     public string ClinicName
@@ -118,10 +116,10 @@ public class SettingsViewModel : ViewModelBase, ILoadable
         try
         {
             Settings = await _settingsService.LoadAsync();
-            _selectedLanguage = Settings.Language;
-            _selectedTheme = Settings.Theme;
-            OnPropertyChanged(nameof(SelectedLanguage));
-            OnPropertyChanged(nameof(SelectedTheme));
+
+            SelectedLanguageIndex = Settings.Language == "fr" ? 1 : 0;
+            SelectedThemeIndex = Settings.Theme == "Dark" ? 1 : 0;
+
             OnPropertyChanged(nameof(ClinicName));
             OnPropertyChanged(nameof(ClinicAddress));
             OnPropertyChanged(nameof(ClinicPhone));
