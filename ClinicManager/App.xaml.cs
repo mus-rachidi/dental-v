@@ -39,20 +39,6 @@ public partial class App : Application
             TranslationSource.Instance.SetLanguage(settings.Language);
             ApplyTheme(settings.Theme);
 
-            // License check
-            var licenseManager = _serviceProvider.GetRequiredService<LicenseManager>();
-            if (!licenseManager.IsLicensed())
-            {
-                var dialog = new LicenseDialog(licenseManager);
-                var result = dialog.ShowDialog();
-
-                if (result != true || !dialog.IsActivated)
-                {
-                    Shutdown();
-                    return;
-                }
-            }
-
             // Show main window
             var mainVm = _serviceProvider.GetRequiredService<MainViewModel>();
             var mainWindow = new MainWindow(mainVm);
