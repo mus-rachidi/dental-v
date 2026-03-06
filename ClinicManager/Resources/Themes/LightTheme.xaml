@@ -275,36 +275,68 @@
     </Style>
 
     <!-- ═══════════════════════════════════════════════════════════════════ -->
-    <!-- NAVIGATION BUTTON (Sidebar)                                         -->
+    <!-- NAVIGATION BUTTON (Sidebar) - Pro Design                            -->
     <!-- ═══════════════════════════════════════════════════════════════════ -->
     <Style x:Key="NavButtonStyle" TargetType="RadioButton">
         <Setter Property="Foreground" Value="{StaticResource SidebarTextBrush}" />
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
         <Setter Property="FontSize" Value="12" />
-        <Setter Property="Padding" Value="12,9" />
+        <Setter Property="Padding" Value="10,9" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
-                    <Border x:Name="border" Background="Transparent" CornerRadius="8" Margin="8,1" Padding="{TemplateBinding Padding}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Border x:Name="indicator" Width="3" CornerRadius="2" Margin="-16,2,-4,2"
-                                    Background="Transparent" HorizontalAlignment="Left" />
-                            <ContentPresenter Grid.Column="1" VerticalAlignment="Center" />
-                        </Grid>
-                    </Border>
+                    <Grid Margin="6,1,8,1">
+                        <Border x:Name="indicator" Width="3" CornerRadius="2"
+                                Background="Transparent" HorizontalAlignment="Left"
+                                VerticalAlignment="Stretch" Margin="0,4,0,4" />
+                        <Border x:Name="border" Background="Transparent" CornerRadius="7" 
+                                Padding="{TemplateBinding Padding}" Margin="6,0,0,0">
+                            <ContentPresenter VerticalAlignment="Center" />
+                        </Border>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{StaticResource SidebarHoverBrush}" />
+                            <Setter Property="Foreground" Value="#CBD5E1" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{StaticResource SidebarActiveBgBrush}" />
-                            <Setter TargetName="indicator" Property="Background" Value="{StaticResource SidebarActiveIndicatorBrush}" />
+                            <Setter TargetName="indicator" Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#14B8A6" Offset="0" />
+                                        <GradientStop Color="#0891B2" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
                             <Setter Property="Foreground" Value="White" />
+                            <Setter TargetName="border" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="12" Opacity="0.15" Color="#14B8A6" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Sidebar Toggle Button Style -->
+    <Style x:Key="SidebarToggleStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="bg" Background="Transparent" CornerRadius="6" Padding="6">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bg" Property="Background" Value="{StaticResource SidebarHoverBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

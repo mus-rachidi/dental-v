@@ -15,134 +15,222 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="SidebarColumn" Width="200" />
+            <ColumnDefinition x:Name="SidebarColumn" Width="220" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- SIDEBAR -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- PRO SIDEBAR                                                 -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
         <Border Grid.Column="0" Background="{DynamicResource SidebarBrush}">
             <DockPanel>
-                <!-- Toggle + Branding -->
-                <Border DockPanel.Dock="Top" Padding="8,10,8,8">
+
+                <!-- ─── HEADER: Toggle + Logo ─── -->
+                <Border DockPanel.Dock="Top" Padding="12,12,12,8">
                     <DockPanel>
                         <Button x:Name="ToggleSidebarBtn" DockPanel.Dock="Left"
-                                Click="ToggleSidebar_Click" Cursor="Hand"
-                                Background="Transparent" BorderThickness="0"
-                                Width="32" Height="32" ToolTip="Toggle Sidebar (Ctrl+B)">
-                            <TextBlock x:Name="ToggleIcon" Text="&#xE700;" FontFamily="Segoe MDL2 Assets" FontSize="14"
-                                       Foreground="{DynamicResource SidebarTextBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                Click="ToggleSidebar_Click" 
+                                Style="{DynamicResource SidebarToggleStyle}"
+                                Width="30" Height="30" ToolTip="Toggle Sidebar (Ctrl+B)">
+                            <TextBlock x:Name="ToggleIcon" Text="&#xE700;" FontFamily="Segoe MDL2 Assets" FontSize="13"
+                                       Foreground="{DynamicResource SidebarTextBrush}" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Button>
-                        <StackPanel x:Name="BrandingPanel" Orientation="Horizontal" Margin="6,0,0,0" VerticalAlignment="Center">
-                            <Border Width="28" Height="28" CornerRadius="6">
+                        <StackPanel x:Name="BrandingPanel" Orientation="Horizontal" Margin="8,0,0,0" VerticalAlignment="Center">
+                            <Border Width="30" Height="30" CornerRadius="8">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                         <GradientStop Color="#14B8A6" Offset="0" />
                                         <GradientStop Color="#0891B2" Offset="1" />
                                     </LinearGradientBrush>
                                 </Border.Background>
-                                <TextBlock Text="&#xE8F1;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                                <TextBlock Text="&#xE8F1;" FontFamily="Segoe MDL2 Assets" FontSize="13"
                                            Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
                             <StackPanel VerticalAlignment="Center" Margin="8,0,0,0">
-                                <TextBlock Text="ClinicPro" FontSize="13" FontWeight="Bold" 
+                                <TextBlock Text="ClinicPro" FontSize="14" FontWeight="Bold" 
                                            Foreground="White" FontFamily="Segoe UI" />
                                 <TextBlock Text="Medical System" FontSize="8" 
-                                           Foreground="{DynamicResource TextMutedBrush}" Margin="0,1,0,0" />
+                                           Foreground="{DynamicResource TextMutedBrush}" Margin="0,0,0,0" />
                             </StackPanel>
                         </StackPanel>
                     </DockPanel>
                 </Border>
 
-                <Border DockPanel.Dock="Top" Height="1" Background="{DynamicResource SidebarHoverBrush}" Margin="10,0" Opacity="0.5" />
+                <!-- ─── DIVIDER ─── -->
+                <Border DockPanel.Dock="Top" Height="1" Margin="14,0" Opacity="0.12">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="Transparent" Offset="0" />
+                            <GradientStop Color="#64748B" Offset="0.5" />
+                            <GradientStop Color="Transparent" Offset="1" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
 
-                <!-- Version Footer -->
-                <StackPanel x:Name="FooterPanel" DockPanel.Dock="Bottom" Margin="10,0,10,12">
-                    <Border Height="1" Background="{DynamicResource SidebarHoverBrush}" Margin="0,0,0,8" Opacity="0.5" />
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Text="&#xE72E;" FontFamily="Segoe MDL2 Assets" FontSize="9"
+                <!-- ─── FOOTER ─── -->
+                <StackPanel x:Name="FooterPanel" DockPanel.Dock="Bottom" Margin="14,0,14,10">
+                    <Border Height="1" Margin="0,0,0,8" Opacity="0.12">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="Transparent" Offset="0" />
+                                <GradientStop Color="#64748B" Offset="0.5" />
+                                <GradientStop Color="Transparent" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Opacity="0.6">
+                        <TextBlock Text="&#xE72E;" FontFamily="Segoe MDL2 Assets" FontSize="8"
                                    Foreground="{DynamicResource TextMutedBrush}" VerticalAlignment="Center" Margin="0,0,4,0" />
                         <TextBlock x:Name="FooterText" Text="v1.0  ·  ClinicPro" FontSize="9" 
                                    Foreground="{DynamicResource TextMutedBrush}" />
                     </StackPanel>
                 </StackPanel>
 
-                <!-- Navigation -->
-                <StackPanel Margin="0,8,0,0">
-                    <TextBlock x:Name="MainMenuLabel" Text="MAIN MENU" FontSize="8" FontWeight="Bold" 
-                               Foreground="{DynamicResource TextMutedBrush}"
-                               Margin="16,0,0,4" Opacity="0.7" />
+                <!-- ─── NAVIGATION (Scrollable) ─── -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                              Margin="0,6,0,0">
+                    <StackPanel>
 
-                    <RadioButton Style="{DynamicResource NavButtonStyle}" 
-                                 IsChecked="True"
-                                 Command="{Binding NavigateCommand}" CommandParameter="Dashboard"
-                                 GroupName="Nav" ToolTip="Dashboard">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE80F;" FontFamily="Segoe MDL2 Assets" FontSize="13" 
-                                       VerticalAlignment="Center" Margin="0,0,10,0" />
-                            <TextBlock x:Name="NavDashboard" Text="{local:Localize Dashboard}" VerticalAlignment="Center" FontWeight="SemiBold" />
-                        </StackPanel>
-                    </RadioButton>
+                        <!-- ▸ OVERVIEW GROUP ▸ -->
+                        <TextBlock x:Name="LabelOverview" Text="OVERVIEW" FontSize="9" FontWeight="Bold" 
+                                   Foreground="{DynamicResource TextMutedBrush}"
+                                   Margin="18,6,0,4" Opacity="0.55" />
 
-                    <RadioButton Style="{DynamicResource NavButtonStyle}"
-                                 Command="{Binding NavigateCommand}" CommandParameter="Patients"
-                                 GroupName="Nav" ToolTip="Patients">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="13" 
-                                       VerticalAlignment="Center" Margin="0,0,10,0" />
-                            <TextBlock x:Name="NavPatients" Text="{local:Localize Patients}" VerticalAlignment="Center" FontWeight="SemiBold" />
-                        </StackPanel>
-                    </RadioButton>
+                        <RadioButton Style="{DynamicResource NavButtonStyle}" 
+                                     IsChecked="True"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Dashboard"
+                                     GroupName="Nav" ToolTip="Dashboard">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE80F;" FontFamily="Segoe MDL2 Assets" FontSize="14" 
+                                           VerticalAlignment="Center" Margin="0,0,10,0" />
+                                <TextBlock x:Name="NavDashboard" Text="{local:Localize Dashboard}" 
+                                           VerticalAlignment="Center" FontWeight="SemiBold" FontSize="12" />
+                            </StackPanel>
+                        </RadioButton>
 
-                    <RadioButton Style="{DynamicResource NavButtonStyle}"
-                                 Command="{Binding NavigateCommand}" CommandParameter="Appointments"
-                                 GroupName="Nav" ToolTip="Appointments">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets" FontSize="13" 
-                                       VerticalAlignment="Center" Margin="0,0,10,0" />
-                            <TextBlock x:Name="NavAppointments" Text="{local:Localize Appointments}" VerticalAlignment="Center" FontWeight="SemiBold" />
-                        </StackPanel>
-                    </RadioButton>
+                        <!-- ▸ MANAGEMENT GROUP ▸ -->
+                        <TextBlock x:Name="LabelManagement" Text="MANAGEMENT" FontSize="9" FontWeight="Bold" 
+                                   Foreground="{DynamicResource TextMutedBrush}"
+                                   Margin="18,14,0,4" Opacity="0.55" />
 
-                    <RadioButton Style="{DynamicResource NavButtonStyle}"
-                                 Command="{Binding NavigateCommand}" CommandParameter="Billing"
-                                 GroupName="Nav" ToolTip="Billing">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE8C7;" FontFamily="Segoe MDL2 Assets" FontSize="13" 
-                                       VerticalAlignment="Center" Margin="0,0,10,0" />
-                            <TextBlock x:Name="NavBilling" Text="{local:Localize Billing}" VerticalAlignment="Center" FontWeight="SemiBold" />
-                        </StackPanel>
-                    </RadioButton>
+                        <RadioButton Style="{DynamicResource NavButtonStyle}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Patients"
+                                     GroupName="Nav" ToolTip="Patient Management">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="14" 
+                                           VerticalAlignment="Center" Margin="0,0,10,0" />
+                                <TextBlock x:Name="NavPatients" Text="Patient Management" 
+                                           VerticalAlignment="Center" FontWeight="SemiBold" FontSize="12" />
+                            </StackPanel>
+                        </RadioButton>
 
-                    <RadioButton Style="{DynamicResource NavButtonStyle}"
-                                 Command="{Binding NavigateCommand}" CommandParameter="MedicalRecords"
-                                 GroupName="Nav" ToolTip="Medical Records">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE82D;" FontFamily="Segoe MDL2 Assets" FontSize="13" 
-                                       VerticalAlignment="Center" Margin="0,0,10,0" />
-                            <TextBlock x:Name="NavMedicalRecords" Text="{local:Localize MedicalRecords}" VerticalAlignment="Center" FontWeight="SemiBold" />
-                        </StackPanel>
-                    </RadioButton>
+                        <RadioButton Style="{DynamicResource NavButtonStyle}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Appointments"
+                                     GroupName="Nav" ToolTip="Appointments">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets" FontSize="14" 
+                                           VerticalAlignment="Center" Margin="0,0,10,0" />
+                                <TextBlock x:Name="NavAppointments" Text="{local:Localize Appointments}" 
+                                           VerticalAlignment="Center" FontWeight="SemiBold" FontSize="12" />
+                            </StackPanel>
+                        </RadioButton>
 
-                    <Border Height="1" Background="{DynamicResource SidebarHoverBrush}" Margin="10,8" Opacity="0.5" />
+                        <RadioButton Style="{DynamicResource NavButtonStyle}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Staff"
+                                     GroupName="Nav" ToolTip="Staff Management">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE716;" FontFamily="Segoe MDL2 Assets" FontSize="14" 
+                                           VerticalAlignment="Center" Margin="0,0,10,0" />
+                                <TextBlock x:Name="NavStaff" Text="Staff Management" 
+                                           VerticalAlignment="Center" FontWeight="SemiBold" FontSize="12" />
+                            </StackPanel>
+                        </RadioButton>
 
-                    <TextBlock x:Name="SystemLabel" Text="SYSTEM" FontSize="8" FontWeight="Bold" 
-                               Foreground="{DynamicResource TextMutedBrush}"
-                               Margin="16,0,0,4" Opacity="0.7" />
+                        <RadioButton Style="{DynamicResource NavButtonStyle}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="MedicalRecords"
+                                     GroupName="Nav" ToolTip="Medical Records">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE82D;" FontFamily="Segoe MDL2 Assets" FontSize="14" 
+                                           VerticalAlignment="Center" Margin="0,0,10,0" />
+                                <TextBlock x:Name="NavMedicalRecords" Text="{local:Localize MedicalRecords}" 
+                                           VerticalAlignment="Center" FontWeight="SemiBold" FontSize="12" />
+                            </StackPanel>
+                        </RadioButton>
 
-                    <RadioButton Style="{DynamicResource NavButtonStyle}"
-                                 Command="{Binding NavigateCommand}" CommandParameter="Settings"
-                                 GroupName="Nav" ToolTip="Settings">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="13" 
-                                       VerticalAlignment="Center" Margin="0,0,10,0" />
-                            <TextBlock x:Name="NavSettings" Text="{local:Localize Settings}" VerticalAlignment="Center" FontWeight="SemiBold" />
-                        </StackPanel>
-                    </RadioButton>
-                </StackPanel>
+                        <!-- ▸ FINANCE GROUP ▸ -->
+                        <TextBlock x:Name="LabelFinance" Text="FINANCE" FontSize="9" FontWeight="Bold" 
+                                   Foreground="{DynamicResource TextMutedBrush}"
+                                   Margin="18,14,0,4" Opacity="0.55" />
+
+                        <RadioButton Style="{DynamicResource NavButtonStyle}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Billing"
+                                     GroupName="Nav" ToolTip="Billing &amp; Payments">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE8C7;" FontFamily="Segoe MDL2 Assets" FontSize="14" 
+                                           VerticalAlignment="Center" Margin="0,0,10,0" />
+                                <TextBlock x:Name="NavBilling" Text="Billing &amp; Payments" 
+                                           VerticalAlignment="Center" FontWeight="SemiBold" FontSize="12" />
+                            </StackPanel>
+                        </RadioButton>
+
+                        <RadioButton Style="{DynamicResource NavButtonStyle}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Inventory"
+                                     GroupName="Nav" ToolTip="Inventory Management">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE773;" FontFamily="Segoe MDL2 Assets" FontSize="14" 
+                                           VerticalAlignment="Center" Margin="0,0,10,0" />
+                                <TextBlock x:Name="NavInventory" Text="Inventory" 
+                                           VerticalAlignment="Center" FontWeight="SemiBold" FontSize="12" />
+                            </StackPanel>
+                        </RadioButton>
+
+                        <RadioButton Style="{DynamicResource NavButtonStyle}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Reports"
+                                     GroupName="Nav" ToolTip="Reports &amp; Analytics">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE9F9;" FontFamily="Segoe MDL2 Assets" FontSize="14" 
+                                           VerticalAlignment="Center" Margin="0,0,10,0" />
+                                <TextBlock x:Name="NavReports" Text="Reports" 
+                                           VerticalAlignment="Center" FontWeight="SemiBold" FontSize="12" />
+                            </StackPanel>
+                        </RadioButton>
+
+                        <!-- ▸ SYSTEM GROUP ▸ -->
+                        <Border Height="1" Margin="14,10,14,2" Opacity="0.12">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="Transparent" Offset="0" />
+                                    <GradientStop Color="#64748B" Offset="0.5" />
+                                    <GradientStop Color="Transparent" Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+
+                        <TextBlock x:Name="LabelSystem" Text="SYSTEM" FontSize="9" FontWeight="Bold" 
+                                   Foreground="{DynamicResource TextMutedBrush}"
+                                   Margin="18,6,0,4" Opacity="0.55" />
+
+                        <RadioButton Style="{DynamicResource NavButtonStyle}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Settings"
+                                     GroupName="Nav" ToolTip="Settings">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="14" 
+                                           VerticalAlignment="Center" Margin="0,0,10,0" />
+                                <TextBlock x:Name="NavSettings" Text="{local:Localize Settings}" 
+                                           VerticalAlignment="Center" FontWeight="SemiBold" FontSize="12" />
+                            </StackPanel>
+                        </RadioButton>
+
+                    </StackPanel>
+                </ScrollViewer>
+
             </DockPanel>
         </Border>
 
-        <!-- MAIN CONTENT -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- MAIN CONTENT                                                -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
         <ContentControl Grid.Column="1" Content="{Binding CurrentViewModel}">
             <ContentControl.Resources>
                 <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
@@ -154,11 +242,20 @@
                 <DataTemplate DataType="{x:Type vm:AppointmentsViewModel}">
                     <pages:AppointmentsPage />
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:StaffViewModel}">
+                    <pages:StaffPage />
+                </DataTemplate>
                 <DataTemplate DataType="{x:Type vm:BillingViewModel}">
                     <pages:BillingPage />
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:InventoryViewModel}">
+                    <pages:InventoryPage />
+                </DataTemplate>
                 <DataTemplate DataType="{x:Type vm:MedicalRecordsViewModel}">
                     <pages:MedicalRecordsPage />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:ReportsViewModel}">
+                    <pages:ReportsPage />
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
                     <pages:SettingsPage />

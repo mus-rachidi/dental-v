@@ -12,8 +12,11 @@ public class MainViewModel : ViewModelBase
     public DashboardViewModel DashboardVM { get; }
     public PatientsViewModel PatientsVM { get; }
     public AppointmentsViewModel AppointmentsVM { get; }
+    public StaffViewModel StaffVM { get; }
     public BillingViewModel BillingVM { get; }
+    public InventoryViewModel InventoryVM { get; }
     public MedicalRecordsViewModel MedicalRecordsVM { get; }
+    public ReportsViewModel ReportsVM { get; }
     public SettingsViewModel SettingsVM { get; }
 
     public ViewModelBase CurrentViewModel
@@ -43,8 +46,11 @@ public class MainViewModel : ViewModelBase
         DashboardVM = new DashboardViewModel(patientService, appointmentService, paymentService);
         PatientsVM = new PatientsViewModel(patientService, exportService, settingsService);
         AppointmentsVM = new AppointmentsViewModel(appointmentService, patientService);
+        StaffVM = new StaffViewModel();
         BillingVM = new BillingViewModel(paymentService, patientService, exportService);
+        InventoryVM = new InventoryViewModel();
         MedicalRecordsVM = new MedicalRecordsViewModel(medicalRecordService, patientService);
+        ReportsVM = new ReportsViewModel();
         SettingsVM = new SettingsViewModel(settingsService, licenseManager, backupService);
 
         _currentViewModel = DashboardVM;
@@ -55,7 +61,7 @@ public class MainViewModel : ViewModelBase
         DashboardVM.NavigateToAppointments = () => Navigate("Appointments");
     }
 
-    private void Navigate(object? parameter)
+    private void Navigate(object parameter)
     {
         var section = parameter?.ToString() ?? "Dashboard";
         CurrentSection = section;
@@ -65,8 +71,11 @@ public class MainViewModel : ViewModelBase
             "Dashboard" => DashboardVM,
             "Patients" => PatientsVM,
             "Appointments" => AppointmentsVM,
+            "Staff" => StaffVM,
             "Billing" => BillingVM,
+            "Inventory" => InventoryVM,
             "MedicalRecords" => MedicalRecordsVM,
+            "Reports" => ReportsVM,
             "Settings" => SettingsVM,
             _ => DashboardVM
         };

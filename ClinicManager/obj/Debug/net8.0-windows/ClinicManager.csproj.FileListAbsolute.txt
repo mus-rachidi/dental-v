@@ -182,3 +182,9 @@
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/refint/ClinicManager.dll
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/ClinicManager.genruntimeconfig.cache
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/ref/ClinicManager.dll
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/Views/Pages/InventoryPage.baml
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/Views/Pages/ReportsPage.baml
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/Views/Pages/StaffPage.baml
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/Views/Pages/InventoryPage.g.cs
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/Views/Pages/ReportsPage.g.cs
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/Views/Pages/StaffPage.g.cs

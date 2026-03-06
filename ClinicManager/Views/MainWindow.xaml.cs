@@ -44,37 +44,29 @@ public partial class MainWindow : Window
     private void ToggleSidebar()
     {
         _sidebarCollapsed = !_sidebarCollapsed;
+        var vis = _sidebarCollapsed ? Visibility.Collapsed : Visibility.Visible;
 
-        if (_sidebarCollapsed)
-        {
-            SidebarColumn.Width = new GridLength(48);
-            BrandingPanel.Visibility = Visibility.Collapsed;
-            FooterText.Visibility = Visibility.Collapsed;
-            MainMenuLabel.Visibility = Visibility.Collapsed;
-            SystemLabel.Visibility = Visibility.Collapsed;
-            NavDashboard.Visibility = Visibility.Collapsed;
-            NavPatients.Visibility = Visibility.Collapsed;
-            NavAppointments.Visibility = Visibility.Collapsed;
-            NavBilling.Visibility = Visibility.Collapsed;
-            NavMedicalRecords.Visibility = Visibility.Collapsed;
-            NavSettings.Visibility = Visibility.Collapsed;
-            ToggleIcon.Text = "\uE76C";
-        }
-        else
-        {
-            SidebarColumn.Width = new GridLength(200);
-            BrandingPanel.Visibility = Visibility.Visible;
-            FooterText.Visibility = Visibility.Visible;
-            MainMenuLabel.Visibility = Visibility.Visible;
-            SystemLabel.Visibility = Visibility.Visible;
-            NavDashboard.Visibility = Visibility.Visible;
-            NavPatients.Visibility = Visibility.Visible;
-            NavAppointments.Visibility = Visibility.Visible;
-            NavBilling.Visibility = Visibility.Visible;
-            NavMedicalRecords.Visibility = Visibility.Visible;
-            NavSettings.Visibility = Visibility.Visible;
-            ToggleIcon.Text = "\uE700";
-        }
+        SidebarColumn.Width = new GridLength(_sidebarCollapsed ? 48 : 220);
+
+        BrandingPanel.Visibility = vis;
+        FooterText.Visibility = vis;
+
+        LabelOverview.Visibility = vis;
+        LabelManagement.Visibility = vis;
+        LabelFinance.Visibility = vis;
+        LabelSystem.Visibility = vis;
+
+        NavDashboard.Visibility = vis;
+        NavPatients.Visibility = vis;
+        NavAppointments.Visibility = vis;
+        NavStaff.Visibility = vis;
+        NavMedicalRecords.Visibility = vis;
+        NavBilling.Visibility = vis;
+        NavInventory.Visibility = vis;
+        NavReports.Visibility = vis;
+        NavSettings.Visibility = vis;
+
+        ToggleIcon.Text = _sidebarCollapsed ? "\uE76C" : "\uE700";
     }
 
     private class ToggleSidebarCommand : ICommand
