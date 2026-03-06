@@ -1,0 +1,141 @@
+using System;
+using System.IO;
+using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using ClinicManager.Database;
+using ClinicManager.Licensing;
+using ClinicManager.Localization;
+using ClinicManager.Services;
+using ClinicManager.ViewModels;
+using ClinicManager.Views;
+using ClinicManager.Views.Dialogs;
+
+namespace ClinicManager;
+
+public partial class App : Application
+{
+    private IServiceProvider? _serviceProvider;
+
+    protected override async void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+
+        SetupLogging();
+
+        var services = new ServiceCollection();
+        ConfigureServices(services);
+        _serviceProvider = services.BuildServiceProvider();
+
+        try
+        {
+            // Initialize database
+            using var db = new ClinicDbContext();
+            db.EnsureCreated();
+
+            // Load settings and apply language/theme
+            var settingsService = _serviceProvider.GetRequiredService<SettingsService>();
+            var settings = await settingsService.LoadAsync();
+            TranslationSource.Instance.SetLanguage(settings.Language);
+            ApplyTheme(settings.Theme);
+
+            // License check
+            var licenseManager = _serviceProvider.GetRequiredService<LicenseManager>();
+            if (!licenseManager.IsLicensed())
+            {
+                var dialog = new LicenseDialog(licenseManager);
+                var result = dialog.ShowDialog();
+
+                if (result != true || !dialog.IsActivated)
+                {
+                    Shutdown();
+                    return;
+                }
+            }
+
+            // Show main window
+            var mainVm = _serviceProvider.GetRequiredService<MainViewModel>();
+            var mainWindow = new MainWindow(mainVm);
+            MainWindow = mainWindow;
+            mainWindow.Show();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Failed to start application:\n{ex.Message}",
+                "Startup Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            Shutdown();
+        }
+    }
+
+    private void ConfigureServices(IServiceCollection services)
+    {
+        services.AddLogging(builder =>
+        {
+            builder.AddDebug();
+            builder.SetMinimumLevel(LogLevel.Information);
+        });
+
+        // Services
+        services.AddSingleton<PatientService>();
+        services.AddSingleton<AppointmentService>();
+        services.AddSingleton<PaymentService>();
+        services.AddSingleton<MedicalRecordService>();
+        services.AddSingleton<SettingsService>();
+        services.AddSingleton<ExportService>();
+        services.AddSingleton<DatabaseBackupService>();
+        services.AddSingleton<LicenseManager>();
+
+        // ViewModels
+        services.AddSingleton<MainViewModel>();
+    }
+
+    private void ApplyTheme(string theme)
+    {
+        var themeUri = theme == "Dark"
+            ? new Uri("Resources/Themes/DarkTheme.xaml", UriKind.Relative)
+            : new Uri("Resources/Themes/LightTheme.xaml", UriKind.Relative);
+
+        Resources.MergedDictionaries.Clear();
+        Resources.MergedDictionaries.Add(new ResourceDictionary { Source = themeUri });
+    }
+
+    private void SetupLogging()
+    {
+        var logDir = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "ClinicManager", "Logs");
+        Directory.CreateDirectory(logDir);
+
+        AppDomain.CurrentDomain.UnhandledException += (s, args) =>
+        {
+            var ex = args.ExceptionObject as Exception;
+            LogError(logDir, ex);
+            MessageBox.Show($"An unexpected error occurred:\n{ex?.Message}",
+                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        };
+
+        DispatcherUnhandledException += (s, args) =>
+        {
+            LogError(logDir, args.Exception);
+            MessageBox.Show($"An unexpected error occurred:\n{args.Exception.Message}",
+                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            args.Handled = true;
+        };
+    }
+
+    private static void LogError(string logDir, Exception? ex)
+    {
+        try
+        {
+            var logFile = Path.Combine(logDir, $"error_{DateTime.Now:yyyyMMdd}.log");
+            var entry = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {ex}\n\n";
+            File.AppendAllText(logFile, entry);
+        }
+        catch { /* Logging should never crash the app */ }
+    }
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+        base.OnExit(e);
+    }
+}

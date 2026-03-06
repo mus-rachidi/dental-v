@@ -1,0 +1,47 @@
+CLINIC MANAGER - END USER LICENSE AGREEMENT
+
+Copyright (c) 2026 ClinicSoft. All rights reserved.
+
+IMPORTANT: READ THIS LICENSE AGREEMENT CAREFULLY BEFORE USING THIS SOFTWARE.
+
+1. LICENSE GRANT
+   ClinicSoft grants you a non-exclusive, non-transferable license to install and 
+   use the Clinic Manager software ("Software") on a single computer, subject to 
+   the terms and conditions of this agreement.
+
+2. RESTRICTIONS
+   You may NOT:
+   a) Copy, modify, or distribute the Software
+   b) Reverse engineer, decompile, or disassemble the Software
+   c) Transfer, sublicense, or assign your license to any third party
+   d) Use the Software on more than one computer without additional licenses
+   e) Remove or alter any proprietary notices on the Software
+
+3. MACHINE BINDING
+   This Software is licensed to a specific computer identified by its hardware 
+   fingerprint. The license key is bound to one machine and cannot be transferred 
+   to another computer without obtaining a new license key.
+
+4. DATA PRIVACY
+   All patient data is stored locally on your computer in an encrypted database. 
+   No data is transmitted over the internet. You are responsible for maintaining 
+   proper backups of your data.
+
+5. WARRANTY DISCLAIMER
+   THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+   IMPLIED. CLINICSOFT DOES NOT WARRANT THAT THE SOFTWARE WILL MEET YOUR 
+   REQUIREMENTS OR THAT OPERATION WILL BE UNINTERRUPTED OR ERROR-FREE.
+
+6. LIMITATION OF LIABILITY
+   IN NO EVENT SHALL CLINICSOFT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, 
+   OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE SOFTWARE.
+
+7. TERMINATION
+   This license is effective until terminated. It will terminate automatically if 
+   you fail to comply with any term of this agreement.
+
+8. GOVERNING LAW
+   This agreement shall be governed by applicable local laws.
+
+By installing and using this Software, you acknowledge that you have read this 
+agreement, understand it, and agree to be bound by its terms and conditions.

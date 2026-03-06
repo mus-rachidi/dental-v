@@ -1,0 +1,132 @@
+<UserControl x:Class="ClinicManager.Views.Pages.BillingPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ClinicManager.Localization"
+             xmlns:helpers="clr-namespace:ClinicManager.Helpers"
+             xmlns:models="clr-namespace:ClinicManager.Models">
+
+    <UserControl.Resources>
+        <helpers:BoolToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+
+    <Grid>
+        <!-- Main List -->
+        <DockPanel Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
+            <DockPanel DockPanel.Dock="Top" Margin="32,24,32,16">
+                <TextBlock Text="{local:Localize Billing}" Style="{DynamicResource PageTitleStyle}" VerticalAlignment="Center" />
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="{local:Localize ExportToExcel}" Command="{Binding ExportCommand}"
+                            Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,8,0" Padding="16,8" />
+                    <Button Content="{local:Localize AddPayment}" Command="{Binding AddCommand}"
+                            Style="{DynamicResource PrimaryButtonStyle}" Padding="16,8" />
+                </StackPanel>
+            </DockPanel>
+
+            <!-- Filter + Total -->
+            <Border DockPanel.Dock="Top" Margin="32,0,32,16">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{local:Localize From}" VerticalAlignment="Center" Margin="0,0,8,0"
+                                   Foreground="{DynamicResource TextSecondaryBrush}" />
+                        <DatePicker SelectedDate="{Binding FilterFrom}" Width="140" />
+                        <TextBlock Text="{local:Localize To}" VerticalAlignment="Center" Margin="16,0,8,0"
+                                   Foreground="{DynamicResource TextSecondaryBrush}" />
+                        <DatePicker SelectedDate="{Binding FilterTo}" Width="140" />
+                        <Button Content="{local:Localize Apply}" Command="{Binding FilterCommand}"
+                                Style="{DynamicResource PrimaryButtonStyle}" Margin="16,0,0,0" Padding="16,6" />
+                    </StackPanel>
+                    <Border DockPanel.Dock="Right" HorizontalAlignment="Right" CornerRadius="8"
+                            Background="{DynamicResource SuccessBrush}" Padding="16,8">
+                        <TextBlock Foreground="White" FontWeight="Bold" FontSize="14">
+                            <Run Text="{local:Localize Total}" />
+                            <Run Text=": " />
+                            <Run Text="{Binding TotalAmount, StringFormat='{}{0:C}'}" />
+                        </TextBlock>
+                    </Border>
+                </DockPanel>
+            </Border>
+
+            <Border Margin="32,0,32,24" Style="{DynamicResource CardStyle}" Padding="0">
+                <DataGrid ItemsSource="{Binding Payments}" 
+                          SelectedItem="{Binding SelectedPayment}"
+                          Style="{DynamicResource ModernDataGridStyle}"
+                          ColumnHeaderStyle="{DynamicResource ModernDataGridColumnHeaderStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{local:Localize InvoiceNumber}" Binding="{Binding InvoiceNumber}" Width="140" />
+                        <DataGridTextColumn Header="{local:Localize PatientName}" Binding="{Binding Patient.FullName}" Width="*" />
+                        <DataGridTextColumn Header="{local:Localize Amount}" 
+                                            Binding="{Binding Amount, StringFormat='{}{0:C}'}" Width="100" />
+                        <DataGridTextColumn Header="{local:Localize Date}" 
+                                            Binding="{Binding Date, StringFormat='{}{0:yyyy-MM-dd}'}" Width="110" />
+                        <DataGridTextColumn Header="{local:Localize PaymentMethod}" Binding="{Binding Method}" Width="120" />
+                        <DataGridTextColumn Header="{local:Localize Status}" Binding="{Binding Status}" Width="100" />
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{local:Localize Edit}" Command="{Binding EditCommand}" />
+                            <MenuItem Header="{local:Localize Delete}" Command="{Binding DeleteCommand}" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+            </Border>
+        </DockPanel>
+
+        <!-- Edit Form -->
+        <ScrollViewer Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}"
+                      VerticalScrollBarVisibility="Auto" Padding="32,24">
+            <Border Style="{DynamicResource CardStyle}" MaxWidth="600" HorizontalAlignment="Center">
+                <StackPanel>
+                    <TextBlock Text="{local:Localize AddPayment}" 
+                               Style="{DynamicResource PageTitleStyle}" Margin="0,0,0,24" />
+
+                    <TextBlock Text="{local:Localize SelectPatient}" Style="{DynamicResource FormLabelStyle}" />
+                    <ComboBox ItemsSource="{Binding AvailablePatients}" 
+                              SelectedValue="{Binding EditPatientId}" SelectedValuePath="Id"
+                              DisplayMemberPath="FullName" FontSize="13" Padding="8" Margin="0,0,0,16" />
+
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{local:Localize Amount}" Style="{DynamicResource FormLabelStyle}" />
+                            <TextBox Text="{Binding EditAmount, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{DynamicResource ModernTextBoxStyle}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="{local:Localize Date}" Style="{DynamicResource FormLabelStyle}" />
+                            <DatePicker SelectedDate="{Binding EditDate}" FontSize="13" Padding="8" />
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Text="{local:Localize PaymentMethod}" Style="{DynamicResource FormLabelStyle}" />
+                    <ComboBox SelectedItem="{Binding EditMethod}" FontSize="13" Padding="8" Margin="0,0,0,16">
+                        <models:PaymentMethod>Cash</models:PaymentMethod>
+                        <models:PaymentMethod>CreditCard</models:PaymentMethod>
+                        <models:PaymentMethod>DebitCard</models:PaymentMethod>
+                        <models:PaymentMethod>Check</models:PaymentMethod>
+                        <models:PaymentMethod>Insurance</models:PaymentMethod>
+                        <models:PaymentMethod>BankTransfer</models:PaymentMethod>
+                        <models:PaymentMethod>Other</models:PaymentMethod>
+                    </ComboBox>
+
+                    <TextBlock Text="{local:Localize Description}" Style="{DynamicResource FormLabelStyle}" />
+                    <TextBox Text="{Binding EditDescription, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{DynamicResource ModernTextBoxStyle}" AcceptsReturn="True" 
+                             MinHeight="60" TextWrapping="Wrap" Margin="0,0,0,24" />
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="{local:Localize Cancel}" Command="{Binding CancelEditCommand}"
+                                Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,8,0" />
+                        <Button Content="{local:Localize Save}" Command="{Binding SaveCommand}"
+                                Style="{DynamicResource PrimaryButtonStyle}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -1,0 +1,127 @@
+<UserControl x:Class="ClinicManager.Views.Pages.SettingsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ClinicManager.Localization">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="32,24">
+        <StackPanel MaxWidth="700">
+            <TextBlock Text="{local:Localize Settings}" Style="{DynamicResource PageTitleStyle}" Margin="0,0,0,24" />
+
+            <!-- General Settings -->
+            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="{local:Localize General}" Style="{DynamicResource SectionTitleStyle}" Margin="0,0,0,16" />
+
+                    <TextBlock Text="{local:Localize ClinicName}" Style="{DynamicResource FormLabelStyle}" />
+                    <TextBox Text="{Binding ClinicName, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{DynamicResource ModernTextBoxStyle}" Margin="0,0,0,12" />
+
+                    <TextBlock Text="{local:Localize ClinicAddress}" Style="{DynamicResource FormLabelStyle}" />
+                    <TextBox Text="{Binding ClinicAddress, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{DynamicResource ModernTextBoxStyle}" Margin="0,0,0,12" />
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{local:Localize ClinicPhone}" Style="{DynamicResource FormLabelStyle}" />
+                            <TextBox Text="{Binding ClinicPhone, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{DynamicResource ModernTextBoxStyle}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="{local:Localize DefaultDoctor}" Style="{DynamicResource FormLabelStyle}" />
+                            <TextBox Text="{Binding DefaultDoctor, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{DynamicResource ModernTextBoxStyle}" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Appearance -->
+            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="{local:Localize Theme}" Style="{DynamicResource SectionTitleStyle}" Margin="0,0,0,16" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{local:Localize Language}" Style="{DynamicResource FormLabelStyle}" />
+                            <ComboBox SelectedItem="{Binding SelectedLanguage}" FontSize="13" Padding="8">
+                                <ComboBoxItem Content="English" Tag="en" />
+                                <ComboBoxItem Content="Français" Tag="fr" />
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="{local:Localize Theme}" Style="{DynamicResource FormLabelStyle}" />
+                            <ComboBox SelectedItem="{Binding SelectedTheme}" FontSize="13" Padding="8">
+                                <ComboBoxItem Content="Light" />
+                                <ComboBoxItem Content="Dark" />
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+
+                    <CheckBox Content="{local:Localize MinimizeToTray}" IsChecked="{Binding MinimizeToTray}" 
+                              Margin="0,16,0,0" FontSize="13" Foreground="{DynamicResource TextPrimaryBrush}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Backup Settings -->
+            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="{local:Localize BackupSettings}" Style="{DynamicResource SectionTitleStyle}" Margin="0,0,0,16" />
+
+                    <CheckBox Content="{local:Localize AutoBackup}" IsChecked="{Binding AutoBackup}" 
+                              FontSize="13" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,12" />
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <Button Content="{local:Localize BackupNow}" Command="{Binding BackupNowCommand}"
+                                Style="{DynamicResource PrimaryButtonStyle}" Padding="16,8" Margin="0,0,8,0" />
+                        <Button Content="{local:Localize RestoreBackup}" Command="{Binding RestoreBackupCommand}"
+                                Style="{DynamicResource SecondaryButtonStyle}" Padding="16,8" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- License Info -->
+            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="{local:Localize LicenseInfo}" Style="{DynamicResource SectionTitleStyle}" Margin="0,0,0,16" />
+
+                    <TextBlock Style="{DynamicResource FormLabelStyle}">
+                        <Run Text="{local:Localize MachineId}" />
+                        <Run Text=": " />
+                    </TextBlock>
+                    <TextBox Text="{Binding MachineId, Mode=OneWay}" Style="{DynamicResource ModernTextBoxStyle}" 
+                             IsReadOnly="True" Margin="0,0,0,12" FontFamily="Consolas" />
+
+                    <TextBlock Style="{DynamicResource FormLabelStyle}">
+                        <Run Text="{local:Localize LicensedTo}" />
+                        <Run Text=": " />
+                        <Run Text="{Binding LicensedTo, Mode=OneWay}" Foreground="{DynamicResource TextPrimaryBrush}" />
+                    </TextBlock>
+
+                    <TextBlock Style="{DynamicResource FormLabelStyle}" Margin="0,4,0,0">
+                        <Run Text="{local:Localize ActivationDate}" />
+                        <Run Text=": " />
+                        <Run Text="{Binding ActivationDate, Mode=OneWay}" Foreground="{DynamicResource TextPrimaryBrush}" />
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <!-- Save Button -->
+            <Button Content="{local:Localize Save}" Command="{Binding SaveCommand}"
+                    Style="{DynamicResource PrimaryButtonStyle}" HorizontalAlignment="Right" Padding="32,12" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

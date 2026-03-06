@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <!-- Navigation -->
+  <data name="Dashboard" xml:space="preserve"><value>Tableau de bord</value></data>
+  <data name="Patients" xml:space="preserve"><value>Patients</value></data>
+  <data name="Appointments" xml:space="preserve"><value>Rendez-vous</value></data>
+  <data name="Billing" xml:space="preserve"><value>Facturation</value></data>
+  <data name="MedicalRecords" xml:space="preserve"><value>Dossiers médicaux</value></data>
+  <data name="Settings" xml:space="preserve"><value>Paramètres</value></data>
+
+  <!-- Common Actions -->
+  <data name="Search" xml:space="preserve"><value>Recherche</value></data>
+  <data name="Add" xml:space="preserve"><value>Ajouter</value></data>
+  <data name="Edit" xml:space="preserve"><value>Modifier</value></data>
+  <data name="Delete" xml:space="preserve"><value>Supprimer</value></data>
+  <data name="Save" xml:space="preserve"><value>Enregistrer</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Annuler</value></data>
+  <data name="Close" xml:space="preserve"><value>Fermer</value></data>
+  <data name="Export" xml:space="preserve"><value>Exporter</value></data>
+  <data name="Print" xml:space="preserve"><value>Imprimer</value></data>
+  <data name="Refresh" xml:space="preserve"><value>Actualiser</value></data>
+  <data name="Back" xml:space="preserve"><value>Retour</value></data>
+  <data name="Yes" xml:space="preserve"><value>Oui</value></data>
+  <data name="No" xml:space="preserve"><value>Non</value></data>
+  <data name="OK" xml:space="preserve"><value>OK</value></data>
+
+  <!-- Dashboard -->
+  <data name="TodayAppointments" xml:space="preserve"><value>Rendez-vous du jour</value></data>
+  <data name="TotalPatients" xml:space="preserve"><value>Total des patients</value></data>
+  <data name="TodayRevenue" xml:space="preserve"><value>Revenus du jour</value></data>
+  <data name="MonthRevenue" xml:space="preserve"><value>Revenus du mois</value></data>
+  <data name="UpcomingAppointments" xml:space="preserve"><value>Rendez-vous à venir</value></data>
+  <data name="RecentPatients" xml:space="preserve"><value>Patients récents</value></data>
+  <data name="QuickSearch" xml:space="preserve"><value>Recherche rapide de patient...</value></data>
+  <data name="Welcome" xml:space="preserve"><value>Bienvenue</value></data>
+  <data name="NoAppointmentsToday" xml:space="preserve"><value>Aucun rendez-vous aujourd'hui</value></data>
+
+  <!-- Patient Fields -->
+  <data name="PatientName" xml:space="preserve"><value>Nom du patient</value></data>
+  <data name="FullName" xml:space="preserve"><value>Nom complet</value></data>
+  <data name="Phone" xml:space="preserve"><value>Téléphone</value></data>
+  <data name="DateOfBirth" xml:space="preserve"><value>Date de naissance</value></data>
+  <data name="Gender" xml:space="preserve"><value>Genre</value></data>
+  <data name="Male" xml:space="preserve"><value>Homme</value></data>
+  <data name="Female" xml:space="preserve"><value>Femme</value></data>
+  <data name="Email" xml:space="preserve"><value>E-mail</value></data>
+  <data name="Address" xml:space="preserve"><value>Adresse</value></data>
+  <data name="Notes" xml:space="preserve"><value>Notes</value></data>
+  <data name="AddPatient" xml:space="preserve"><value>Ajouter un patient</value></data>
+  <data name="EditPatient" xml:space="preserve"><value>Modifier le patient</value></data>
+  <data name="DeletePatient" xml:space="preserve"><value>Supprimer le patient</value></data>
+  <data name="PatientDetails" xml:space="preserve"><value>Détails du patient</value></data>
+  <data name="PatientHistory" xml:space="preserve"><value>Historique du patient</value></data>
+  <data name="SearchPatients" xml:space="preserve"><value>Rechercher des patients...</value></data>
+
+  <!-- Appointment Fields -->
+  <data name="Doctor" xml:space="preserve"><value>Médecin</value></data>
+  <data name="Date" xml:space="preserve"><value>Date</value></data>
+  <data name="Time" xml:space="preserve"><value>Heure</value></data>
+  <data name="Duration" xml:space="preserve"><value>Durée</value></data>
+  <data name="Status" xml:space="preserve"><value>Statut</value></data>
+  <data name="Scheduled" xml:space="preserve"><value>Planifié</value></data>
+  <data name="Confirmed" xml:space="preserve"><value>Confirmé</value></data>
+  <data name="InProgress" xml:space="preserve"><value>En cours</value></data>
+  <data name="Completed" xml:space="preserve"><value>Terminé</value></data>
+  <data name="Cancelled" xml:space="preserve"><value>Annulé</value></data>
+  <data name="NoShow" xml:space="preserve"><value>Absent</value></data>
+  <data name="AddAppointment" xml:space="preserve"><value>Ajouter un rendez-vous</value></data>
+  <data name="EditAppointment" xml:space="preserve"><value>Modifier le rendez-vous</value></data>
+  <data name="Minutes" xml:space="preserve"><value>minutes</value></data>
+
+  <!-- Payment Fields -->
+  <data name="Amount" xml:space="preserve"><value>Montant</value></data>
+  <data name="PaymentMethod" xml:space="preserve"><value>Mode de paiement</value></data>
+  <data name="Cash" xml:space="preserve"><value>Espèces</value></data>
+  <data name="CreditCard" xml:space="preserve"><value>Carte de crédit</value></data>
+  <data name="DebitCard" xml:space="preserve"><value>Carte de débit</value></data>
+  <data name="Check" xml:space="preserve"><value>Chèque</value></data>
+  <data name="Insurance" xml:space="preserve"><value>Assurance</value></data>
+  <data name="BankTransfer" xml:space="preserve"><value>Virement bancaire</value></data>
+  <data name="Other" xml:space="preserve"><value>Autre</value></data>
+  <data name="InvoiceNumber" xml:space="preserve"><value>Numéro de facture</value></data>
+  <data name="Description" xml:space="preserve"><value>Description</value></data>
+  <data name="AddPayment" xml:space="preserve"><value>Ajouter un paiement</value></data>
+  <data name="Pending" xml:space="preserve"><value>En attente</value></data>
+  <data name="Refunded" xml:space="preserve"><value>Remboursé</value></data>
+
+  <!-- Medical Record Fields -->
+  <data name="Diagnosis" xml:space="preserve"><value>Diagnostic</value></data>
+  <data name="Prescription" xml:space="preserve"><value>Prescription</value></data>
+  <data name="Vitals" xml:space="preserve"><value>Signes vitaux</value></data>
+  <data name="AddRecord" xml:space="preserve"><value>Ajouter un dossier</value></data>
+  <data name="EditRecord" xml:space="preserve"><value>Modifier le dossier</value></data>
+
+  <!-- Settings -->
+  <data name="General" xml:space="preserve"><value>Général</value></data>
+  <data name="Language" xml:space="preserve"><value>Langue</value></data>
+  <data name="Theme" xml:space="preserve"><value>Thème</value></data>
+  <data name="LightMode" xml:space="preserve"><value>Clair</value></data>
+  <data name="DarkMode" xml:space="preserve"><value>Sombre</value></data>
+  <data name="ClinicName" xml:space="preserve"><value>Nom de la clinique</value></data>
+  <data name="ClinicAddress" xml:space="preserve"><value>Adresse de la clinique</value></data>
+  <data name="ClinicPhone" xml:space="preserve"><value>Téléphone de la clinique</value></data>
+  <data name="DefaultDoctor" xml:space="preserve"><value>Médecin par défaut</value></data>
+  <data name="BackupSettings" xml:space="preserve"><value>Paramètres de sauvegarde</value></data>
+  <data name="AutoBackup" xml:space="preserve"><value>Sauvegarde automatique</value></data>
+  <data name="BackupNow" xml:space="preserve"><value>Sauvegarder maintenant</value></data>
+  <data name="RestoreBackup" xml:space="preserve"><value>Restaurer une sauvegarde</value></data>
+  <data name="BackupPath" xml:space="preserve"><value>Dossier de sauvegarde</value></data>
+  <data name="MinimizeToTray" xml:space="preserve"><value>Réduire dans la barre système</value></data>
+  <data name="StartWithWindows" xml:space="preserve"><value>Démarrer avec Windows</value></data>
+  <data name="LicenseInfo" xml:space="preserve"><value>Informations de licence</value></data>
+  <data name="MachineId" xml:space="preserve"><value>Identifiant machine</value></data>
+  <data name="LicenseKey" xml:space="preserve"><value>Clé de licence</value></data>
+  <data name="LicensedTo" xml:space="preserve"><value>Licencié à</value></data>
+  <data name="ActivationDate" xml:space="preserve"><value>Date d'activation</value></data>
+  <data name="About" xml:space="preserve"><value>À propos</value></data>
+  <data name="Version" xml:space="preserve"><value>Version</value></data>
+
+  <!-- Dialogs -->
+  <data name="Confirm" xml:space="preserve"><value>Confirmer</value></data>
+  <data name="ConfirmDelete" xml:space="preserve"><value>Êtes-vous sûr de vouloir supprimer cet élément ?</value></data>
+  <data name="ConfirmDeletePatient" xml:space="preserve"><value>Êtes-vous sûr de vouloir supprimer ce patient ? Tous les dossiers associés seront supprimés.</value></data>
+  <data name="Success" xml:space="preserve"><value>Succès</value></data>
+  <data name="Error" xml:space="preserve"><value>Erreur</value></data>
+  <data name="Warning" xml:space="preserve"><value>Avertissement</value></data>
+  <data name="SavedSuccessfully" xml:space="preserve"><value>Enregistré avec succès</value></data>
+  <data name="DeletedSuccessfully" xml:space="preserve"><value>Supprimé avec succès</value></data>
+  <data name="BackupCreated" xml:space="preserve"><value>Sauvegarde créée avec succès</value></data>
+  <data name="BackupRestored" xml:space="preserve"><value>Sauvegarde restaurée avec succès. Veuillez redémarrer l'application.</value></data>
+  <data name="ExportComplete" xml:space="preserve"><value>Exportation terminée avec succès</value></data>
+
+  <!-- License Dialog -->
+  <data name="LicenseActivation" xml:space="preserve"><value>Activation de la licence</value></data>
+  <data name="EnterLicenseKey" xml:space="preserve"><value>Entrez votre clé de licence</value></data>
+  <data name="EnterYourName" xml:space="preserve"><value>Entrez votre nom ou le nom de la clinique</value></data>
+  <data name="Activate" xml:space="preserve"><value>Activer</value></data>
+  <data name="InvalidLicense" xml:space="preserve"><value>Clé de licence invalide. Veuillez vérifier et réessayer.</value></data>
+  <data name="LicenseActivated" xml:space="preserve"><value>Licence activée avec succès !</value></data>
+  <data name="YourMachineId" xml:space="preserve"><value>Votre identifiant machine (fournissez-le pour obtenir votre clé de licence) :</value></data>
+
+  <!-- Export -->
+  <data name="ExportToExcel" xml:space="preserve"><value>Exporter vers Excel</value></data>
+  <data name="ExportToPDF" xml:space="preserve"><value>Exporter en PDF</value></data>
+  <data name="ExportPatients" xml:space="preserve"><value>Exporter les patients</value></data>
+  <data name="ExportPayments" xml:space="preserve"><value>Exporter les paiements</value></data>
+
+  <!-- Misc -->
+  <data name="AppTitle" xml:space="preserve"><value>Gestion de Clinique</value></data>
+  <data name="AllRightsReserved" xml:space="preserve"><value>Tous droits réservés.</value></data>
+  <data name="NoData" xml:space="preserve"><value>Aucune donnée disponible</value></data>
+  <data name="Loading" xml:space="preserve"><value>Chargement...</value></data>
+  <data name="SelectPatient" xml:space="preserve"><value>Sélectionner un patient</value></data>
+  <data name="FilterByDate" xml:space="preserve"><value>Filtrer par date</value></data>
+  <data name="From" xml:space="preserve"><value>De</value></data>
+  <data name="To" xml:space="preserve"><value>À</value></data>
+  <data name="Total" xml:space="preserve"><value>Total</value></data>
+  <data name="Apply" xml:space="preserve"><value>Appliquer</value></data>
+  <data name="Reset" xml:space="preserve"><value>Réinitialiser</value></data>
+</root>
