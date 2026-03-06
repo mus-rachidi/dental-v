@@ -1,25 +1,70 @@
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using ClinicManager.Helpers;
 using ClinicManager.Models;
 using ClinicManager.Services;
 
 namespace ClinicManager.ViewModels;
 
+public class ToothViewModel : ViewModelBase
+{
+    private ToothCondition _condition;
+    private string _notes = string.Empty;
+
+    public int ToothNumber { get; set; }
+    public ToothType Type { get; set; }
+    public string Name => ToothService.GetToothName(ToothNumber);
+
+    public ToothCondition Condition
+    {
+        get => _condition;
+        set { SetProperty(ref _condition, value); OnPropertyChanged(nameof(Color)); }
+    }
+
+    public string Notes
+    {
+        get => _notes;
+        set => SetProperty(ref _notes, value);
+    }
+
+    public string Color => Condition switch
+    {
+        ToothCondition.Healthy => "#10B981",
+        ToothCondition.Cavity => "#EF4444",
+        ToothCondition.Filled => "#3B82F6",
+        ToothCondition.Crown => "#F59E0B",
+        ToothCondition.RootCanal => "#8B5CF6",
+        ToothCondition.Missing => "#6B7280",
+        ToothCondition.Implant => "#06B6D4",
+        ToothCondition.Bridge => "#EC4899",
+        ToothCondition.Extraction => "#DC2626",
+        ToothCondition.Fractured => "#F97316",
+        _ => "#10B981"
+    };
+}
+
 public class PatientsViewModel : ViewModelBase, ILoadable
 {
     private readonly PatientService _patientService;
     private readonly ExportService _exportService;
     private readonly SettingsService _settingsService;
+    private readonly ToothService _toothService;
 
     private string _searchQuery = string.Empty;
     private Patient? _selectedPatient;
     private bool _isEditing;
     private bool _isLoading;
+    private bool _showDentalChart;
     private Patient _editingPatient = new();
+    private ImageSource? _patientPhoto;
+    private ToothViewModel? _selectedTooth;
+    private string _dentalChartPatientName = string.Empty;
 
     public string SearchQuery
     {
@@ -36,6 +81,8 @@ public class PatientsViewModel : ViewModelBase, ILoadable
     public bool IsEditing { get => _isEditing; set => SetProperty(ref _isEditing, value); }
     public bool IsLoading { get => _isLoading; set => SetProperty(ref _isLoading, value); }
     public bool HasSelection => SelectedPatient != null;
+    public bool ShowDentalChart { get => _showDentalChart; set => SetProperty(ref _showDentalChart, value); }
+    public string DentalChartPatientName { get => _dentalChartPatientName; set => SetProperty(ref _dentalChartPatientName, value); }
 
     public Patient EditingPatient
     {
@@ -43,7 +90,21 @@ public class PatientsViewModel : ViewModelBase, ILoadable
         set => SetProperty(ref _editingPatient, value);
     }
 
+    public ImageSource? PatientPhoto
+    {
+        get => _patientPhoto;
+        set => SetProperty(ref _patientPhoto, value);
+    }
+
+    public ToothViewModel? SelectedTooth
+    {
+        get => _selectedTooth;
+        set => SetProperty(ref _selectedTooth, value);
+    }
+
     public ObservableCollection<Patient> Patients { get; } = new();
+    public ObservableCollection<ToothViewModel> UpperTeeth { get; } = new();
+    public ObservableCollection<ToothViewModel> LowerTeeth { get; } = new();
 
     public ICommand AddCommand { get; }
     public ICommand EditCommand { get; }
@@ -53,12 +114,17 @@ public class PatientsViewModel : ViewModelBase, ILoadable
     public ICommand ExportExcelCommand { get; }
     public ICommand ExportPdfCommand { get; }
     public ICommand RefreshCommand { get; }
+    public ICommand ChoosePhotoCommand { get; }
+    public ICommand OpenDentalChartCommand { get; }
+    public ICommand CloseDentalChartCommand { get; }
+    public ICommand SaveToothCommand { get; }
 
     public PatientsViewModel(PatientService patientService, ExportService exportService, SettingsService settingsService)
     {
         _patientService = patientService;
         _exportService = exportService;
         _settingsService = settingsService;
+        _toothService = new ToothService();
 
         AddCommand = new RelayCommand(StartAdd);
         EditCommand = new RelayCommand(StartEdit, () => HasSelection);
@@ -68,6 +134,10 @@ public class PatientsViewModel : ViewModelBase, ILoadable
         ExportExcelCommand = new AsyncRelayCommand(ExportToExcelAsync);
         ExportPdfCommand = new AsyncRelayCommand(ExportToPdfAsync);
         RefreshCommand = new AsyncRelayCommand(LoadAsync);
+        ChoosePhotoCommand = new RelayCommand(ChoosePhoto);
+        OpenDentalChartCommand = new AsyncRelayCommand(OpenDentalChartAsync, () => HasSelection);
+        CloseDentalChartCommand = new RelayCommand(() => ShowDentalChart = false);
+        SaveToothCommand = new AsyncRelayCommand(SaveToothAsync);
     }
 
     public async Task LoadAsync()
@@ -97,6 +167,7 @@ public class PatientsViewModel : ViewModelBase, ILoadable
     private void StartAdd()
     {
         EditingPatient = new Patient();
+        PatientPhoto = null;
         IsEditing = true;
     }
 
@@ -112,9 +183,46 @@ public class PatientsViewModel : ViewModelBase, ILoadable
             Gender = SelectedPatient.Gender,
             Email = SelectedPatient.Email,
             Address = SelectedPatient.Address,
-            Notes = SelectedPatient.Notes
+            Notes = SelectedPatient.Notes,
+            PhotoPath = SelectedPatient.PhotoPath
         };
+        LoadPhoto(EditingPatient.PhotoPath);
         IsEditing = true;
+    }
+
+    private void LoadPhoto(string? path)
+    {
+        PatientPhoto = null;
+        if (!string.IsNullOrEmpty(path) && File.Exists(path))
+        {
+            try
+            {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.UriSource = new Uri(path, UriKind.Absolute);
+                bitmap.DecodePixelWidth = 200;
+                bitmap.EndInit();
+                bitmap.Freeze();
+                PatientPhoto = bitmap;
+            }
+            catch { }
+        }
+    }
+
+    private void ChoosePhoto()
+    {
+        var dialog = new Microsoft.Win32.OpenFileDialog
+        {
+            Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp",
+            Title = "Select Patient Photo"
+        };
+
+        if (dialog.ShowDialog() == true)
+        {
+            EditingPatient.PhotoPath = dialog.FileName;
+            LoadPhoto(dialog.FileName);
+        }
     }
 
     private async Task SaveAsync()
@@ -128,9 +236,26 @@ public class PatientsViewModel : ViewModelBase, ILoadable
             }
 
             if (EditingPatient.Id == 0)
-                await _patientService.CreateAsync(EditingPatient);
+            {
+                var created = await _patientService.CreateAsync(EditingPatient);
+                if (!string.IsNullOrEmpty(EditingPatient.PhotoPath) && File.Exists(EditingPatient.PhotoPath))
+                {
+                    var saved = ToothService.SavePatientPhoto(created.Id, EditingPatient.PhotoPath);
+                    created.PhotoPath = saved;
+                    await _patientService.UpdateAsync(created);
+                }
+                await _toothService.InitializePatientTeethAsync(created.Id);
+            }
             else
+            {
+                if (!string.IsNullOrEmpty(EditingPatient.PhotoPath) && File.Exists(EditingPatient.PhotoPath)
+                    && !EditingPatient.PhotoPath.Contains("ClinicManager"))
+                {
+                    var saved = ToothService.SavePatientPhoto(EditingPatient.Id, EditingPatient.PhotoPath);
+                    EditingPatient.PhotoPath = saved;
+                }
                 await _patientService.UpdateAsync(EditingPatient);
+            }
 
             IsEditing = false;
             await LoadAsync();
@@ -144,6 +269,7 @@ public class PatientsViewModel : ViewModelBase, ILoadable
     private void CancelEdit()
     {
         IsEditing = false;
+        PatientPhoto = null;
     }
 
     private async Task DeleteAsync()
@@ -153,8 +279,7 @@ public class PatientsViewModel : ViewModelBase, ILoadable
         var result = MessageBox.Show(
             Localization.Strings.ConfirmDeletePatient,
             Localization.Strings.Confirm,
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Warning);
+            MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
         if (result != MessageBoxResult.Yes) return;
 
@@ -167,6 +292,60 @@ public class PatientsViewModel : ViewModelBase, ILoadable
         catch (Exception ex)
         {
             MessageBox.Show($"Error deleting patient: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private async Task OpenDentalChartAsync()
+    {
+        if (SelectedPatient == null) return;
+
+        DentalChartPatientName = SelectedPatient.FullName;
+        await _toothService.InitializePatientTeethAsync(SelectedPatient.Id);
+        var teeth = await _toothService.GetByPatientAsync(SelectedPatient.Id);
+
+        UpperTeeth.Clear();
+        LowerTeeth.Clear();
+
+        foreach (var t in teeth)
+        {
+            var vm = new ToothViewModel
+            {
+                ToothNumber = t.ToothNumber,
+                Type = t.Type,
+                Condition = t.Condition,
+                Notes = t.Notes
+            };
+
+            if (t.ToothNumber <= 16)
+                UpperTeeth.Add(vm);
+            else
+                LowerTeeth.Add(vm);
+        }
+
+        SelectedTooth = null;
+        ShowDentalChart = true;
+    }
+
+    private async Task SaveToothAsync()
+    {
+        if (SelectedPatient == null || SelectedTooth == null) return;
+
+        try
+        {
+            var record = new ToothRecord
+            {
+                PatientId = SelectedPatient.Id,
+                ToothNumber = SelectedTooth.ToothNumber,
+                Type = SelectedTooth.Type,
+                Condition = SelectedTooth.Condition,
+                Notes = SelectedTooth.Notes
+            };
+
+            await _toothService.SaveAsync(record);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error saving tooth: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 

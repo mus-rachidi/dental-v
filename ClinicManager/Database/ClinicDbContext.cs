@@ -19,6 +19,7 @@ public class ClinicDbContext : DbContext
     public DbSet<Appointment> Appointments => Set<Appointment>();
     public DbSet<Payment> Payments => Set<Payment>();
     public DbSet<MedicalRecord> MedicalRecords => Set<MedicalRecord>();
+    public DbSet<ToothRecord> ToothRecords => Set<ToothRecord>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -67,6 +68,15 @@ public class ClinicDbContext : DbContext
             entity.HasIndex(e => e.Date);
             entity.HasOne(e => e.Patient)
                   .WithMany(p => p.MedicalRecords)
+                  .HasForeignKey(e => e.PatientId)
+                  .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<ToothRecord>(entity =>
+        {
+            entity.HasIndex(e => new { e.PatientId, e.ToothNumber }).IsUnique();
+            entity.HasOne(e => e.Patient)
+                  .WithMany(p => p.ToothRecords)
                   .HasForeignKey(e => e.PatientId)
                   .OnDelete(DeleteBehavior.Cascade);
         });

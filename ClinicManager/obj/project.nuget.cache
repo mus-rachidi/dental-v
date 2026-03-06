@@ -174,5 +174,15 @@
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/microsoft.aspnetcore.app.runtime.win-x64/8.0.24/microsoft.aspnetcore.app.runtime.win-x64.8.0.24.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/microsoft.netcore.app.host.win-x64/8.0.24/microsoft.netcore.app.host.win-x64.8.0.24.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "message": "Error occurred while getting package vulnerability data: Access to the path '/Users/mustapharachidi/.local/share/NuGet/http-cache/670c1461c29885f9aa22c281d8b7da90845b38e4$ps:_api.nuget.org_v3_index.json/vuln_index.dat-new' is denied.",
+      "projectPath": "/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/ClinicManager.csproj",
+      "warningLevel": 1,
+      "filePath": "/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/ClinicManager.csproj",
+      "targetGraphs": []
+    }
+  ]
 }

@@ -57,3 +57,66 @@ public class EnumDescriptionConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         => throw new NotSupportedException();
 }
+
+public class ToothTypeToIconConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is Models.ToothType type)
+        {
+            return type switch
+            {
+                Models.ToothType.Incisor => "\uE700",
+                Models.ToothType.Canine => "\uE701",
+                Models.ToothType.Premolar => "\uE702",
+                Models.ToothType.Molar => "\uE703",
+                Models.ToothType.WisdomTooth => "\uE704",
+                _ => "\uE700"
+            };
+        }
+        return "\uE700";
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}
+
+public class StringToColorConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is string hex)
+        {
+            try { return (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(hex); }
+            catch { }
+        }
+        return System.Windows.Media.Colors.Gray;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}
+
+public class StringToBrushConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is string hex)
+        {
+            try
+            {
+                var color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(hex);
+                double opacity = 1.0;
+                if (parameter is string op && double.TryParse(op, NumberStyles.Float, CultureInfo.InvariantCulture, out var o))
+                    opacity = o;
+                color.A = (byte)(255 * opacity);
+                return new System.Windows.Media.SolidColorBrush(color);
+            }
+            catch { }
+        }
+        return System.Windows.Media.Brushes.Gray;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}
