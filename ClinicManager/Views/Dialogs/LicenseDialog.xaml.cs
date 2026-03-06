@@ -16,6 +16,12 @@ public partial class LicenseDialog : Window
         MachineIdText.Text = licenseManager.GetMachineId();
     }
 
+    private void CopyMachineId_Click(object sender, RoutedEventArgs e)
+    {
+        Clipboard.SetText(MachineIdText.Text);
+        CopyButton.Content = "Copied!";
+    }
+
     private void ActivateButton_Click(object sender, RoutedEventArgs e)
     {
         var key = LicenseKeyInput.Text.Trim();
@@ -33,6 +39,10 @@ public partial class LicenseDialog : Window
             return;
         }
 
+        // Show what's being compared for debugging
+        var machineId = _licenseManager.GetMachineId();
+        var expectedKey = LicenseManager.GenerateLicenseKey(machineId);
+
         if (_licenseManager.ActivateLicense(key, name))
         {
             IsActivated = true;
@@ -43,7 +53,7 @@ public partial class LicenseDialog : Window
         }
         else
         {
-            ShowError("Invalid license key. Please check and try again.");
+            ShowError($"Invalid license key.\n\nExpected: {expectedKey}\nYou entered: {key}");
         }
     }
 
