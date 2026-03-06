@@ -39,10 +39,6 @@ public partial class LicenseDialog : Window
             return;
         }
 
-        // Show what's being compared for debugging
-        var machineId = _licenseManager.GetMachineId();
-        var expectedKey = LicenseManager.GenerateLicenseKey(machineId);
-
         if (_licenseManager.ActivateLicense(key, name))
         {
             IsActivated = true;
@@ -53,7 +49,7 @@ public partial class LicenseDialog : Window
         }
         else
         {
-            ShowError($"Invalid license key.\n\nExpected: {expectedKey}\nYou entered: {key}");
+            ShowError("Invalid license key. Please check and try again.");
         }
     }
 
