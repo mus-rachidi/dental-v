@@ -1,16 +1,24 @@
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using ClinicManager.ViewModels;
 
 namespace ClinicManager.Views;
 
 public partial class MainWindow : Window
 {
+    private bool _sidebarCollapsed;
+
     public MainWindow(MainViewModel viewModel)
     {
         InitializeComponent();
         DataContext = viewModel;
         viewModel.Initialize();
+
+        InputBindings.Add(new KeyBinding(
+            new ToggleSidebarCommand(this),
+            Key.B, ModifierKeys.Control));
     }
 
     protected override void OnClosing(CancelEventArgs e)
@@ -26,5 +34,55 @@ public partial class MainWindow : Window
         {
             base.OnClosing(e);
         }
+    }
+
+    private void ToggleSidebar_Click(object sender, RoutedEventArgs e)
+    {
+        ToggleSidebar();
+    }
+
+    private void ToggleSidebar()
+    {
+        _sidebarCollapsed = !_sidebarCollapsed;
+
+        if (_sidebarCollapsed)
+        {
+            SidebarColumn.Width = new GridLength(48);
+            BrandingPanel.Visibility = Visibility.Collapsed;
+            FooterText.Visibility = Visibility.Collapsed;
+            MainMenuLabel.Visibility = Visibility.Collapsed;
+            SystemLabel.Visibility = Visibility.Collapsed;
+            NavDashboard.Visibility = Visibility.Collapsed;
+            NavPatients.Visibility = Visibility.Collapsed;
+            NavAppointments.Visibility = Visibility.Collapsed;
+            NavBilling.Visibility = Visibility.Collapsed;
+            NavMedicalRecords.Visibility = Visibility.Collapsed;
+            NavSettings.Visibility = Visibility.Collapsed;
+            ToggleIcon.Text = "\uE76C";
+        }
+        else
+        {
+            SidebarColumn.Width = new GridLength(200);
+            BrandingPanel.Visibility = Visibility.Visible;
+            FooterText.Visibility = Visibility.Visible;
+            MainMenuLabel.Visibility = Visibility.Visible;
+            SystemLabel.Visibility = Visibility.Visible;
+            NavDashboard.Visibility = Visibility.Visible;
+            NavPatients.Visibility = Visibility.Visible;
+            NavAppointments.Visibility = Visibility.Visible;
+            NavBilling.Visibility = Visibility.Visible;
+            NavMedicalRecords.Visibility = Visibility.Visible;
+            NavSettings.Visibility = Visibility.Visible;
+            ToggleIcon.Text = "\uE700";
+        }
+    }
+
+    private class ToggleSidebarCommand : ICommand
+    {
+        private readonly MainWindow _window;
+        public ToggleSidebarCommand(MainWindow window) => _window = window;
+        public event System.EventHandler CanExecuteChanged { add { } remove { } }
+        public bool CanExecute(object parameter) => true;
+        public void Execute(object parameter) => _window.ToggleSidebar();
     }
 }

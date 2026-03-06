@@ -12,7 +12,7 @@
     <Grid>
         <!-- Main List -->
         <DockPanel Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
-            <DockPanel DockPanel.Dock="Top" Margin="20,16,20,10">
+            <DockPanel DockPanel.Dock="Top" Margin="16,12,16,8">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xE8C7;" FontFamily="Segoe MDL2 Assets" FontSize="22"
                                Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,10,0" />
@@ -27,7 +27,7 @@
             </DockPanel>
 
             <!-- Filter + Total -->
-            <Border DockPanel.Dock="Top" Margin="20,0,20,10">
+            <Border DockPanel.Dock="Top" Margin="16,0,16,8">
                 <DockPanel>
                     <Border Style="{DynamicResource CardStyle}" Padding="14,10">
                         <StackPanel Orientation="Horizontal">
@@ -60,7 +60,7 @@
                 </DockPanel>
             </Border>
 
-            <Border Margin="20,0,20,16" Style="{DynamicResource CardStyle}" Padding="0">
+            <Border Margin="16,0,16,12" Style="{DynamicResource CardStyle}" Padding="0">
                 <DataGrid ItemsSource="{Binding Payments}" 
                           SelectedItem="{Binding SelectedPayment}"
                           Style="{DynamicResource ModernDataGridStyle}"

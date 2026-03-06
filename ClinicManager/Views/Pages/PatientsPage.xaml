@@ -22,31 +22,31 @@
             </Grid.RowDefinitions>
 
             <!-- Header Bar -->
-            <DockPanel Grid.Row="0" Margin="20,16,20,10">
+            <DockPanel Grid.Row="0" Margin="16,12,16,8">
                 <TextBlock Text="{local:Localize Patients}" Style="{DynamicResource PageTitleStyle}" VerticalAlignment="Center" />
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="{local:Localize ExportToPDF}" Command="{Binding ExportPdfCommand}"
-                            Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,8,0" Padding="16,8" />
-                    <Button Content="{local:Localize ExportToExcel}" Command="{Binding ExportExcelCommand}"
-                            Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,8,0" Padding="16,8" />
+                    <Button Content="PDF" Command="{Binding ExportPdfCommand}"
+                            Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,6,0" Padding="10,6" FontSize="11" />
+                    <Button Content="Excel" Command="{Binding ExportExcelCommand}"
+                            Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,6,0" Padding="10,6" FontSize="11" />
                     <Button Content="{local:Localize AddPatient}" Command="{Binding AddCommand}"
-                            Style="{DynamicResource PrimaryButtonStyle}" Padding="16,8" />
+                            Style="{DynamicResource PrimaryButtonStyle}" Padding="12,6" FontSize="11" />
                 </StackPanel>
             </DockPanel>
 
             <!-- Search Bar -->
-            <Border Grid.Row="1" Margin="20,0,20,10">
+            <Border Grid.Row="1" Margin="16,0,16,8">
                 <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
                          Style="{DynamicResource ModernTextBoxStyle}"
                          Tag="{local:Localize SearchPatients}" />
             </Border>
 
             <!-- Content: Patient Grid + Right Detail Panel -->
-            <Grid Grid.Row="2" Margin="20,0,20,16">
+            <Grid Grid.Row="2" Margin="16,0,16,12">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="16" />
-                    <ColumnDefinition Width="340" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="280" />
                 </Grid.ColumnDefinitions>
 
                 <!-- Patient Data Grid -->
@@ -99,92 +99,92 @@
                                             Command="{Binding ShowInfoTabCommand}"
                                             Click="InfoTab_Click"
                                             Background="Transparent" BorderThickness="0"
-                                            FontWeight="SemiBold" FontSize="13" Padding="8,10" Cursor="Hand"
+                                            FontWeight="SemiBold" FontSize="11" Padding="6,8" Cursor="Hand"
                                             Foreground="{DynamicResource TextPrimaryBrush}" />
                                     <Button Grid.Column="1" Content="Dental Chart"
                                             Command="{Binding ShowChartTabCommand}"
                                             Click="ChartTab_Click"
                                             Background="Transparent" BorderThickness="0"
-                                            FontWeight="SemiBold" FontSize="13" Padding="8,10" Cursor="Hand"
+                                            FontWeight="SemiBold" FontSize="11" Padding="6,8" Cursor="Hand"
                                             Foreground="{DynamicResource TextPrimaryBrush}" />
                                 </Grid>
                             </Border>
 
                             <!-- ===== INFO TAB ===== -->
-                            <ScrollViewer x:Name="InfoPanel" VerticalScrollBarVisibility="Auto" Padding="20,16">
+                            <ScrollViewer x:Name="InfoPanel" VerticalScrollBarVisibility="Auto" Padding="14,10">
                                 <StackPanel>
                                     <!-- Patient Photo -->
-                                    <Border Width="64" Height="64" CornerRadius="32" 
+                                    <Border Width="52" Height="52" CornerRadius="26" 
                                             Background="{DynamicResource SurfaceBrush}" 
-                                            HorizontalAlignment="Center" Margin="0,0,0,12"
-                                            BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="3">
+                                            HorizontalAlignment="Center" Margin="0,0,0,8"
+                                            BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="2">
                                         <Border CornerRadius="32">
                                             <Border.Background>
                                                 <ImageBrush ImageSource="{Binding SelectedPatient.PhotoPath, TargetNullValue={x:Null}}" 
                                                             Stretch="UniformToFill" />
                                             </Border.Background>
-                                            <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="32"
+                                            <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="24"
                                                        HorizontalAlignment="Center" VerticalAlignment="Center"
                                                        Foreground="{DynamicResource TextSecondaryBrush}" />
                                         </Border>
                                     </Border>
 
                                     <TextBlock Text="{Binding SelectedPatient.FullName}" 
-                                               FontWeight="Bold" FontSize="17" HorizontalAlignment="Center" Margin="0,0,0,4"
+                                               FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" Margin="0,0,0,2"
                                                Foreground="{DynamicResource TextPrimaryBrush}" />
                                     <TextBlock Text="{Binding SelectedPatient.Phone}" 
-                                               FontSize="13" HorizontalAlignment="Center" Margin="0,0,0,2"
+                                               FontSize="11" HorizontalAlignment="Center" Margin="0,0,0,1"
                                                Foreground="{DynamicResource TextSecondaryBrush}" />
                                     <TextBlock Text="{Binding SelectedPatient.Email}" 
-                                               FontSize="12" HorizontalAlignment="Center" Margin="0,0,0,16"
+                                               FontSize="11" HorizontalAlignment="Center" Margin="0,0,0,10"
                                                Foreground="{DynamicResource TextSecondaryBrush}" />
 
                                     <!-- Quick Stats -->
-                                    <Border Background="{DynamicResource SurfaceBrush}" CornerRadius="8" Padding="12" Margin="0,0,0,12">
+                                    <Border Background="{DynamicResource SurfaceBrush}" CornerRadius="6" Padding="8" Margin="0,0,0,8">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
                                             <StackPanel Grid.Column="0" HorizontalAlignment="Center">
-                                                <TextBlock Text="{Binding HealthyCount}" FontSize="22" FontWeight="Bold"
+                                                <TextBlock Text="{Binding HealthyCount}" FontSize="16" FontWeight="Bold"
                                                            HorizontalAlignment="Center" Foreground="#10B981" />
-                                                <TextBlock Text="Healthy" FontSize="11" HorizontalAlignment="Center"
+                                                <TextBlock Text="Healthy" FontSize="9" HorizontalAlignment="Center"
                                                            Foreground="{DynamicResource TextSecondaryBrush}" />
                                             </StackPanel>
                                             <StackPanel Grid.Column="1" HorizontalAlignment="Center">
-                                                <TextBlock Text="{Binding IssueCount}" FontSize="22" FontWeight="Bold"
+                                                <TextBlock Text="{Binding IssueCount}" FontSize="16" FontWeight="Bold"
                                                            HorizontalAlignment="Center" Foreground="#EF4444" />
-                                                <TextBlock Text="Issues" FontSize="11" HorizontalAlignment="Center"
+                                                <TextBlock Text="Issues" FontSize="9" HorizontalAlignment="Center"
                                                            Foreground="{DynamicResource TextSecondaryBrush}" />
                                             </StackPanel>
                                         </Grid>
                                     </Border>
 
                                     <!-- Info Fields -->
-                                    <StackPanel Margin="0,4,0,0">
-                                        <TextBlock Text="DATE OF BIRTH" FontSize="10" FontWeight="Bold" Margin="0,0,0,2"
+                                    <StackPanel Margin="0,2,0,0">
+                                        <TextBlock Text="DATE OF BIRTH" FontSize="9" FontWeight="Bold" Margin="0,0,0,1"
                                                    Foreground="{DynamicResource TextSecondaryBrush}" />
                                         <TextBlock Text="{Binding SelectedPatient.DateOfBirth, StringFormat='{}{0:yyyy-MM-dd}'}" 
-                                                   FontSize="13" Margin="0,0,0,10"
+                                                   FontSize="11" Margin="0,0,0,6"
                                                    Foreground="{DynamicResource TextPrimaryBrush}" />
 
-                                        <TextBlock Text="GENDER" FontSize="10" FontWeight="Bold" Margin="0,0,0,2"
+                                        <TextBlock Text="GENDER" FontSize="9" FontWeight="Bold" Margin="0,0,0,1"
                                                    Foreground="{DynamicResource TextSecondaryBrush}" />
                                         <TextBlock Text="{Binding SelectedPatient.Gender}" 
-                                                   FontSize="13" Margin="0,0,0,10"
+                                                   FontSize="11" Margin="0,0,0,6"
                                                    Foreground="{DynamicResource TextPrimaryBrush}" />
 
-                                        <TextBlock Text="ADDRESS" FontSize="10" FontWeight="Bold" Margin="0,0,0,2"
+                                        <TextBlock Text="ADDRESS" FontSize="9" FontWeight="Bold" Margin="0,0,0,1"
                                                    Foreground="{DynamicResource TextSecondaryBrush}" />
                                         <TextBlock Text="{Binding SelectedPatient.Address, FallbackValue='-'}" 
-                                                   FontSize="13" Margin="0,0,0,10" TextWrapping="Wrap"
+                                                   FontSize="11" Margin="0,0,0,6" TextWrapping="Wrap"
                                                    Foreground="{DynamicResource TextPrimaryBrush}" />
 
-                                        <TextBlock Text="NOTES" FontSize="10" FontWeight="Bold" Margin="0,0,0,2"
+                                        <TextBlock Text="NOTES" FontSize="9" FontWeight="Bold" Margin="0,0,0,1"
                                                    Foreground="{DynamicResource TextSecondaryBrush}" />
                                         <TextBlock Text="{Binding SelectedPatient.Notes, FallbackValue='-'}" 
-                                                   FontSize="13" Margin="0,0,0,16" TextWrapping="Wrap"
+                                                   FontSize="11" Margin="0,0,0,10" TextWrapping="Wrap"
                                                    Foreground="{DynamicResource TextPrimaryBrush}" />
                                     </StackPanel>
 
@@ -199,7 +199,7 @@
 
                             <!-- ===== DENTAL CHART TAB ===== -->
                             <ScrollViewer x:Name="ChartPanel" VerticalScrollBarVisibility="Auto" 
-                                          Padding="16,12" Visibility="Collapsed">
+                                          Padding="10,8" Visibility="Collapsed">
                                 <StackPanel>
                                     <!-- Legend -->
                                     <TextBlock Text="TOOTH CONDITIONS" FontSize="10" FontWeight="Bold" Margin="0,0,0,8"
@@ -269,18 +269,18 @@
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Button Width="40" Height="42" Margin="1" Cursor="Hand"
+                                                <Button Width="30" Height="34" Margin="0" Cursor="Hand"
                                                         Background="Transparent" BorderThickness="0"
                                                         Click="Tooth_Click" Tag="{Binding}">
                                                     <StackPanel HorizontalAlignment="Center">
-                                                        <TextBlock Text="{Binding ToothNumber}" FontSize="8" FontWeight="Bold"
+                                                        <TextBlock Text="{Binding ToothNumber}" FontSize="7" FontWeight="Bold"
                                                                    HorizontalAlignment="Center" Margin="0,0,0,1"
                                                                    Foreground="{DynamicResource TextSecondaryBrush}" />
-                                                        <Border Width="26" Height="26" CornerRadius="4"
-                                                                BorderThickness="2" 
+                                                        <Border Width="20" Height="20" CornerRadius="3"
+                                                                BorderThickness="1.5" 
                                                                 BorderBrush="{Binding Color, Converter={StaticResource StringToBrush}}"
                                                                 Background="{Binding Color, Converter={StaticResource StringToBrush}, ConverterParameter=0.15}">
-                                                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="11"
+                                                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="9"
                                                                        HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                        Foreground="{Binding Color, Converter={StaticResource StringToBrush}}">
                                                                 <TextBlock.Text>
@@ -314,15 +314,15 @@
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Button Width="40" Height="42" Margin="1" Cursor="Hand"
+                                                <Button Width="30" Height="34" Margin="0" Cursor="Hand"
                                                         Background="Transparent" BorderThickness="0"
                                                         Click="Tooth_Click" Tag="{Binding}">
                                                     <StackPanel HorizontalAlignment="Center">
-                                                        <Border Width="26" Height="26" CornerRadius="4"
-                                                                BorderThickness="2" 
+                                                        <Border Width="20" Height="20" CornerRadius="3"
+                                                                BorderThickness="1.5" 
                                                                 BorderBrush="{Binding Color, Converter={StaticResource StringToBrush}}"
                                                                 Background="{Binding Color, Converter={StaticResource StringToBrush}, ConverterParameter=0.15}">
-                                                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="11"
+                                                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="9"
                                                                        HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                        Foreground="{Binding Color, Converter={StaticResource StringToBrush}}">
                                                                 <TextBlock.Text>
@@ -334,7 +334,7 @@
                                                                 </TextBlock.Text>
                                                             </TextBlock>
                                                         </Border>
-                                                        <TextBlock Text="{Binding ToothNumber}" FontSize="8" FontWeight="Bold"
+                                                        <TextBlock Text="{Binding ToothNumber}" FontSize="7" FontWeight="Bold"
                                                                    HorizontalAlignment="Center" Margin="0,1,0,0"
                                                                    Foreground="{DynamicResource TextSecondaryBrush}" />
                                                     </StackPanel>
@@ -399,35 +399,35 @@
 
         <!-- ==================== EDIT FORM ==================== -->
         <ScrollViewer Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}"
-                      VerticalScrollBarVisibility="Auto" Padding="20,16">
-            <Border Style="{DynamicResource CardStyle}" MaxWidth="580" HorizontalAlignment="Center">
+                      VerticalScrollBarVisibility="Auto" Padding="16,12">
+            <Border Style="{DynamicResource CardStyle}" MaxWidth="540" HorizontalAlignment="Center">
                 <StackPanel>
                     <TextBlock Text="{Binding EditingPatient.Id, StringFormat='Patient #{0}', FallbackValue='New Patient'}" 
                                Style="{DynamicResource PageTitleStyle}" Margin="0,0,0,24" />
 
                     <!-- Photo Section -->
-                    <Border Margin="0,0,0,24" Padding="20" CornerRadius="12" 
+                    <Border Margin="0,0,0,16" Padding="12" CornerRadius="8" 
                             Background="{DynamicResource SurfaceBrush}">
                         <StackPanel Orientation="Horizontal">
-                            <Border Width="70" Height="70" CornerRadius="35" 
+                            <Border Width="50" Height="50" CornerRadius="25" 
                                     Background="{DynamicResource BackgroundBrush}"
                                     BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="2">
-                                <Border CornerRadius="35">
+                                <Border CornerRadius="25">
                                     <Border.Background>
                                         <ImageBrush ImageSource="{Binding PatientPhoto}" Stretch="UniformToFill" />
                                     </Border.Background>
-                                    <TextBlock Text="&#xE722;" FontFamily="Segoe MDL2 Assets" FontSize="32"
+                                    <TextBlock Text="&#xE722;" FontFamily="Segoe MDL2 Assets" FontSize="22"
                                                HorizontalAlignment="Center" VerticalAlignment="Center"
                                                Foreground="{DynamicResource TextSecondaryBrush}" />
                                 </Border>
                             </Border>
-                            <StackPanel VerticalAlignment="Center" Margin="20,0,0,0">
-                                <TextBlock Text="Patient Photo" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,4"
+                            <StackPanel VerticalAlignment="Center" Margin="12,0,0,0">
+                                <TextBlock Text="Patient Photo" FontWeight="SemiBold" FontSize="12" Margin="0,0,0,2"
                                            Foreground="{DynamicResource TextPrimaryBrush}" />
-                                <TextBlock Text="JPG, PNG or BMP. Max 5MB." FontSize="12" Margin="0,0,0,12"
+                                <TextBlock Text="JPG, PNG or BMP. Max 5MB." FontSize="10" Margin="0,0,0,6"
                                            Foreground="{DynamicResource TextSecondaryBrush}" />
                                 <Button Content="Choose Photo" Command="{Binding ChoosePhotoCommand}"
-                                        Style="{DynamicResource SecondaryButtonStyle}" Padding="16,6" />
+                                        Style="{DynamicResource SecondaryButtonStyle}" Padding="10,4" FontSize="11" />
                             </StackPanel>
                         </StackPanel>
                     </Border>

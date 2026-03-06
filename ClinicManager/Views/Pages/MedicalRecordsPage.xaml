@@ -11,7 +11,7 @@
     <Grid>
         <!-- Main List -->
         <DockPanel Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
-            <DockPanel DockPanel.Dock="Top" Margin="20,16,20,10">
+            <DockPanel DockPanel.Dock="Top" Margin="16,12,16,8">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xE82D;" FontFamily="Segoe MDL2 Assets" FontSize="22"
                                Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,10,0" />
@@ -22,13 +22,13 @@
                         Style="{DynamicResource PrimaryButtonStyle}" Padding="16,8" HorizontalAlignment="Right" />
             </DockPanel>
 
-            <Border DockPanel.Dock="Top" Margin="20,0,20,10">
+            <Border DockPanel.Dock="Top" Margin="16,0,16,8">
                 <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
                          Style="{DynamicResource ModernTextBoxStyle}"
                          Tag="{local:Localize Search}" />
             </Border>
 
-            <Border Margin="20,0,20,16" Style="{DynamicResource CardStyle}" Padding="0">
+            <Border Margin="16,0,16,12" Style="{DynamicResource CardStyle}" Padding="0">
                 <DataGrid ItemsSource="{Binding Records}" 
                           SelectedItem="{Binding SelectedRecord}"
                           Style="{DynamicResource ModernDataGridStyle}"
