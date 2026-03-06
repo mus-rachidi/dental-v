@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -16,6 +17,7 @@ public class ToothViewModel : ViewModelBase
 {
     private ToothCondition _condition;
     private string _notes = string.Empty;
+    private bool _isSelected;
 
     public int ToothNumber { get; set; }
     public ToothType Type { get; set; }
@@ -31,6 +33,12 @@ public class ToothViewModel : ViewModelBase
     {
         get => _notes;
         set => SetProperty(ref _notes, value);
+    }
+
+    public bool IsSelected
+    {
+        get => _isSelected;
+        set => SetProperty(ref _isSelected, value);
     }
 
     public string Color => Condition switch
@@ -60,11 +68,12 @@ public class PatientsViewModel : ViewModelBase, ILoadable
     private Patient? _selectedPatient;
     private bool _isEditing;
     private bool _isLoading;
-    private bool _showDentalChart;
     private Patient _editingPatient = new();
     private ImageSource? _patientPhoto;
     private ToothViewModel? _selectedTooth;
-    private string _dentalChartPatientName = string.Empty;
+    private int _healthyCount;
+    private int _issueCount;
+    private string _selectedPatientTab = "Info";
 
     public string SearchQuery
     {
@@ -75,14 +84,25 @@ public class PatientsViewModel : ViewModelBase, ILoadable
     public Patient? SelectedPatient
     {
         get => _selectedPatient;
-        set { SetProperty(ref _selectedPatient, value); OnPropertyChanged(nameof(HasSelection)); }
+        set
+        {
+            if (SetProperty(ref _selectedPatient, value))
+            {
+                OnPropertyChanged(nameof(HasSelection));
+                _ = LoadPatientDentalChartAsync();
+            }
+        }
     }
 
     public bool IsEditing { get => _isEditing; set => SetProperty(ref _isEditing, value); }
     public bool IsLoading { get => _isLoading; set => SetProperty(ref _isLoading, value); }
     public bool HasSelection => SelectedPatient != null;
-    public bool ShowDentalChart { get => _showDentalChart; set => SetProperty(ref _showDentalChart, value); }
-    public string DentalChartPatientName { get => _dentalChartPatientName; set => SetProperty(ref _dentalChartPatientName, value); }
+
+    public string SelectedPatientTab
+    {
+        get => _selectedPatientTab;
+        set => SetProperty(ref _selectedPatientTab, value);
+    }
 
     public Patient EditingPatient
     {
@@ -102,6 +122,9 @@ public class PatientsViewModel : ViewModelBase, ILoadable
         set => SetProperty(ref _selectedTooth, value);
     }
 
+    public int HealthyCount { get => _healthyCount; set => SetProperty(ref _healthyCount, value); }
+    public int IssueCount { get => _issueCount; set => SetProperty(ref _issueCount, value); }
+
     public ObservableCollection<Patient> Patients { get; } = new();
     public ObservableCollection<ToothViewModel> UpperTeeth { get; } = new();
     public ObservableCollection<ToothViewModel> LowerTeeth { get; } = new();
@@ -115,9 +138,9 @@ public class PatientsViewModel : ViewModelBase, ILoadable
     public ICommand ExportPdfCommand { get; }
     public ICommand RefreshCommand { get; }
     public ICommand ChoosePhotoCommand { get; }
-    public ICommand OpenDentalChartCommand { get; }
-    public ICommand CloseDentalChartCommand { get; }
     public ICommand SaveToothCommand { get; }
+    public ICommand ShowInfoTabCommand { get; }
+    public ICommand ShowChartTabCommand { get; }
 
     public PatientsViewModel(PatientService patientService, ExportService exportService, SettingsService settingsService)
     {
@@ -135,9 +158,9 @@ public class PatientsViewModel : ViewModelBase, ILoadable
         ExportPdfCommand = new AsyncRelayCommand(ExportToPdfAsync);
         RefreshCommand = new AsyncRelayCommand(LoadAsync);
         ChoosePhotoCommand = new RelayCommand(ChoosePhoto);
-        OpenDentalChartCommand = new AsyncRelayCommand(OpenDentalChartAsync, () => HasSelection);
-        CloseDentalChartCommand = new RelayCommand(() => ShowDentalChart = false);
         SaveToothCommand = new AsyncRelayCommand(SaveToothAsync);
+        ShowInfoTabCommand = new RelayCommand(() => SelectedPatientTab = "Info");
+        ShowChartTabCommand = new RelayCommand(() => SelectedPatientTab = "Chart");
     }
 
     public async Task LoadAsync()
@@ -162,6 +185,52 @@ public class PatientsViewModel : ViewModelBase, ILoadable
             foreach (var p in list) Patients.Add(p);
         }
         finally { IsLoading = false; }
+    }
+
+    private async Task LoadPatientDentalChartAsync()
+    {
+        UpperTeeth.Clear();
+        LowerTeeth.Clear();
+        SelectedTooth = null;
+        HealthyCount = 0;
+        IssueCount = 0;
+
+        if (SelectedPatient == null) return;
+
+        try
+        {
+            await _toothService.InitializePatientTeethAsync(SelectedPatient.Id);
+            var teeth = await _toothService.GetByPatientAsync(SelectedPatient.Id);
+
+            foreach (var t in teeth)
+            {
+                var vm = new ToothViewModel
+                {
+                    ToothNumber = t.ToothNumber,
+                    Type = t.Type,
+                    Condition = t.Condition,
+                    Notes = t.Notes
+                };
+
+                if (t.ToothNumber <= 16)
+                    UpperTeeth.Add(vm);
+                else
+                    LowerTeeth.Add(vm);
+            }
+
+            HealthyCount = teeth.Count(t => t.Condition == ToothCondition.Healthy);
+            IssueCount = teeth.Count(t => t.Condition != ToothCondition.Healthy);
+        }
+        catch { }
+    }
+
+    public void SelectTooth(ToothViewModel tooth)
+    {
+        if (SelectedTooth != null)
+            SelectedTooth.IsSelected = false;
+
+        SelectedTooth = tooth;
+        tooth.IsSelected = true;
     }
 
     private void StartAdd()
@@ -295,37 +364,6 @@ public class PatientsViewModel : ViewModelBase, ILoadable
         }
     }
 
-    private async Task OpenDentalChartAsync()
-    {
-        if (SelectedPatient == null) return;
-
-        DentalChartPatientName = SelectedPatient.FullName;
-        await _toothService.InitializePatientTeethAsync(SelectedPatient.Id);
-        var teeth = await _toothService.GetByPatientAsync(SelectedPatient.Id);
-
-        UpperTeeth.Clear();
-        LowerTeeth.Clear();
-
-        foreach (var t in teeth)
-        {
-            var vm = new ToothViewModel
-            {
-                ToothNumber = t.ToothNumber,
-                Type = t.Type,
-                Condition = t.Condition,
-                Notes = t.Notes
-            };
-
-            if (t.ToothNumber <= 16)
-                UpperTeeth.Add(vm);
-            else
-                LowerTeeth.Add(vm);
-        }
-
-        SelectedTooth = null;
-        ShowDentalChart = true;
-    }
-
     private async Task SaveToothAsync()
     {
         if (SelectedPatient == null || SelectedTooth == null) return;
@@ -342,6 +380,12 @@ public class PatientsViewModel : ViewModelBase, ILoadable
             };
 
             await _toothService.SaveAsync(record);
+
+            var allTeeth = UpperTeeth.Concat(LowerTeeth);
+            HealthyCount = allTeeth.Count(t => t.Condition == ToothCondition.Healthy);
+            IssueCount = allTeeth.Count(t => t.Condition != ToothCondition.Healthy);
+
+            MessageBox.Show("Tooth record saved.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         catch (Exception ex)
         {

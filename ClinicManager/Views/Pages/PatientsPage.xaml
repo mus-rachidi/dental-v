@@ -13,9 +13,16 @@
     </UserControl.Resources>
 
     <Grid>
-        <!-- Layer 1: Main List View -->
-        <DockPanel Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
-            <DockPanel DockPanel.Dock="Top" Margin="32,24,32,16">
+        <!-- ==================== MAIN VIEW (List + Detail) ==================== -->
+        <Grid Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Header Bar -->
+            <DockPanel Grid.Row="0" Margin="32,24,32,16">
                 <TextBlock Text="{local:Localize Patients}" Style="{DynamicResource PageTitleStyle}" VerticalAlignment="Center" />
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Content="{local:Localize ExportToPDF}" Command="{Binding ExportPdfCommand}"
@@ -27,20 +34,22 @@
                 </StackPanel>
             </DockPanel>
 
-            <Border DockPanel.Dock="Top" Margin="32,0,32,16">
+            <!-- Search Bar -->
+            <Border Grid.Row="1" Margin="32,0,32,16">
                 <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
                          Style="{DynamicResource ModernTextBoxStyle}"
                          Tag="{local:Localize SearchPatients}" />
             </Border>
 
-            <Grid Margin="32,0,32,24">
+            <!-- Content: Patient Grid + Right Detail Panel -->
+            <Grid Grid.Row="2" Margin="32,0,32,24">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="16" />
-                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="420" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Data Grid -->
+                <!-- Patient Data Grid -->
                 <Border Grid.Column="0" Style="{DynamicResource CardStyle}" Padding="0">
                     <DataGrid ItemsSource="{Binding Patients}" 
                               SelectedItem="{Binding SelectedPatient}"
@@ -57,63 +66,338 @@
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="{local:Localize Edit}" Command="{Binding EditCommand}" />
-                                <MenuItem Header="Dental Chart" Command="{Binding OpenDentalChartCommand}" />
                                 <MenuItem Header="{local:Localize Delete}" Command="{Binding DeleteCommand}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                     </DataGrid>
                 </Border>
 
-                <!-- Patient Quick View Panel -->
-                <Border Grid.Column="2" Style="{DynamicResource CardStyle}" Padding="20">
-                    <StackPanel>
-                        <TextBlock Text="Patient Details" FontWeight="Bold" FontSize="15" Margin="0,0,0,16"
-                                   Foreground="{DynamicResource TextPrimaryBrush}" />
-
-                        <!-- Patient Photo -->
-                        <Border Width="120" Height="120" CornerRadius="60" 
-                                Background="{DynamicResource SurfaceBrush}" 
-                                HorizontalAlignment="Center" Margin="0,0,0,16"
-                                BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="3">
-                            <Border CornerRadius="60">
-                                <Border.Background>
-                                    <ImageBrush ImageSource="{Binding SelectedPatient.PhotoPath, TargetNullValue={x:Null}}" 
-                                                Stretch="UniformToFill" />
-                                </Border.Background>
-                                <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="40"
-                                           HorizontalAlignment="Center" VerticalAlignment="Center"
-                                           Foreground="{DynamicResource TextSecondaryBrush}"
-                                           Visibility="{Binding HasSelection, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}" />
-                            </Border>
-                        </Border>
-
-                        <TextBlock Text="{Binding SelectedPatient.FullName, FallbackValue='Select a patient'}" 
-                                   FontWeight="SemiBold" FontSize="16" HorizontalAlignment="Center" Margin="0,0,0,4"
-                                   Foreground="{DynamicResource TextPrimaryBrush}" />
-                        <TextBlock Text="{Binding SelectedPatient.Phone, FallbackValue=''}" 
-                                   FontSize="13" HorizontalAlignment="Center" Margin="0,0,0,4"
-                                   Foreground="{DynamicResource TextSecondaryBrush}" />
-                        <TextBlock Text="{Binding SelectedPatient.Email, FallbackValue=''}" 
-                                   FontSize="12" HorizontalAlignment="Center" Margin="0,0,0,16"
-                                   Foreground="{DynamicResource TextSecondaryBrush}" />
-
-                        <Separator Margin="0,0,0,16" />
-
-                        <StackPanel Visibility="{Binding HasSelection, Converter={StaticResource BoolToVis}}">
-                            <Button Content="Edit Patient" Command="{Binding EditCommand}"
-                                    Style="{DynamicResource PrimaryButtonStyle}" Margin="0,0,0,8" />
-                            <Button Content="Dental Chart" Command="{Binding OpenDentalChartCommand}"
-                                    Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,0,8" />
-                            <Button Content="Delete" Command="{Binding DeleteCommand}"
-                                    Style="{DynamicResource SecondaryButtonStyle}" 
-                                    Foreground="#EF4444" BorderBrush="#EF4444" />
+                <!-- ==================== RIGHT PANEL: Patient Detail + Dental Chart ==================== -->
+                <Border Grid.Column="2" Style="{DynamicResource CardStyle}" Padding="0">
+                    <Grid>
+                        <!-- Placeholder when no patient selected -->
+                        <StackPanel Visibility="{Binding HasSelection, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}"
+                                    VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="48"
+                                       HorizontalAlignment="Center" Margin="0,0,0,12"
+                                       Foreground="{DynamicResource TextSecondaryBrush}" Opacity="0.4" />
+                            <TextBlock Text="Select a patient" FontSize="14"
+                                       Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center" />
                         </StackPanel>
-                    </StackPanel>
+
+                        <!-- Patient detail when selected -->
+                        <DockPanel Visibility="{Binding HasSelection, Converter={StaticResource BoolToVis}}">
+
+                            <!-- Tab Buttons at top -->
+                            <Border DockPanel.Dock="Top" Background="{DynamicResource SurfaceBrush}" Padding="4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" Content="Patient Info" 
+                                            Command="{Binding ShowInfoTabCommand}"
+                                            Click="InfoTab_Click"
+                                            Background="Transparent" BorderThickness="0"
+                                            FontWeight="SemiBold" FontSize="13" Padding="8,10" Cursor="Hand"
+                                            Foreground="{DynamicResource TextPrimaryBrush}" />
+                                    <Button Grid.Column="1" Content="Dental Chart"
+                                            Command="{Binding ShowChartTabCommand}"
+                                            Click="ChartTab_Click"
+                                            Background="Transparent" BorderThickness="0"
+                                            FontWeight="SemiBold" FontSize="13" Padding="8,10" Cursor="Hand"
+                                            Foreground="{DynamicResource TextPrimaryBrush}" />
+                                </Grid>
+                            </Border>
+
+                            <!-- ===== INFO TAB ===== -->
+                            <ScrollViewer x:Name="InfoPanel" VerticalScrollBarVisibility="Auto" Padding="20,16">
+                                <StackPanel>
+                                    <!-- Patient Photo -->
+                                    <Border Width="90" Height="90" CornerRadius="45" 
+                                            Background="{DynamicResource SurfaceBrush}" 
+                                            HorizontalAlignment="Center" Margin="0,0,0,12"
+                                            BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="3">
+                                        <Border CornerRadius="45">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding SelectedPatient.PhotoPath, TargetNullValue={x:Null}}" 
+                                                            Stretch="UniformToFill" />
+                                            </Border.Background>
+                                            <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="32"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        </Border>
+                                    </Border>
+
+                                    <TextBlock Text="{Binding SelectedPatient.FullName}" 
+                                               FontWeight="Bold" FontSize="17" HorizontalAlignment="Center" Margin="0,0,0,4"
+                                               Foreground="{DynamicResource TextPrimaryBrush}" />
+                                    <TextBlock Text="{Binding SelectedPatient.Phone}" 
+                                               FontSize="13" HorizontalAlignment="Center" Margin="0,0,0,2"
+                                               Foreground="{DynamicResource TextSecondaryBrush}" />
+                                    <TextBlock Text="{Binding SelectedPatient.Email}" 
+                                               FontSize="12" HorizontalAlignment="Center" Margin="0,0,0,16"
+                                               Foreground="{DynamicResource TextSecondaryBrush}" />
+
+                                    <!-- Quick Stats -->
+                                    <Border Background="{DynamicResource SurfaceBrush}" CornerRadius="8" Padding="12" Margin="0,0,0,12">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                                                <TextBlock Text="{Binding HealthyCount}" FontSize="22" FontWeight="Bold"
+                                                           HorizontalAlignment="Center" Foreground="#10B981" />
+                                                <TextBlock Text="Healthy" FontSize="11" HorizontalAlignment="Center"
+                                                           Foreground="{DynamicResource TextSecondaryBrush}" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                                                <TextBlock Text="{Binding IssueCount}" FontSize="22" FontWeight="Bold"
+                                                           HorizontalAlignment="Center" Foreground="#EF4444" />
+                                                <TextBlock Text="Issues" FontSize="11" HorizontalAlignment="Center"
+                                                           Foreground="{DynamicResource TextSecondaryBrush}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Info Fields -->
+                                    <StackPanel Margin="0,4,0,0">
+                                        <TextBlock Text="DATE OF BIRTH" FontSize="10" FontWeight="Bold" Margin="0,0,0,2"
+                                                   Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        <TextBlock Text="{Binding SelectedPatient.DateOfBirth, StringFormat='{}{0:yyyy-MM-dd}'}" 
+                                                   FontSize="13" Margin="0,0,0,10"
+                                                   Foreground="{DynamicResource TextPrimaryBrush}" />
+
+                                        <TextBlock Text="GENDER" FontSize="10" FontWeight="Bold" Margin="0,0,0,2"
+                                                   Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        <TextBlock Text="{Binding SelectedPatient.Gender}" 
+                                                   FontSize="13" Margin="0,0,0,10"
+                                                   Foreground="{DynamicResource TextPrimaryBrush}" />
+
+                                        <TextBlock Text="ADDRESS" FontSize="10" FontWeight="Bold" Margin="0,0,0,2"
+                                                   Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        <TextBlock Text="{Binding SelectedPatient.Address, FallbackValue='-'}" 
+                                                   FontSize="13" Margin="0,0,0,10" TextWrapping="Wrap"
+                                                   Foreground="{DynamicResource TextPrimaryBrush}" />
+
+                                        <TextBlock Text="NOTES" FontSize="10" FontWeight="Bold" Margin="0,0,0,2"
+                                                   Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        <TextBlock Text="{Binding SelectedPatient.Notes, FallbackValue='-'}" 
+                                                   FontSize="13" Margin="0,0,0,16" TextWrapping="Wrap"
+                                                   Foreground="{DynamicResource TextPrimaryBrush}" />
+                                    </StackPanel>
+
+                                    <!-- Action Buttons -->
+                                    <Button Content="Edit Patient" Command="{Binding EditCommand}"
+                                            Style="{DynamicResource PrimaryButtonStyle}" Margin="0,0,0,8" />
+                                    <Button Content="Delete" Command="{Binding DeleteCommand}"
+                                            Style="{DynamicResource SecondaryButtonStyle}" 
+                                            Foreground="#EF4444" BorderBrush="#EF4444" />
+                                </StackPanel>
+                            </ScrollViewer>
+
+                            <!-- ===== DENTAL CHART TAB ===== -->
+                            <ScrollViewer x:Name="ChartPanel" VerticalScrollBarVisibility="Auto" 
+                                          Padding="16,12" Visibility="Collapsed">
+                                <StackPanel>
+                                    <!-- Legend -->
+                                    <TextBlock Text="TOOTH CONDITIONS" FontSize="10" FontWeight="Bold" Margin="0,0,0,8"
+                                               Foreground="{DynamicResource TextSecondaryBrush}" />
+                                    <WrapPanel Margin="0,0,0,12">
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                            <Ellipse Width="8" Height="8" Fill="#10B981" Margin="0,0,3,0" />
+                                            <TextBlock Text="Healthy" FontSize="10" VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                            <Ellipse Width="8" Height="8" Fill="#EF4444" Margin="0,0,3,0" />
+                                            <TextBlock Text="Cavity" FontSize="10" VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                            <Ellipse Width="8" Height="8" Fill="#3B82F6" Margin="0,0,3,0" />
+                                            <TextBlock Text="Filled" FontSize="10" VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                            <Ellipse Width="8" Height="8" Fill="#F59E0B" Margin="0,0,3,0" />
+                                            <TextBlock Text="Crown" FontSize="10" VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                            <Ellipse Width="8" Height="8" Fill="#8B5CF6" Margin="0,0,3,0" />
+                                            <TextBlock Text="Root Canal" FontSize="10" VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                            <Ellipse Width="8" Height="8" Fill="#6B7280" Margin="0,0,3,0" />
+                                            <TextBlock Text="Missing" FontSize="10" VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                            <Ellipse Width="8" Height="8" Fill="#06B6D4" Margin="0,0,3,0" />
+                                            <TextBlock Text="Implant" FontSize="10" VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                            <Ellipse Width="8" Height="8" Fill="#EC4899" Margin="0,0,3,0" />
+                                            <TextBlock Text="Bridge" FontSize="10" VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                            <Ellipse Width="8" Height="8" Fill="#DC2626" Margin="0,0,3,0" />
+                                            <TextBlock Text="Extraction" FontSize="10" VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,10,4">
+                                            <Ellipse Width="8" Height="8" Fill="#F97316" Margin="0,0,3,0" />
+                                            <TextBlock Text="Fractured" FontSize="10" VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        </StackPanel>
+                                    </WrapPanel>
+
+                                    <!-- Upper Jaw -->
+                                    <TextBlock Text="UPPER JAW" FontWeight="Bold" FontSize="10" 
+                                               Foreground="{DynamicResource TextSecondaryBrush}"
+                                               HorizontalAlignment="Center" Margin="0,0,0,4" />
+                                    <ItemsControl ItemsSource="{Binding UpperTeeth}" HorizontalAlignment="Center">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel HorizontalAlignment="Center" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Button Width="40" Height="42" Margin="1" Cursor="Hand"
+                                                        Background="Transparent" BorderThickness="0"
+                                                        Click="Tooth_Click" Tag="{Binding}">
+                                                    <StackPanel HorizontalAlignment="Center">
+                                                        <TextBlock Text="{Binding ToothNumber}" FontSize="8" FontWeight="Bold"
+                                                                   HorizontalAlignment="Center" Margin="0,0,0,1"
+                                                                   Foreground="{DynamicResource TextSecondaryBrush}" />
+                                                        <Border Width="26" Height="26" CornerRadius="4"
+                                                                BorderThickness="2" 
+                                                                BorderBrush="{Binding Color, Converter={StaticResource StringToBrush}}"
+                                                                Background="{Binding Color, Converter={StaticResource StringToBrush}, ConverterParameter=0.15}">
+                                                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="11"
+                                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                       Foreground="{Binding Color, Converter={StaticResource StringToBrush}}">
+                                                                <TextBlock.Text>
+                                                                    <Binding Path="Type">
+                                                                        <Binding.Converter>
+                                                                            <helpers:ToothTypeToIconConverter />
+                                                                        </Binding.Converter>
+                                                                    </Binding>
+                                                                </TextBlock.Text>
+                                                            </TextBlock>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </Button>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
+                                    <!-- Jaw Separator -->
+                                    <Border Height="2" Background="{DynamicResource PrimaryBrush}" 
+                                            Margin="8,6" Opacity="0.3" CornerRadius="1" />
+
+                                    <!-- Lower Jaw -->
+                                    <TextBlock Text="LOWER JAW" FontWeight="Bold" FontSize="10" 
+                                               Foreground="{DynamicResource TextSecondaryBrush}"
+                                               HorizontalAlignment="Center" Margin="0,0,0,4" />
+                                    <ItemsControl ItemsSource="{Binding LowerTeeth}" HorizontalAlignment="Center">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel HorizontalAlignment="Center" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Button Width="40" Height="42" Margin="1" Cursor="Hand"
+                                                        Background="Transparent" BorderThickness="0"
+                                                        Click="Tooth_Click" Tag="{Binding}">
+                                                    <StackPanel HorizontalAlignment="Center">
+                                                        <Border Width="26" Height="26" CornerRadius="4"
+                                                                BorderThickness="2" 
+                                                                BorderBrush="{Binding Color, Converter={StaticResource StringToBrush}}"
+                                                                Background="{Binding Color, Converter={StaticResource StringToBrush}, ConverterParameter=0.15}">
+                                                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="11"
+                                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                       Foreground="{Binding Color, Converter={StaticResource StringToBrush}}">
+                                                                <TextBlock.Text>
+                                                                    <Binding Path="Type">
+                                                                        <Binding.Converter>
+                                                                            <helpers:ToothTypeToIconConverter />
+                                                                        </Binding.Converter>
+                                                                    </Binding>
+                                                                </TextBlock.Text>
+                                                            </TextBlock>
+                                                        </Border>
+                                                        <TextBlock Text="{Binding ToothNumber}" FontSize="8" FontWeight="Bold"
+                                                                   HorizontalAlignment="Center" Margin="0,1,0,0"
+                                                                   Foreground="{DynamicResource TextSecondaryBrush}" />
+                                                    </StackPanel>
+                                                </Button>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
+                                    <!-- Selected Tooth Detail -->
+                                    <Border Margin="0,12,0,0" Background="{DynamicResource SurfaceBrush}" 
+                                            CornerRadius="8" Padding="12"
+                                            Visibility="{Binding SelectedTooth, Converter={StaticResource NullToVis}, FallbackValue=Collapsed}">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding SelectedTooth.Name}" FontWeight="SemiBold" FontSize="13"
+                                                       Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,4" />
+
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                                <TextBlock Text="Type: " FontSize="11"
+                                                           Foreground="{DynamicResource TextSecondaryBrush}" />
+                                                <TextBlock Text="{Binding SelectedTooth.Type}" FontSize="11" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource TextPrimaryBrush}" />
+                                            </StackPanel>
+
+                                            <TextBlock Text="CONDITION" FontSize="10" FontWeight="Bold" Margin="0,0,0,4"
+                                                       Foreground="{DynamicResource TextSecondaryBrush}" />
+                                            <ComboBox x:Name="ConditionCombo" FontSize="12" Padding="8,6" Margin="0,0,0,10"
+                                                      SelectedIndex="0" SelectionChanged="ConditionCombo_Changed">
+                                                <ComboBoxItem Content="Healthy" />
+                                                <ComboBoxItem Content="Cavity" />
+                                                <ComboBoxItem Content="Filled" />
+                                                <ComboBoxItem Content="Crown" />
+                                                <ComboBoxItem Content="Root Canal" />
+                                                <ComboBoxItem Content="Missing" />
+                                                <ComboBoxItem Content="Implant" />
+                                                <ComboBoxItem Content="Bridge" />
+                                                <ComboBoxItem Content="Extraction" />
+                                                <ComboBoxItem Content="Fractured" />
+                                            </ComboBox>
+
+                                            <TextBlock Text="NOTES" FontSize="10" FontWeight="Bold" Margin="0,0,0,4"
+                                                       Foreground="{DynamicResource TextSecondaryBrush}" />
+                                            <TextBox Text="{Binding SelectedTooth.Notes, UpdateSourceTrigger=PropertyChanged}"
+                                                     Style="{DynamicResource ModernTextBoxStyle}" AcceptsReturn="True"
+                                                     MinHeight="50" TextWrapping="Wrap" Margin="0,0,0,12" FontSize="12" />
+
+                                            <Button Content="Save Tooth" Command="{Binding SaveToothCommand}"
+                                                    Style="{DynamicResource PrimaryButtonStyle}" Padding="10,8" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <TextBlock Text="Click a tooth to edit" FontSize="11"
+                                               Foreground="{DynamicResource TextSecondaryBrush}"
+                                               HorizontalAlignment="Center" Margin="0,12,0,0"
+                                               Visibility="{Binding SelectedTooth, Converter={StaticResource NullToVis}, ConverterParameter=Invert}" />
+                                </StackPanel>
+                            </ScrollViewer>
+                        </DockPanel>
+                    </Grid>
                 </Border>
             </Grid>
-        </DockPanel>
+        </Grid>
 
-        <!-- Layer 2: Edit Form -->
+        <!-- ==================== EDIT FORM ==================== -->
         <ScrollViewer Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}"
                       VerticalScrollBarVisibility="Auto" Padding="32,24">
             <Border Style="{DynamicResource CardStyle}" MaxWidth="700" HorizontalAlignment="Center">
@@ -211,236 +495,5 @@
                 </StackPanel>
             </Border>
         </ScrollViewer>
-
-        <!-- Layer 3: Dental Chart Overlay -->
-        <Grid Visibility="{Binding ShowDentalChart, Converter={StaticResource BoolToVis}}">
-            <Border Background="#80000000" />
-            <Border Background="{DynamicResource BackgroundBrush}" Margin="40" CornerRadius="16"
-                    MaxWidth="1100" MaxHeight="750" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="30" ShadowDepth="5" Opacity="0.3" />
-                </Border.Effect>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <!-- Dental Chart Header -->
-                    <Border Grid.Row="0" Background="{DynamicResource PrimaryBrush}" 
-                            CornerRadius="16,16,0,0" Padding="24,16">
-                        <DockPanel>
-                            <StackPanel>
-                                <TextBlock Text="Dental Chart" FontSize="20" FontWeight="Bold" Foreground="White" />
-                                <TextBlock Text="{Binding DentalChartPatientName}" FontSize="13" Foreground="#CCFFFFFF" />
-                            </StackPanel>
-                            <Button DockPanel.Dock="Right" Content="&#xE711;" FontFamily="Segoe MDL2 Assets"
-                                    Command="{Binding CloseDentalChartCommand}"
-                                    Background="Transparent" Foreground="White" BorderThickness="0"
-                                    FontSize="16" Cursor="Hand" HorizontalAlignment="Right" VerticalAlignment="Top"
-                                    Padding="8,4" />
-                        </DockPanel>
-                    </Border>
-
-                    <!-- Dental Chart Body -->
-                    <Grid Grid.Row="1" Margin="24,16,24,24">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="280" />
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Tooth Diagram -->
-                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                            <!-- Legend -->
-                            <WrapPanel Margin="0,0,0,16" HorizontalAlignment="Center">
-                                <StackPanel Orientation="Horizontal" Margin="0,0,12,4">
-                                    <Ellipse Width="10" Height="10" Fill="#10B981" Margin="0,0,4,0" />
-                                    <TextBlock Text="Healthy" FontSize="11" VerticalAlignment="Center"
-                                               Foreground="{DynamicResource TextSecondaryBrush}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,0,12,4">
-                                    <Ellipse Width="10" Height="10" Fill="#EF4444" Margin="0,0,4,0" />
-                                    <TextBlock Text="Cavity" FontSize="11" VerticalAlignment="Center"
-                                               Foreground="{DynamicResource TextSecondaryBrush}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,0,12,4">
-                                    <Ellipse Width="10" Height="10" Fill="#3B82F6" Margin="0,0,4,0" />
-                                    <TextBlock Text="Filled" FontSize="11" VerticalAlignment="Center"
-                                               Foreground="{DynamicResource TextSecondaryBrush}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,0,12,4">
-                                    <Ellipse Width="10" Height="10" Fill="#F59E0B" Margin="0,0,4,0" />
-                                    <TextBlock Text="Crown" FontSize="11" VerticalAlignment="Center"
-                                               Foreground="{DynamicResource TextSecondaryBrush}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,0,12,4">
-                                    <Ellipse Width="10" Height="10" Fill="#8B5CF6" Margin="0,0,4,0" />
-                                    <TextBlock Text="Root Canal" FontSize="11" VerticalAlignment="Center"
-                                               Foreground="{DynamicResource TextSecondaryBrush}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,0,12,4">
-                                    <Ellipse Width="10" Height="10" Fill="#6B7280" Margin="0,0,4,0" />
-                                    <TextBlock Text="Missing" FontSize="11" VerticalAlignment="Center"
-                                               Foreground="{DynamicResource TextSecondaryBrush}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,0,12,4">
-                                    <Ellipse Width="10" Height="10" Fill="#06B6D4" Margin="0,0,4,0" />
-                                    <TextBlock Text="Implant" FontSize="11" VerticalAlignment="Center"
-                                               Foreground="{DynamicResource TextSecondaryBrush}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,0,12,4">
-                                    <Ellipse Width="10" Height="10" Fill="#EC4899" Margin="0,0,4,0" />
-                                    <TextBlock Text="Bridge" FontSize="11" VerticalAlignment="Center"
-                                               Foreground="{DynamicResource TextSecondaryBrush}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,0,12,4">
-                                    <Ellipse Width="10" Height="10" Fill="#F97316" Margin="0,0,4,0" />
-                                    <TextBlock Text="Fractured" FontSize="11" VerticalAlignment="Center"
-                                               Foreground="{DynamicResource TextSecondaryBrush}" />
-                                </StackPanel>
-                            </WrapPanel>
-
-                            <!-- Upper Jaw Label -->
-                            <TextBlock Text="UPPER JAW" FontWeight="Bold" FontSize="12" 
-                                       Foreground="{DynamicResource TextSecondaryBrush}"
-                                       HorizontalAlignment="Center" Margin="0,0,0,8" />
-
-                            <!-- Upper Teeth Row -->
-                            <ItemsControl ItemsSource="{Binding UpperTeeth}" HorizontalAlignment="Center">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel HorizontalAlignment="Center" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Width="42" Height="48" Margin="2" Cursor="Hand"
-                                                Background="Transparent" BorderThickness="0"
-                                                Click="Tooth_Click" Tag="{Binding}">
-                                            <StackPanel HorizontalAlignment="Center">
-                                                <TextBlock Text="{Binding ToothNumber}" FontSize="9" FontWeight="Bold"
-                                                           HorizontalAlignment="Center" Margin="0,0,0,2"
-                                                           Foreground="{DynamicResource TextSecondaryBrush}" />
-                                                <Border Width="30" Height="30" CornerRadius="4"
-                                                        BorderThickness="2" 
-                                                        BorderBrush="{Binding Color, Converter={StaticResource StringToBrush}}"
-                                                        Background="{Binding Color, Converter={StaticResource StringToBrush}, ConverterParameter=0.15}">
-                                                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="14"
-                                                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                               Foreground="{Binding Color, Converter={StaticResource StringToBrush}}">
-                                                        <TextBlock.Text>
-                                                            <Binding Path="Type">
-                                                                <Binding.Converter>
-                                                                    <helpers:ToothTypeToIconConverter />
-                                                                </Binding.Converter>
-                                                            </Binding>
-                                                        </TextBlock.Text>
-                                                    </TextBlock>
-                                                </Border>
-                                            </StackPanel>
-                                        </Button>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-
-                            <!-- Jaw Separator -->
-                            <Border Height="2" Background="{DynamicResource PrimaryBrush}" 
-                                    Margin="20,12" Opacity="0.3" CornerRadius="1" />
-
-                            <!-- Lower Jaw Label -->
-                            <TextBlock Text="LOWER JAW" FontWeight="Bold" FontSize="12" 
-                                       Foreground="{DynamicResource TextSecondaryBrush}"
-                                       HorizontalAlignment="Center" Margin="0,0,0,8" />
-
-                            <!-- Lower Teeth Row -->
-                            <ItemsControl ItemsSource="{Binding LowerTeeth}" HorizontalAlignment="Center">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel HorizontalAlignment="Center" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Width="42" Height="48" Margin="2" Cursor="Hand"
-                                                Background="Transparent" BorderThickness="0"
-                                                Click="Tooth_Click" Tag="{Binding}">
-                                            <StackPanel HorizontalAlignment="Center">
-                                                <Border Width="30" Height="30" CornerRadius="4"
-                                                        BorderThickness="2" 
-                                                        BorderBrush="{Binding Color, Converter={StaticResource StringToBrush}}"
-                                                        Background="{Binding Color, Converter={StaticResource StringToBrush}, ConverterParameter=0.15}">
-                                                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="14"
-                                                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                               Foreground="{Binding Color, Converter={StaticResource StringToBrush}}">
-                                                        <TextBlock.Text>
-                                                            <Binding Path="Type">
-                                                                <Binding.Converter>
-                                                                    <helpers:ToothTypeToIconConverter />
-                                                                </Binding.Converter>
-                                                            </Binding>
-                                                        </TextBlock.Text>
-                                                    </TextBlock>
-                                                </Border>
-                                                <TextBlock Text="{Binding ToothNumber}" FontSize="9" FontWeight="Bold"
-                                                           HorizontalAlignment="Center" Margin="0,2,0,0"
-                                                           Foreground="{DynamicResource TextSecondaryBrush}" />
-                                            </StackPanel>
-                                        </Button>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-
-                        <!-- Tooth Detail Panel -->
-                        <Border Grid.Column="1" Style="{DynamicResource CardStyle}" Margin="16,0,0,0" Padding="16">
-                            <StackPanel>
-                                <TextBlock Text="Tooth Details" FontWeight="Bold" FontSize="14" Margin="0,0,0,16"
-                                           Foreground="{DynamicResource TextPrimaryBrush}" />
-
-                                <StackPanel Visibility="{Binding SelectedTooth, Converter={StaticResource NullToVis}, FallbackValue=Collapsed}">
-                                    <TextBlock Text="{Binding SelectedTooth.Name}" FontWeight="SemiBold" FontSize="13"
-                                               Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,4" />
-
-                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                                        <TextBlock Text="Type: " FontSize="12"
-                                                   Foreground="{DynamicResource TextSecondaryBrush}" />
-                                        <TextBlock Text="{Binding SelectedTooth.Type}" FontSize="12" FontWeight="SemiBold"
-                                                   Foreground="{DynamicResource TextPrimaryBrush}" />
-                                    </StackPanel>
-
-                                    <TextBlock Text="Condition" Style="{DynamicResource FormLabelStyle}" FontSize="12" />
-                                    <ComboBox x:Name="ConditionCombo" FontSize="12" Padding="8,6" Margin="0,0,0,12"
-                                              SelectedIndex="0" SelectionChanged="ConditionCombo_Changed">
-                                        <ComboBoxItem Content="Healthy" />
-                                        <ComboBoxItem Content="Cavity" />
-                                        <ComboBoxItem Content="Filled" />
-                                        <ComboBoxItem Content="Crown" />
-                                        <ComboBoxItem Content="Root Canal" />
-                                        <ComboBoxItem Content="Missing" />
-                                        <ComboBoxItem Content="Implant" />
-                                        <ComboBoxItem Content="Bridge" />
-                                        <ComboBoxItem Content="Extraction" />
-                                        <ComboBoxItem Content="Fractured" />
-                                    </ComboBox>
-
-                                    <TextBlock Text="Notes" Style="{DynamicResource FormLabelStyle}" FontSize="12" />
-                                    <TextBox Text="{Binding SelectedTooth.Notes, UpdateSourceTrigger=PropertyChanged}"
-                                             Style="{DynamicResource ModernTextBoxStyle}" AcceptsReturn="True"
-                                             MinHeight="60" TextWrapping="Wrap" Margin="0,0,0,16" FontSize="12" />
-
-                                    <Button Content="Save Tooth" Command="{Binding SaveToothCommand}"
-                                            Style="{DynamicResource PrimaryButtonStyle}" Padding="12,8" />
-                                </StackPanel>
-
-                                <TextBlock Text="Click a tooth to view details" FontSize="12"
-                                           Foreground="{DynamicResource TextSecondaryBrush}"
-                                           HorizontalAlignment="Center" Margin="0,20,0,0"
-                                           Visibility="{Binding SelectedTooth, Converter={StaticResource NullToVis}, ConverterParameter=Invert}" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </Border>
-        </Grid>
     </Grid>
 </UserControl>

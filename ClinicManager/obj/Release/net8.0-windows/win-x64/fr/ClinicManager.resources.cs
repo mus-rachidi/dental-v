@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyrightAttribute("Copyright © 2026 ClinicSoft. All rights reserved.")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Professional Clinic Management System")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b1385bca019d20788322046deea961b590d56721")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e80b21ac6b9de715d81647145722cf4520642939")]
 [assembly: System.Reflection.AssemblyProductAttribute("Clinic Management System")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ClinicManager")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

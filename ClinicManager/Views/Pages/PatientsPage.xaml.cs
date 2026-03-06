@@ -14,11 +14,23 @@ public partial class PatientsPage : UserControl
         InitializeComponent();
     }
 
+    private void InfoTab_Click(object sender, RoutedEventArgs e)
+    {
+        InfoPanel.Visibility = Visibility.Visible;
+        ChartPanel.Visibility = Visibility.Collapsed;
+    }
+
+    private void ChartTab_Click(object sender, RoutedEventArgs e)
+    {
+        InfoPanel.Visibility = Visibility.Collapsed;
+        ChartPanel.Visibility = Visibility.Visible;
+    }
+
     private void Tooth_Click(object sender, RoutedEventArgs e)
     {
         if (sender is Button btn && btn.Tag is ToothViewModel tooth && DataContext is PatientsViewModel vm)
         {
-            vm.SelectedTooth = tooth;
+            vm.SelectTooth(tooth);
             _suppressConditionChange = true;
             ConditionCombo.SelectedIndex = (int)tooth.Condition;
             _suppressConditionChange = false;
