@@ -13,33 +13,29 @@ public class AppointmentService
     public async Task<List<Appointment>> GetAllAsync()
     {
         using var db = new ClinicDbContext();
-        return await db.Appointments
-            .Include(a => a.Patient)
-            .OrderByDescending(a => a.Date)
-            .ThenBy(a => a.Time)
-            .ToListAsync();
+        var list = await db.Appointments.Include(a => a.Patient).ToListAsync();
+        return list.OrderByDescending(a => a.Date).ThenBy(a => a.Time).ToList();
     }
 
     public async Task<List<Appointment>> GetTodayAsync()
     {
         var today = DateTime.Today;
         using var db = new ClinicDbContext();
-        return await db.Appointments
+        var list = await db.Appointments
             .Include(a => a.Patient)
             .Where(a => a.Date.Date == today)
-            .OrderBy(a => a.Time)
             .ToListAsync();
+        return list.OrderBy(a => a.Time).ToList();
     }
 
     public async Task<List<Appointment>> GetByDateRangeAsync(DateTime from, DateTime to)
     {
         using var db = new ClinicDbContext();
-        return await db.Appointments
+        var list = await db.Appointments
             .Include(a => a.Patient)
             .Where(a => a.Date.Date >= from.Date && a.Date.Date <= to.Date)
-            .OrderBy(a => a.Date)
-            .ThenBy(a => a.Time)
             .ToListAsync();
+        return list.OrderBy(a => a.Date).ThenBy(a => a.Time).ToList();
     }
 
     public async Task<List<Appointment>> GetByPatientAsync(int patientId)
