@@ -1,0 +1,28 @@
+<UserControl x:Class="ClinicManager.Views.Controls.ToothShapeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Viewbox x:Name="ViewboxRoot" Stretch="Uniform" Width="32" Height="38">
+        <Canvas Width="24" Height="36">
+            <!-- Incisor: flat chisel, rectangular -->
+            <Path x:Name="IncisorPath" Visibility="Collapsed"
+                  Data="M 2,1 L 10,1 L 11,2 L 11,34 L 1,34 L 1,2 Z"
+                  StrokeThickness="1.2" />
+            <!-- Canine: pointed cuspid -->
+            <Path x:Name="CaninePath" Visibility="Collapsed"
+                  Data="M 6,1 L 12,1 L 12,14 L 10,34 L 2,34 L 0,14 Z"
+                  StrokeThickness="1.2" />
+            <!-- Premolar: two cusps, rounded occlusal -->
+            <Path x:Name="PremolarPath" Visibility="Collapsed"
+                  Data="M 1,3 Q 6,0 11,3 L 12,33 L 0,33 Z"
+                  StrokeThickness="1.2" />
+            <!-- Molar: 4 cusps, wider -->
+            <Path x:Name="MolarPath" Visibility="Collapsed"
+                  Data="M 0,5 Q 2,0 6,2 Q 10,0 12,5 L 13,33 L -1,33 Z"
+                  StrokeThickness="1.2" />
+            <!-- Wisdom: similar to molar -->
+            <Path x:Name="WisdomPath" Visibility="Collapsed"
+                  Data="M 1,4 Q 6,0 11,4 L 12,33 L 0,33 Z"
+                  StrokeThickness="1.2" />
+        </Canvas>
+    </Viewbox>
+</UserControl>

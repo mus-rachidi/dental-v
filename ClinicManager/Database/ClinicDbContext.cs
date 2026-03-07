@@ -20,6 +20,7 @@ public class ClinicDbContext : DbContext
     public DbSet<Payment> Payments => Set<Payment>();
     public DbSet<MedicalRecord> MedicalRecords => Set<MedicalRecord>();
     public DbSet<ToothRecord> ToothRecords => Set<ToothRecord>();
+    public DbSet<XRayRecord> XRayRecords => Set<XRayRecord>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -80,6 +81,15 @@ public class ClinicDbContext : DbContext
                   .HasForeignKey(e => e.PatientId)
                   .OnDelete(DeleteBehavior.Cascade);
         });
+
+        modelBuilder.Entity<XRayRecord>(entity =>
+        {
+            entity.HasIndex(e => e.PatientId);
+            entity.HasOne(e => e.Patient)
+                  .WithMany(p => p.XRayRecords)
+                  .HasForeignKey(e => e.PatientId)
+                  .OnDelete(DeleteBehavior.Cascade);
+        });
     }
 
     public static string GetDatabasePath() => DbPath;
@@ -99,6 +109,7 @@ public class ClinicDbContext : DbContext
 
         AddColumnIfMissing(conn, "Patients", "PhotoPath", "TEXT DEFAULT '' NOT NULL");
         CreateTableIfMissing(conn);
+        CreateXRayTableIfMissing(conn);
     }
 
     private static void AddColumnIfMissing(SqliteConnection conn, string table, string column, string definition)
@@ -139,6 +150,26 @@ public class ClinicDbContext : DbContext
         idx.CommandText = @"
             CREATE UNIQUE INDEX IF NOT EXISTS IX_ToothRecords_PatientId_ToothNumber 
             ON ToothRecords (PatientId, ToothNumber)";
+        idx.ExecuteNonQuery();
+    }
+
+    private static void CreateXRayTableIfMissing(SqliteConnection conn)
+    {
+        using var cmd = conn.CreateCommand();
+        cmd.CommandText = @"
+            CREATE TABLE IF NOT EXISTS XRayRecords (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                PatientId INTEGER NOT NULL,
+                ImagePath TEXT NOT NULL DEFAULT '',
+                Date TEXT NOT NULL DEFAULT '2026-01-01',
+                Notes TEXT NOT NULL DEFAULT '',
+                ToothNumbers TEXT NOT NULL DEFAULT '',
+                FOREIGN KEY (PatientId) REFERENCES Patients(Id) ON DELETE CASCADE
+            )";
+        cmd.ExecuteNonQuery();
+
+        using var idx = conn.CreateCommand();
+        idx.CommandText = "CREATE INDEX IF NOT EXISTS IX_XRayRecords_PatientId ON XRayRecords (PatientId)";
         idx.ExecuteNonQuery();
     }
 }

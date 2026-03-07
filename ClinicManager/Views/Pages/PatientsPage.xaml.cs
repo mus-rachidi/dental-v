@@ -18,12 +18,21 @@ public partial class PatientsPage : UserControl
     {
         InfoPanel.Visibility = Visibility.Visible;
         ChartPanel.Visibility = Visibility.Collapsed;
+        XRayPanel.Visibility = Visibility.Collapsed;
     }
 
     private void ChartTab_Click(object sender, RoutedEventArgs e)
     {
         InfoPanel.Visibility = Visibility.Collapsed;
         ChartPanel.Visibility = Visibility.Visible;
+        XRayPanel.Visibility = Visibility.Collapsed;
+    }
+
+    private void XRayTab_Click(object sender, RoutedEventArgs e)
+    {
+        InfoPanel.Visibility = Visibility.Collapsed;
+        ChartPanel.Visibility = Visibility.Collapsed;
+        XRayPanel.Visibility = Visibility.Visible;
     }
 
     private void Tooth_Click(object sender, RoutedEventArgs e)

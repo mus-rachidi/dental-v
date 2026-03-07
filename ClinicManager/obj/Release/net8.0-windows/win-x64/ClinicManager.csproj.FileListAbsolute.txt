@@ -604,3 +604,5 @@
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/Views/Pages/InventoryPage.g.cs
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/Views/Pages/ReportsPage.g.cs
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/Views/Pages/StaffPage.g.cs
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/Views/Controls/ToothShapeControl.baml
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Release/net8.0-windows/win-x64/Views/Controls/ToothShapeControl.g.cs

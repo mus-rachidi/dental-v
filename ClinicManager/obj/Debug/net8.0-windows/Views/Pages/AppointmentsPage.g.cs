@@ -10,8 +10,6 @@
 
 using ClinicManager.Helpers;
 using ClinicManager.Localization;
-using ClinicManager.ViewModels;
-using ClinicManager.Views.Pages;
 using System;
 using System.Diagnostics;
 using System.Windows;

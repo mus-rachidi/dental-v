@@ -63,6 +63,7 @@ public class PatientsViewModel : ViewModelBase, ILoadable
     private readonly ExportService _exportService;
     private readonly SettingsService _settingsService;
     private readonly ToothService _toothService;
+    private readonly XRayService _xRayService = new();
 
     private string _searchQuery = string.Empty;
     private Patient? _selectedPatient;
@@ -124,10 +125,12 @@ public class PatientsViewModel : ViewModelBase, ILoadable
 
     public int HealthyCount { get => _healthyCount; set => SetProperty(ref _healthyCount, value); }
     public int IssueCount { get => _issueCount; set => SetProperty(ref _issueCount, value); }
+    public bool HasXRays => XRays.Count > 0;
 
     public ObservableCollection<Patient> Patients { get; } = new();
     public ObservableCollection<ToothViewModel> UpperTeeth { get; } = new();
     public ObservableCollection<ToothViewModel> LowerTeeth { get; } = new();
+    public ObservableCollection<XRayRecord> XRays { get; } = new();
 
     public ICommand AddCommand { get; }
     public ICommand EditCommand { get; }
@@ -141,6 +144,8 @@ public class PatientsViewModel : ViewModelBase, ILoadable
     public ICommand SaveToothCommand { get; }
     public ICommand ShowInfoTabCommand { get; }
     public ICommand ShowChartTabCommand { get; }
+    public ICommand AddXRayCommand { get; }
+    public ICommand DeleteXRayCommand { get; }
 
     public PatientsViewModel(PatientService patientService, ExportService exportService, SettingsService settingsService)
     {
@@ -161,6 +166,8 @@ public class PatientsViewModel : ViewModelBase, ILoadable
         SaveToothCommand = new AsyncRelayCommand(SaveToothAsync);
         ShowInfoTabCommand = new RelayCommand(() => SelectedPatientTab = "Info");
         ShowChartTabCommand = new RelayCommand(() => SelectedPatientTab = "Chart");
+        AddXRayCommand = new RelayCommand(AddXRay, () => HasSelection);
+        DeleteXRayCommand = new AsyncRelayCommand(DeleteXRayAsync);
     }
 
     public async Task LoadAsync()
@@ -191,6 +198,7 @@ public class PatientsViewModel : ViewModelBase, ILoadable
     {
         UpperTeeth.Clear();
         LowerTeeth.Clear();
+        XRays.Clear();
         SelectedTooth = null;
         HealthyCount = 0;
         IssueCount = 0;
@@ -201,27 +209,79 @@ public class PatientsViewModel : ViewModelBase, ILoadable
         {
             await _toothService.InitializePatientTeethAsync(SelectedPatient.Id);
             var teeth = await _toothService.GetByPatientAsync(SelectedPatient.Id);
+            var dict = teeth.ToDictionary(t => t.ToothNumber);
 
-            foreach (var t in teeth)
-            {
-                var vm = new ToothViewModel
-                {
-                    ToothNumber = t.ToothNumber,
-                    Type = t.Type,
-                    Condition = t.Condition,
-                    Notes = t.Notes
-                };
+            // Dental chart order (patient's view): Upper 8,7,6,5,4,3,2,1 | 9,10,11,12,13,14,15,16
+            var upperOrder = new[] { 8, 7, 6, 5, 4, 3, 2, 1, 9, 10, 11, 12, 13, 14, 15, 16 };
+            foreach (var num in upperOrder)
+                if (dict.TryGetValue(num, out var t))
+                    UpperTeeth.Add(ToVm(t));
 
-                if (t.ToothNumber <= 16)
-                    UpperTeeth.Add(vm);
-                else
-                    LowerTeeth.Add(vm);
-            }
+            // Lower: 24,23,22,21,20,19,18,17 | 32,31,30,29,28,27,26,25
+            var lowerOrder = new[] { 24, 23, 22, 21, 20, 19, 18, 17, 32, 31, 30, 29, 28, 27, 26, 25 };
+            foreach (var num in lowerOrder)
+                if (dict.TryGetValue(num, out var t))
+                    LowerTeeth.Add(ToVm(t));
 
             HealthyCount = teeth.Count(t => t.Condition == ToothCondition.Healthy);
             IssueCount = teeth.Count(t => t.Condition != ToothCondition.Healthy);
+
+            var xrays = await _xRayService.GetByPatientAsync(SelectedPatient.Id);
+            foreach (var x in xrays) XRays.Add(x);
         }
         catch { }
+    }
+
+    private static ToothViewModel ToVm(ToothRecord t) => new()
+    {
+        ToothNumber = t.ToothNumber,
+        Type = t.Type,
+        Condition = t.Condition,
+        Notes = t.Notes
+    };
+
+    private async void AddXRay()
+    {
+        if (SelectedPatient == null) return;
+        var dialog = new Microsoft.Win32.OpenFileDialog
+        {
+            Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp",
+            Title = "Select X-Ray Image"
+        };
+        if (dialog.ShowDialog() != true) return;
+
+        try
+        {
+            var path = XRayService.SaveXRayImage(SelectedPatient.Id, dialog.FileName);
+            var record = new XRayRecord
+            {
+                PatientId = SelectedPatient.Id,
+                ImagePath = path,
+                Date = DateTime.Now
+            };
+            await _xRayService.SaveAsync(record);
+            XRays.Insert(0, record);
+            OnPropertyChanged(nameof(HasXRays));
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error adding X-ray: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private async Task DeleteXRayAsync(object? parameter)
+    {
+        if (parameter is not XRayRecord x) return;
+        try
+        {
+            await _xRayService.DeleteAsync(x.Id);
+            XRays.Remove(x);
+            OnPropertyChanged(nameof(HasXRays));
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error deleting X-ray: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     public void SelectTooth(ToothViewModel tooth)

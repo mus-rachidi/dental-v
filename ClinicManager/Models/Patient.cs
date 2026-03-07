@@ -39,4 +39,5 @@ public class Patient
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
     public virtual ICollection<MedicalRecord> MedicalRecords { get; set; } = new List<MedicalRecord>();
     public virtual ICollection<ToothRecord> ToothRecords { get; set; } = new List<ToothRecord>();
+    public virtual ICollection<XRayRecord> XRayRecords { get; set; } = new List<XRayRecord>();
 }

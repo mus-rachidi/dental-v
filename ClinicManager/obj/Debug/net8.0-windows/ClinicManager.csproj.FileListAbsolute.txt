@@ -188,3 +188,5 @@
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/Views/Pages/InventoryPage.g.cs
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/Views/Pages/ReportsPage.g.cs
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/Views/Pages/StaffPage.g.cs
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/Views/Controls/ToothShapeControl.baml
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/Views/Controls/ToothShapeControl.g.cs

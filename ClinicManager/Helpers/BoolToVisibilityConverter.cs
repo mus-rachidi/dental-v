@@ -1,7 +1,9 @@
 using System;
 using System.Globalization;
+using System.IO;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media.Imaging;
 
 namespace ClinicManager.Helpers;
 
@@ -115,6 +117,30 @@ public class StringToBrushConverter : IValueConverter
             catch { }
         }
         return System.Windows.Media.Brushes.Gray;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}
+
+public class PathToImageSourceConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is not string path || string.IsNullOrEmpty(path) || !File.Exists(path))
+            return null;
+        try
+        {
+            var img = new BitmapImage();
+            img.BeginInit();
+            img.CacheOption = BitmapCacheOption.OnLoad;
+            img.UriSource = new Uri(path, UriKind.Absolute);
+            img.DecodePixelWidth = 120;
+            img.EndInit();
+            img.Freeze();
+            return img;
+        }
+        catch { return null; }
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
