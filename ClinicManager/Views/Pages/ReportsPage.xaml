@@ -3,14 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Border Width="64" Height="64" CornerRadius="32" Margin="0,0,0,16" HorizontalAlignment="Center">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#2563EB" Offset="0" />
-                        <GradientStop Color="#3B82F6" Offset="1" />
-                    </LinearGradientBrush>
-                </Border.Background>
-                <TextBlock Text="&#xE9F9;" FontFamily="Segoe MDL2 Assets" FontSize="28"
+            <Border Width="48" Height="48" Margin="0,0,0,12" HorizontalAlignment="Center"
+                    Background="{DynamicResource InfoBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                <TextBlock Text="&#xE9F9;" FontFamily="Segoe MDL2 Assets" FontSize="24"
                            Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
             <TextBlock Text="Reports &amp; Analytics" FontSize="20" FontWeight="Bold"
@@ -18,7 +13,7 @@
             <TextBlock Text="View financial reports, patient statistics, and analytics" FontSize="12"
                        Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,20" />
             <Border Style="{DynamicResource BadgeStyle}" Background="{DynamicResource WarningLightBrush}" 
-                    HorizontalAlignment="Center" Padding="16,6">
+                    HorizontalAlignment="Center" Padding="12,4">
                 <TextBlock Text="Coming Soon" FontSize="11" FontWeight="SemiBold"
                            Foreground="{DynamicResource WarningBrush}" />
             </Border>

@@ -56,20 +56,8 @@
                       VerticalScrollBarVisibility="Auto" Padding="32,24">
             <Border Style="{DynamicResource CardStyle}" MaxWidth="700" HorizontalAlignment="Center">
                 <StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
-                        <Border Width="32" Height="32" CornerRadius="8" Margin="0,0,12,0">
-                            <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                    <GradientStop Color="#2563EB" Offset="0" />
-                                    <GradientStop Color="#3B82F6" Offset="1" />
-                                </LinearGradientBrush>
-                            </Border.Background>
-                            <TextBlock Text="&#xE82D;" FontFamily="Segoe MDL2 Assets" FontSize="16"
-                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <TextBlock Text="{local:Localize AddRecord}" 
-                                   Style="{DynamicResource PageTitleStyle}" VerticalAlignment="Center" />
-                    </StackPanel>
+                    <TextBlock Text="{local:Localize AddRecord}" 
+                               Style="{DynamicResource PageTitleStyle}" Margin="0,0,0,16" />
 
                     <TextBlock Text="{local:Localize SelectPatient}" Style="{DynamicResource FormLabelStyle}" />
                     <ComboBox ItemsSource="{Binding AvailablePatients}" 

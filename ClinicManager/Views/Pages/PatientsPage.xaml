@@ -123,11 +123,11 @@
                             <ScrollViewer x:Name="InfoPanel" VerticalScrollBarVisibility="Auto" Padding="14,10">
                                 <StackPanel>
                                     <!-- Patient Photo -->
-                                    <Border Width="52" Height="52" CornerRadius="26" 
+                                    <Border Width="48" Height="48" 
                                             Background="{DynamicResource SurfaceBrush}" 
                                             HorizontalAlignment="Center" Margin="0,0,0,8"
-                                            BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="2">
-                                        <Border CornerRadius="32">
+                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                                        <Border>
                                             <Border.Background>
                                                 <ImageBrush ImageSource="{Binding SelectedPatient.PhotoPath, TargetNullValue={x:Null}}" 
                                                             Stretch="UniformToFill" />
@@ -149,7 +149,8 @@
                                                Foreground="{DynamicResource TextSecondaryBrush}" />
 
                                     <!-- Quick Stats -->
-                                    <Border Background="{DynamicResource SurfaceBrush}" CornerRadius="6" Padding="8" Margin="0,0,0,8">
+                                    <Border Background="{DynamicResource SurfaceBrush}" Padding="8" Margin="0,0,0,8"
+                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
@@ -214,15 +215,15 @@
                                     <TextBlock Text="CONDITIONS" FontSize="9" FontWeight="Bold" Margin="0,0,0,4"
                                                Foreground="{DynamicResource TextSecondaryBrush}" />
                                     <WrapPanel Margin="0,0,0,8">
-                                        <Border Width="6" Height="6" CornerRadius="3" Margin="0,0,6,2" Background="#10B981" />
+                                        <Border Width="6" Height="6" Margin="0,0,6,2" Background="#10B981" />
                                         <TextBlock Text="Healthy" FontSize="8" VerticalAlignment="Center" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,8,0" />
-                                        <Border Width="6" Height="6" CornerRadius="3" Margin="0,0,6,2" Background="#EF4444" />
+                                        <Border Width="6" Height="6" Margin="0,0,6,2" Background="#EF4444" />
                                         <TextBlock Text="Cavity" FontSize="8" VerticalAlignment="Center" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,8,0" />
-                                        <Border Width="6" Height="6" CornerRadius="3" Margin="0,0,6,2" Background="#3B82F6" />
+                                        <Border Width="6" Height="6" Margin="0,0,6,2" Background="#3B82F6" />
                                         <TextBlock Text="Filled" FontSize="8" VerticalAlignment="Center" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,8,0" />
-                                        <Border Width="6" Height="6" CornerRadius="3" Margin="0,0,6,2" Background="#F59E0B" />
+                                        <Border Width="6" Height="6" Margin="0,0,6,2" Background="#F59E0B" />
                                         <TextBlock Text="Crown" FontSize="8" VerticalAlignment="Center" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,8,0" />
-                                        <Border Width="6" Height="6" CornerRadius="3" Margin="0,0,6,2" Background="#6B7280" />
+                                        <Border Width="6" Height="6" Margin="0,0,6,2" Background="#6B7280" />
                                         <TextBlock Text="Missing" FontSize="8" VerticalAlignment="Center" Foreground="{DynamicResource TextSecondaryBrush}" />
                                     </WrapPanel>
 
@@ -230,7 +231,8 @@
                                     <TextBlock Text="UPPER JAW" FontWeight="Bold" FontSize="9" 
                                                Foreground="{DynamicResource PrimaryBrush}"
                                                HorizontalAlignment="Center" Margin="0,0,0,2" />
-                                    <Border Background="{DynamicResource SurfaceBrush}" CornerRadius="6" Padding="6,4" Margin="0,0,0,2">
+                                    <Border Background="{DynamicResource SurfaceBrush}" Padding="6,4" Margin="0,0,0,2"
+                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                                         <ItemsControl ItemsSource="{Binding UpperTeeth}" HorizontalAlignment="Center">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -264,7 +266,8 @@
                                     <TextBlock Text="LOWER JAW" FontWeight="Bold" FontSize="9" 
                                                Foreground="{DynamicResource PrimaryBrush}"
                                                HorizontalAlignment="Center" Margin="0,2,0,2" />
-                                    <Border Background="{DynamicResource SurfaceBrush}" CornerRadius="6" Padding="6,4" Margin="0,0,0,4">
+                                    <Border Background="{DynamicResource SurfaceBrush}" Padding="6,4" Margin="0,0,0,4"
+                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                                         <ItemsControl ItemsSource="{Binding LowerTeeth}" HorizontalAlignment="Center">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -293,7 +296,7 @@
 
                                     <!-- Selected Tooth Detail -->
                                     <Border Margin="0,6,0,0" Background="{DynamicResource SurfaceBrush}" 
-                                            CornerRadius="6" Padding="10"
+                                            Padding="10" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
                                             Visibility="{Binding SelectedTooth, Converter={StaticResource NullToVis}, FallbackValue=Collapsed}">
                                         <StackPanel>
                                             <TextBlock Text="{Binding SelectedTooth.Name}" FontWeight="SemiBold" FontSize="12"
@@ -346,16 +349,16 @@
                                     <ItemsControl ItemsSource="{Binding XRays}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border Margin="0,0,0,8" CornerRadius="6" Padding="6"
-                                                        Background="{DynamicResource SurfaceBrush}"
-                                                        BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                                                <Border Margin="0,0,0,8" Padding="6"
+                                                        BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
+                                                        Background="{DynamicResource SurfaceBrush}">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="60" />
                                                             <ColumnDefinition Width="*" />
                                                             <ColumnDefinition Width="Auto" />
                                                         </Grid.ColumnDefinitions>
-                                                        <Border Grid.Column="0" Width="56" Height="56" CornerRadius="4"
+                                                        <Border Grid.Column="0" Width="56" Height="56"
                                                                 Background="#1a1a2e">
                                                             <Image Source="{Binding ImagePath, Converter={StaticResource PathToImage}}" 
                                                                    Stretch="UniformToFill" />
@@ -401,13 +404,14 @@
                                Style="{DynamicResource PageTitleStyle}" Margin="0,0,0,24" />
 
                     <!-- Photo Section -->
-                    <Border Margin="0,0,0,16" Padding="12" CornerRadius="8" 
-                            Background="{DynamicResource SurfaceBrush}">
+                    <Border Margin="0,0,0,16" Padding="10" 
+                            Background="{DynamicResource SurfaceBrush}"
+                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                         <StackPanel Orientation="Horizontal">
-                            <Border Width="50" Height="50" CornerRadius="25" 
+                            <Border Width="44" Height="44" 
                                     Background="{DynamicResource BackgroundBrush}"
-                                    BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="2">
-                                <Border CornerRadius="25">
+                                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                                <Border>
                                     <Border.Background>
                                         <ImageBrush ImageSource="{Binding PatientPhoto}" Stretch="UniformToFill" />
                                     </Border.Background>

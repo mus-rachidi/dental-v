@@ -3,107 +3,69 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="License Activation" Height="560" Width="520"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        Background="#F1F5F9" WindowStyle="None" AllowsTransparency="True">
+        Background="#ECE9D8" WindowStyle="SingleBorderWindow">
 
-    <Border Background="White" CornerRadius="20" BorderBrush="#E2E8F0" BorderThickness="1"
-            Margin="10">
-        <Border.Effect>
-            <DropShadowEffect ShadowDepth="0" BlurRadius="20" Opacity="0.15" Color="#000000" />
-        </Border.Effect>
-
-        <Grid Margin="40,32">
-            <!-- Close button -->
-            <Button Content="✕" Click="ExitButton_Click" HorizontalAlignment="Right" VerticalAlignment="Top"
-                    Background="Transparent" Foreground="#94A3B8" FontSize="16" BorderThickness="0" 
-                    Cursor="Hand" Padding="4" Margin="-10,-10,0,0" />
-
-            <StackPanel VerticalAlignment="Center" Margin="0,16,0,0">
+    <Border Background="White" BorderBrush="#ACA899" BorderThickness="1"
+            Margin="0">
+        <Grid Margin="24,20">
+            <StackPanel VerticalAlignment="Center" Margin="0,0,0,0">
                 <!-- Logo -->
-                <Border Width="56" Height="56" CornerRadius="14" Background="#4F46E5" 
-                        HorizontalAlignment="Center" Margin="0,0,0,16">
-                    <TextBlock Text="&#xE8F1;" FontFamily="Segoe MDL2 Assets" FontSize="24"
+                <Border Width="48" Height="48" Background="#0054E3" 
+                        HorizontalAlignment="Center" Margin="0,0,0,12"
+                        BorderBrush="#ACA899" BorderThickness="1">
+                    <TextBlock Text="&#xE8F1;" FontFamily="Segoe MDL2 Assets" FontSize="22"
                                Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
-                <TextBlock Text="Clinic Manager" FontSize="24" FontWeight="Bold" 
-                           Foreground="#0F172A" HorizontalAlignment="Center" FontFamily="Segoe UI" />
-                <TextBlock Text="Activate your license to continue" FontSize="13" Foreground="#64748B"
-                           HorizontalAlignment="Center" Margin="0,4,0,28" FontFamily="Segoe UI" />
+                <TextBlock Text="Clinic Manager" FontSize="18" FontWeight="Bold" 
+                           Foreground="#000000" HorizontalAlignment="Center" FontFamily="Tahoma" />
+                <TextBlock Text="Activate your license to continue" FontSize="11" Foreground="#000000"
+                           HorizontalAlignment="Center" Margin="0,4,0,20" FontFamily="Tahoma" />
 
                 <!-- Machine ID -->
-                <TextBlock Text="MACHINE ID" FontSize="11" Foreground="#94A3B8" 
-                           FontWeight="Bold" Margin="0,0,0,6" FontFamily="Segoe UI" />
-                <DockPanel Margin="0,0,0,6">
+                <TextBlock Text="MACHINE ID" FontSize="10" Foreground="#000000" 
+                           FontWeight="Bold" Margin="0,0,0,4" FontFamily="Tahoma" />
+                <DockPanel Margin="0,0,0,4">
                     <Button x:Name="CopyButton" DockPanel.Dock="Right" Content="Copy" 
-                            Click="CopyMachineId_Click" Margin="8,0,0,0"
-                            Background="#4F46E5" Foreground="White" FontSize="12" FontWeight="SemiBold"
-                            Padding="16,0" Cursor="Hand" FontFamily="Segoe UI" BorderThickness="0" Height="42">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="10" 
-                                        Padding="{TemplateBinding Padding}">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="bd" Property="Background" Value="#4338CA" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
-                    <Border Background="#F8FAFC" CornerRadius="10" Padding="14,10" BorderBrush="#E2E8F0" BorderThickness="1.5">
+                            Click="CopyMachineId_Click" Margin="6,0,0,0"
+                            Background="#ECE9D8" Foreground="#000000" FontSize="11"
+                            Padding="12,6" Cursor="Hand" FontFamily="Tahoma" BorderThickness="1"
+                            BorderBrush="#ACA899" Height="28" />
+                    <Border Background="White" Padding="8,6" BorderBrush="#ACA899" BorderThickness="1">
                         <TextBox x:Name="MachineIdText" IsReadOnly="True" Background="Transparent" 
-                                 BorderThickness="0" FontFamily="Cascadia Code, Consolas" FontSize="12"
-                                 Foreground="#0F172A" VerticalAlignment="Center" />
+                                 BorderThickness="0" FontFamily="Consolas" FontSize="11"
+                                 Foreground="#000000" VerticalAlignment="Center" />
                     </Border>
                 </DockPanel>
-                <TextBlock Text="Send this ID to get your license key" FontSize="11" 
-                           Foreground="#94A3B8" Margin="0,0,0,20" FontFamily="Segoe UI" />
+                <TextBlock Text="Send this ID to get your license key" FontSize="10" 
+                           Foreground="#000000" Margin="0,0,0,16" FontFamily="Tahoma" />
 
                 <!-- License Key -->
-                <TextBlock Text="LICENSE KEY" FontSize="11" Foreground="#94A3B8" 
-                           FontWeight="Bold" Margin="0,0,0,6" FontFamily="Segoe UI" />
-                <Border Background="#F8FAFC" CornerRadius="10" BorderBrush="#E2E8F0" BorderThickness="1.5" Margin="0,0,0,16">
-                    <TextBox x:Name="LicenseKeyInput" Padding="14,12" BorderThickness="0" FontSize="15"
-                             FontFamily="Cascadia Code, Consolas" Foreground="#0F172A" Background="Transparent"
+                <TextBlock Text="LICENSE KEY" FontSize="10" Foreground="#000000" 
+                           FontWeight="Bold" Margin="0,0,0,4" FontFamily="Tahoma" />
+                <Border Background="White" BorderBrush="#ACA899" BorderThickness="1" Margin="0,0,0,12">
+                    <TextBox x:Name="LicenseKeyInput" Padding="8,8" BorderThickness="0" FontSize="12"
+                             FontFamily="Consolas" Foreground="#000000" Background="Transparent"
                              CharacterCasing="Upper" />
                 </Border>
 
                 <!-- Name -->
-                <TextBlock Text="LICENSED TO" FontSize="11" Foreground="#94A3B8" 
-                           FontWeight="Bold" Margin="0,0,0,6" FontFamily="Segoe UI" />
-                <Border Background="#F8FAFC" CornerRadius="10" BorderBrush="#E2E8F0" BorderThickness="1.5" Margin="0,0,0,24">
-                    <TextBox x:Name="LicensedToInput" Padding="14,12" BorderThickness="0" FontSize="13"
-                             FontFamily="Segoe UI" Foreground="#0F172A" Background="Transparent" />
+                <TextBlock Text="LICENSED TO" FontSize="10" Foreground="#000000" 
+                           FontWeight="Bold" Margin="0,0,0,4" FontFamily="Tahoma" />
+                <Border Background="White" BorderBrush="#ACA899" BorderThickness="1" Margin="0,0,0,20">
+                    <TextBox x:Name="LicensedToInput" Padding="8,8" BorderThickness="0" FontSize="12"
+                             FontFamily="Tahoma" Foreground="#000000" Background="Transparent" />
                 </Border>
 
                 <!-- Error -->
-                <TextBlock x:Name="ErrorText" Foreground="#DC2626" FontSize="12" Margin="0,0,0,12"
-                           Visibility="Collapsed" HorizontalAlignment="Center" FontFamily="Segoe UI"
+                <TextBlock x:Name="ErrorText" Foreground="#B22222" FontSize="11" Margin="0,0,0,10"
+                           Visibility="Collapsed" HorizontalAlignment="Center" FontFamily="Tahoma"
                            TextWrapping="Wrap" />
 
                 <!-- Activate Button -->
                 <Button x:Name="ActivateButton" Content="Activate License" Click="ActivateButton_Click"
-                        Background="#4F46E5" Foreground="White" FontSize="14" FontWeight="SemiBold"
-                        Padding="0,14" Cursor="Hand" FontFamily="Segoe UI" BorderThickness="0"
-                        HorizontalContentAlignment="Center">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="12" 
-                                    Padding="{TemplateBinding Padding}">
-                                <Border.Effect>
-                                    <DropShadowEffect ShadowDepth="1" BlurRadius="8" Opacity="0.2" Color="#4F46E5" />
-                                </Border.Effect>
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="bd" Property="Background" Value="#4338CA" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
+                        Background="#0054E3" Foreground="White" FontSize="12" FontWeight="Normal"
+                        Padding="0,10" Cursor="Hand" FontFamily="Tahoma" BorderThickness="1"
+                        BorderBrush="#0047AB" HorizontalContentAlignment="Center" />
             </StackPanel>
         </Grid>
     </Border>

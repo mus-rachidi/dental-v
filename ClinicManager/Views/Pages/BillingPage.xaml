@@ -43,15 +43,10 @@
                                     Style="{DynamicResource PrimaryButtonStyle}" Margin="16,0,0,0" Padding="18,7" />
                         </StackPanel>
                     </Border>
-                    <Border DockPanel.Dock="Right" HorizontalAlignment="Right" CornerRadius="12"
-                            Padding="18,10" Margin="12,0,0,0">
-                        <Border.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="#059669" Offset="0" />
-                                <GradientStop Color="#10B981" Offset="1" />
-                            </LinearGradientBrush>
-                        </Border.Background>
-                        <TextBlock Foreground="White" FontWeight="Bold" FontSize="14">
+                    <Border DockPanel.Dock="Right" HorizontalAlignment="Right"
+                            Padding="12,6" Margin="8,0,0,0"
+                            Background="{DynamicResource SuccessBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                        <TextBlock Foreground="White" FontWeight="Bold" FontSize="12">
                             <Run Text="{local:Localize Total}" />
                             <Run Text=": " />
                             <Run Text="{Binding TotalAmount, StringFormat='{}{0:C}'}" />
@@ -90,20 +85,8 @@
                       VerticalScrollBarVisibility="Auto" Padding="32,24">
             <Border Style="{DynamicResource CardStyle}" MaxWidth="640" HorizontalAlignment="Center">
                 <StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
-                        <Border Width="32" Height="32" CornerRadius="8" Margin="0,0,12,0">
-                            <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                    <GradientStop Color="#059669" Offset="0" />
-                                    <GradientStop Color="#10B981" Offset="1" />
-                                </LinearGradientBrush>
-                            </Border.Background>
-                            <TextBlock Text="&#xE8C7;" FontFamily="Segoe MDL2 Assets" FontSize="16"
-                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <TextBlock Text="{local:Localize AddPayment}" 
-                                   Style="{DynamicResource PageTitleStyle}" VerticalAlignment="Center" />
-                    </StackPanel>
+                    <TextBlock Text="{local:Localize AddPayment}" 
+                               Style="{DynamicResource PageTitleStyle}" Margin="0,0,0,16" />
 
                     <TextBlock Text="{local:Localize SelectPatient}" Style="{DynamicResource FormLabelStyle}" />
                     <ComboBox ItemsSource="{Binding AvailablePatients}" 
