@@ -42,11 +42,35 @@ public class AppointmentsViewModel : ViewModelBase, ILoadable
 
     public DateTime FilterFrom { get => _filterFrom; set => SetProperty(ref _filterFrom, value); }
     public DateTime FilterTo { get => _filterTo; set => SetProperty(ref _filterTo, value); }
+    /// <summary>Calendar selected date - when set, filters to that day.</summary>
+    public DateTime? CalendarDate
+    {
+        get => FilterFrom;
+        set
+        {
+            if (value.HasValue)
+            {
+                FilterFrom = value.Value;
+                FilterTo = value.Value;
+                _ = LoadAsync();
+            }
+        }
+    }
 
     public int EditPatientId { get => _editPatientId; set => SetProperty(ref _editPatientId, value); }
     public string EditDoctor { get => _editDoctor; set => SetProperty(ref _editDoctor, value); }
     public DateTime EditDate { get => _editDate; set => SetProperty(ref _editDate, value); }
-    public TimeSpan EditTime { get => _editTime; set => SetProperty(ref _editTime, value); }
+    public TimeSpan EditTime { get => _editTime; set { if (SetProperty(ref _editTime, value)) OnPropertyChanged(nameof(EditTimeString)); } }
+    /// <summary>Time as HH:mm string for UI binding (SQLite-friendly).</summary>
+    public string EditTimeString
+    {
+        get => $"{_editTime.Hours:D2}:{_editTime.Minutes:D2}";
+        set
+        {
+            if (TimeSpan.TryParse(value, out var ts))
+                EditTime = ts;
+        }
+    }
     public int EditDuration { get => _editDuration; set => SetProperty(ref _editDuration, value); }
     public AppointmentStatus EditStatus { get => _editStatus; set => SetProperty(ref _editStatus, value); }
     public string EditNotes { get => _editNotes; set => SetProperty(ref _editNotes, value); }
@@ -117,7 +141,11 @@ public class AppointmentsViewModel : ViewModelBase, ILoadable
 
     private async Task StartEditAsync()
     {
-        if (SelectedAppointment == null) return;
+        if (SelectedAppointment == null)
+        {
+            Helpers.NotificationHelper.ItemNotFound("Appointment");
+            return;
+        }
         await LoadPatientsAsync();
 
         _editId = SelectedAppointment.Id;
@@ -137,15 +165,28 @@ public class AppointmentsViewModel : ViewModelBase, ILoadable
         {
             if (EditPatientId == 0)
             {
-                MessageBox.Show("Please select a patient.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Helpers.NotificationHelper.SelectPatientRequired();
                 return;
             }
+            if (string.IsNullOrWhiteSpace(EditDoctor))
+            {
+                System.Windows.MessageBox.Show(Localization.Strings.DoctorRequired, Localization.Strings.Validation,
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                return;
+            }
+            if (!TimeSpan.TryParse(EditTimeString, out var parsedTime) || parsedTime.TotalHours >= 24)
+            {
+                System.Windows.MessageBox.Show(Localization.Strings.InvalidTimeFormat, Localization.Strings.Validation,
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                return;
+            }
+            EditTime = parsedTime;
 
             var appointment = new Appointment
             {
                 Id = _editId,
                 PatientId = EditPatientId,
-                DoctorName = EditDoctor,
+                DoctorName = EditDoctor.Trim(),
                 Date = EditDate,
                 Time = EditTime,
                 DurationMinutes = EditDuration,
@@ -163,7 +204,7 @@ public class AppointmentsViewModel : ViewModelBase, ILoadable
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Error saving appointment: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            Helpers.NotificationHelper.SaveError("Saving appointment", ex);
         }
     }
 
@@ -173,16 +214,19 @@ public class AppointmentsViewModel : ViewModelBase, ILoadable
     {
         if (SelectedAppointment == null) return;
 
-        var result = MessageBox.Show(
-            Localization.Strings.ConfirmDelete,
-            Localization.Strings.Confirm,
-            MessageBoxButton.YesNo, MessageBoxImage.Warning);
+        if (!Helpers.NotificationHelper.Confirm(Localization.Strings.ConfirmDelete, Localization.Strings.Confirm))
+            return;
 
-        if (result != MessageBoxResult.Yes) return;
-
-        await _appointmentService.DeleteAsync(SelectedAppointment.Id);
-        SelectedAppointment = null;
-        await LoadAsync();
+        try
+        {
+            await _appointmentService.DeleteAsync(SelectedAppointment.Id);
+            SelectedAppointment = null;
+            await LoadAsync();
+        }
+        catch (Exception ex)
+        {
+            Helpers.NotificationHelper.DeleteError("appointment", ex);
+        }
     }
 
     private async Task FilterAsync() => await LoadAsync();

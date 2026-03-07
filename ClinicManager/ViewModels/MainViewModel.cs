@@ -87,6 +87,7 @@ public class MainViewModel : ViewModelBase
     public async void Initialize()
     {
         await DashboardVM.LoadAsync();
+        await SettingsVM.LoadAsync(); // Load language/theme for top bar
     }
 }
 

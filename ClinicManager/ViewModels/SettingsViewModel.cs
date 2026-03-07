@@ -153,6 +153,13 @@ public class SettingsViewModel : ViewModelBase, ILoadable
         }
     }
 
+    /// <summary>Save settings without showing a message (e.g. when changing theme/language from top bar).</summary>
+    public async Task SaveSettingsSilentAsync()
+    {
+        try { await _settingsService.SaveAsync(Settings); }
+        catch { /* Ignore */ }
+    }
+
     private async Task BackupNowAsync()
     {
         try

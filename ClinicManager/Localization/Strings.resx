@@ -207,4 +207,14 @@
   <data name="Total" xml:space="preserve"><value>Total</value></data>
   <data name="Apply" xml:space="preserve"><value>Apply</value></data>
   <data name="Reset" xml:space="preserve"><value>Reset</value></data>
+
+  <!-- Validation & Alerts -->
+  <data name="Validation" xml:space="preserve"><value>Validation</value></data>
+  <data name="NotFound" xml:space="preserve"><value>Not Found</value></data>
+  <data name="SelectPatientRequired" xml:space="preserve"><value>Please select a patient first.</value></data>
+  <data name="PatientNameRequired" xml:space="preserve"><value>Patient name is required.</value></data>
+  <data name="DoctorRequired" xml:space="preserve"><value>Doctor name is required.</value></data>
+  <data name="InvalidTimeFormat" xml:space="preserve"><value>Please enter time in HH:mm format (e.g. 09:30).</value></data>
+  <data name="NoAppointmentsInRange" xml:space="preserve"><value>No appointments found for the selected date range.</value></data>
+  <data name="NoPatients" xml:space="preserve"><value>No patients found. Add patients first.</value></data>
 </root>

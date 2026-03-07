@@ -21,6 +21,22 @@ public partial class MainWindow : Window
             Key.B, ModifierKeys.Control));
     }
 
+    private async void LangCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (DataContext is not MainViewModel vm || LangCombo.SelectedIndex < 0) return;
+        var lang = LangCombo.SelectedIndex == 1 ? "fr" : "en";
+        vm.SettingsVM.ApplyLanguage(lang);
+        await vm.SettingsVM.SaveSettingsSilentAsync();
+    }
+
+    private async void ThemeCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (DataContext is not MainViewModel vm || ThemeCombo.SelectedIndex < 0) return;
+        var theme = ThemeCombo.SelectedIndex == 1 ? "Dark" : "Light";
+        vm.SettingsVM.ApplyThemeFromUI(theme);
+        await vm.SettingsVM.SaveSettingsSilentAsync();
+    }
+
     protected override void OnClosing(CancelEventArgs e)
     {
         var settings = ((MainViewModel)DataContext).SettingsVM;

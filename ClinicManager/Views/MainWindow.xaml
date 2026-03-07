@@ -174,19 +174,43 @@
             </DockPanel>
         </Border>
 
-        <!-- Main Content -->
-        <ContentControl Grid.Column="1" Content="{Binding CurrentViewModel}">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type vm:DashboardViewModel}"><pages:DashboardPage /></DataTemplate>
-                <DataTemplate DataType="{x:Type vm:PatientsViewModel}"><pages:PatientsPage /></DataTemplate>
-                <DataTemplate DataType="{x:Type vm:AppointmentsViewModel}"><pages:AppointmentsPage /></DataTemplate>
-                <DataTemplate DataType="{x:Type vm:StaffViewModel}"><pages:StaffPage /></DataTemplate>
-                <DataTemplate DataType="{x:Type vm:BillingViewModel}"><pages:BillingPage /></DataTemplate>
-                <DataTemplate DataType="{x:Type vm:InventoryViewModel}"><pages:InventoryPage /></DataTemplate>
-                <DataTemplate DataType="{x:Type vm:MedicalRecordsViewModel}"><pages:MedicalRecordsPage /></DataTemplate>
-                <DataTemplate DataType="{x:Type vm:ReportsViewModel}"><pages:ReportsPage /></DataTemplate>
-                <DataTemplate DataType="{x:Type vm:SettingsViewModel}"><pages:SettingsPage /></DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
+        <!-- Main Content Area -->
+        <DockPanel Grid.Column="1" Background="{DynamicResource BackgroundBrush}">
+            <!-- Top Bar: Language + Theme -->
+            <Border DockPanel.Dock="Top" Height="44" Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,0,1"
+                    Padding="16,0,20,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock Text="{local:Localize Language}" VerticalAlignment="Center" Margin="0,0,6,0"
+                               Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" />
+                    <ComboBox x:Name="LangCombo" Width="120" SelectedIndex="{Binding SettingsVM.SelectedLanguageIndex}"
+                              SelectionChanged="LangCombo_SelectionChanged" Padding="8,4" FontSize="12">
+                        <ComboBoxItem Content="English" />
+                        <ComboBoxItem Content="Français" />
+                    </ComboBox>
+                    <TextBlock Text="{local:Localize Theme}" VerticalAlignment="Center" Margin="16,0,6,0"
+                               Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" />
+                    <ComboBox x:Name="ThemeCombo" Width="100" SelectedIndex="{Binding SettingsVM.SelectedThemeIndex}"
+                              SelectionChanged="ThemeCombo_SelectionChanged" Padding="8,4" FontSize="12">
+                        <ComboBoxItem Content="{local:Localize LightMode}" />
+                        <ComboBoxItem Content="{local:Localize DarkMode}" />
+                    </ComboBox>
+                </StackPanel>
+            </Border>
+
+            <ContentControl Content="{Binding CurrentViewModel}">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type vm:DashboardViewModel}"><pages:DashboardPage /></DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:PatientsViewModel}"><pages:PatientsPage /></DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:AppointmentsViewModel}"><pages:AppointmentsPage /></DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:StaffViewModel}"><pages:StaffPage /></DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:BillingViewModel}"><pages:BillingPage /></DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:InventoryViewModel}"><pages:InventoryPage /></DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:MedicalRecordsViewModel}"><pages:MedicalRecordsPage /></DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:ReportsViewModel}"><pages:ReportsPage /></DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:SettingsViewModel}"><pages:SettingsPage /></DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>
+        </DockPanel>
     </Grid>
 </Window>

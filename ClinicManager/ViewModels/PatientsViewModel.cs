@@ -360,7 +360,7 @@ public class PatientsViewModel : ViewModelBase, ILoadable
         {
             if (string.IsNullOrWhiteSpace(EditingPatient.FullName))
             {
-                MessageBox.Show("Patient name is required.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Helpers.NotificationHelper.PatientNameRequired();
                 return;
             }
 

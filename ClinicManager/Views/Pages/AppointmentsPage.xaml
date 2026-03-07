@@ -9,40 +9,45 @@
     </UserControl.Resources>
 
     <Grid>
-        <!-- Main List -->
-        <DockPanel Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
-            <DockPanel DockPanel.Dock="Top" Margin="16,12,16,8">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets" FontSize="22"
-                               Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,10,0" />
-                    <TextBlock Text="{local:Localize Appointments}" Style="{DynamicResource PageTitleStyle}" VerticalAlignment="Center" />
-                </StackPanel>
-                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="{local:Localize TodayAppointments}" Command="{Binding ShowTodayCommand}"
-                            Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,8,0" Padding="16,8" />
-                    <Button Content="{local:Localize AddAppointment}" Command="{Binding AddCommand}"
-                            Style="{DynamicResource PrimaryButtonStyle}" Padding="16,8" />
-                </StackPanel>
-            </DockPanel>
+        <!-- Main List + Calendar -->
+        <Grid Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="280" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-            <!-- Date Filter -->
-            <Border DockPanel.Dock="Top" Margin="16,0,16,8" Style="{DynamicResource CardStyle}" Padding="12,8">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets" FontSize="14"
-                               Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0" />
-                    <TextBlock Text="{local:Localize From}" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="12.5"
-                               Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold" />
-                    <DatePicker SelectedDate="{Binding FilterFrom}" Width="140" />
-                    <TextBlock Text="{local:Localize To}" VerticalAlignment="Center" Margin="16,0,8,0" FontSize="12.5"
-                               Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold" />
-                    <DatePicker SelectedDate="{Binding FilterTo}" Width="140" />
-                    <Button Content="{local:Localize Apply}" Command="{Binding FilterCommand}"
-                            Style="{DynamicResource PrimaryButtonStyle}" Margin="16,0,0,0" Padding="18,7" />
+            <!-- Modern Calendar -->
+            <Border Grid.Column="0" Margin="16,12,8,12" Style="{DynamicResource CardStyle}" Padding="12">
+                <StackPanel>
+                    <TextBlock Text="{local:Localize Appointments}" Style="{DynamicResource SectionTitleStyle}" Margin="0,0,0,12" />
+                    <Calendar SelectedDate="{Binding CalendarDate, Mode=TwoWay}"
+                              DisplayDate="{Binding FilterFrom}"
+                              BorderThickness="0" Background="Transparent"
+                              FontSize="13" FontFamily="Segoe UI" />
+                    <Button Content="{local:Localize TodayAppointments}" Command="{Binding ShowTodayCommand}"
+                            Style="{DynamicResource SecondaryButtonStyle}" Margin="0,12,0,0" Padding="12,8" />
                 </StackPanel>
             </Border>
 
+            <!-- Right: Toolbar + Grid -->
+            <DockPanel Grid.Column="1">
+                <DockPanel DockPanel.Dock="Top" Margin="8,12,16,8">
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                        <TextBlock Text="{local:Localize From}" VerticalAlignment="Center" Margin="0,0,6,0" FontSize="12"
+                                   Foreground="{DynamicResource TextSecondaryBrush}" />
+                        <DatePicker SelectedDate="{Binding FilterFrom}" Width="120" />
+                        <TextBlock Text="{local:Localize To}" VerticalAlignment="Center" Margin="12,0,6,0" FontSize="12"
+                                   Foreground="{DynamicResource TextSecondaryBrush}" />
+                        <DatePicker SelectedDate="{Binding FilterTo}" Width="120" />
+                        <Button Content="{local:Localize Apply}" Command="{Binding FilterCommand}"
+                                Style="{DynamicResource PrimaryButtonStyle}" Margin="12,0,8,0" Padding="14,6" />
+                        <Button Content="{local:Localize AddAppointment}" Command="{Binding AddCommand}"
+                                Style="{DynamicResource PrimaryButtonStyle}" Padding="14,6" />
+                    </StackPanel>
+                </DockPanel>
+
             <!-- Grid -->
-            <Border Margin="16,0,16,12" Style="{DynamicResource CardStyle}" Padding="0">
+            <Border Margin="8,0,16,12" Style="{DynamicResource CardStyle}" Padding="0">
                 <DataGrid ItemsSource="{Binding Appointments}" 
                           SelectedItem="{Binding SelectedAppointment}"
                           Style="{DynamicResource ModernDataGridStyle}"
@@ -70,7 +75,8 @@
                     </DataGrid.ContextMenu>
                 </DataGrid>
             </Border>
-        </DockPanel>
+            </DockPanel>
+        </Grid>
 
         <!-- Edit Form -->
         <ScrollViewer Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}"
@@ -94,6 +100,8 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="16" />
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0">
@@ -102,6 +110,13 @@
                         </StackPanel>
 
                         <StackPanel Grid.Column="2">
+                            <TextBlock Text="{local:Localize Time}" Style="{DynamicResource FormLabelStyle}" />
+                            <TextBox Text="{Binding EditTimeString, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{DynamicResource ModernTextBoxStyle}" MaxLength="5"
+                                     ToolTip="HH:mm (e.g. 09:30)" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="4">
                             <TextBlock Text="{local:Localize Duration}" Style="{DynamicResource FormLabelStyle}" />
                             <ComboBox SelectedItem="{Binding EditDuration}" FontSize="13" Padding="10">
                                 <sys:Int32 xmlns:sys="clr-namespace:System;assembly=mscorlib">15</sys:Int32>

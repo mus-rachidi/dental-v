@@ -2,78 +2,117 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- ═══════════════════════════════════════════════════════════════════ -->
-    <!-- CLASSIC WINDOWS DARK - Traditional Desktop UI (Dark variant)       -->
+    <!-- MODERN DARK THEME - Professional UI                                 -->
     <!-- ═══════════════════════════════════════════════════════════════════ -->
-    <SolidColorBrush x:Key="PrimaryBrush" Color="#4A7AC4" />
-    <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#5A8AD4" />
-    <SolidColorBrush x:Key="PrimaryLightBrush" Color="#404040" />
-    <SolidColorBrush x:Key="PrimaryDarkBrush" Color="#4A7AC4" />
-    <SolidColorBrush x:Key="AccentBrush" Color="#4A7AC4" />
-    <SolidColorBrush x:Key="SuccessBrush" Color="#4CAF50" />
-    <SolidColorBrush x:Key="SuccessLightBrush" Color="#2E7D32" />
-    <SolidColorBrush x:Key="WarningBrush" Color="#FF9800" />
-    <SolidColorBrush x:Key="WarningLightBrush" Color="#E65100" />
-    <SolidColorBrush x:Key="DangerBrush" Color="#F44336" />
-    <SolidColorBrush x:Key="DangerLightBrush" Color="#B71C1C" />
-    <SolidColorBrush x:Key="InfoBrush" Color="#2196F3" />
-    <SolidColorBrush x:Key="InfoLightBrush" Color="#0D47A1" />
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#818CF8" />
+    <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#6366F1" />
+    <SolidColorBrush x:Key="PrimaryLightBrush" Color="#312E81" />
+    <SolidColorBrush x:Key="PrimaryDarkBrush" Color="#6366F1" />
+    <SolidColorBrush x:Key="AccentBrush" Color="#818CF8" />
+    <SolidColorBrush x:Key="SuccessBrush" Color="#34D399" />
+    <SolidColorBrush x:Key="SuccessLightBrush" Color="#064E3B" />
+    <SolidColorBrush x:Key="WarningBrush" Color="#FBBF24" />
+    <SolidColorBrush x:Key="WarningLightBrush" Color="#78350F" />
+    <SolidColorBrush x:Key="DangerBrush" Color="#F87171" />
+    <SolidColorBrush x:Key="DangerLightBrush" Color="#7F1D1D" />
+    <SolidColorBrush x:Key="InfoBrush" Color="#60A5FA" />
+    <SolidColorBrush x:Key="InfoLightBrush" Color="#1E3A8A" />
 
-    <SolidColorBrush x:Key="BackgroundBrush" Color="#2B2B2B" />
-    <SolidColorBrush x:Key="SurfaceBrush" Color="#3C3C3C" />
-    <SolidColorBrush x:Key="SidebarBrush" Color="#3C3C3C" />
-    <SolidColorBrush x:Key="SidebarTextBrush" Color="#E0E0E0" />
-    <SolidColorBrush x:Key="SidebarHoverBrush" Color="#505050" />
-    <SolidColorBrush x:Key="SidebarActiveBgBrush" Color="#0054E3" />
-    <SolidColorBrush x:Key="SidebarActiveIndicatorBrush" Color="#0054E3" />
+    <SolidColorBrush x:Key="BackgroundBrush" Color="#0F172A" />
+    <SolidColorBrush x:Key="SurfaceBrush" Color="#1E293B" />
+    <SolidColorBrush x:Key="SidebarBrush" Color="#0F172A" />
+    <SolidColorBrush x:Key="SidebarTextBrush" Color="#E2E8F0" />
+    <SolidColorBrush x:Key="SidebarHoverBrush" Color="#334155" />
+    <SolidColorBrush x:Key="SidebarActiveBgBrush" Color="#6366F1" />
+    <SolidColorBrush x:Key="SidebarActiveIndicatorBrush" Color="#6366F1" />
 
-    <SolidColorBrush x:Key="TextPrimaryBrush" Color="#E0E0E0" />
-    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#A0A0A0" />
-    <SolidColorBrush x:Key="TextMutedBrush" Color="#808080" />
-    <SolidColorBrush x:Key="BorderBrush" Color="#505050" />
-    <SolidColorBrush x:Key="InputBgBrush" Color="#2B2B2B" />
-    <SolidColorBrush x:Key="RowHoverBrush" Color="#404040" />
-    <SolidColorBrush x:Key="RowAlternateBrush" Color="#353535" />
-    <SolidColorBrush x:Key="RowSelectedBrush" Color="#0054E3" />
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="#F8FAFC" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#94A3B8" />
+    <SolidColorBrush x:Key="TextMutedBrush" Color="#64748B" />
+    <SolidColorBrush x:Key="BorderBrush" Color="#334155" />
+    <SolidColorBrush x:Key="InputBgBrush" Color="#1E293B" />
+    <SolidColorBrush x:Key="RowHoverBrush" Color="#334155" />
+    <SolidColorBrush x:Key="RowAlternateBrush" Color="#1E293B" />
+    <SolidColorBrush x:Key="RowSelectedBrush" Color="#6366F1" />
 
-    <FontFamily x:Key="PrimaryFont">Tahoma, MS Sans Serif</FontFamily>
-    <FontFamily x:Key="MonoFont">Consolas, Courier New</FontFamily>
+    <FontFamily x:Key="PrimaryFont">Segoe UI, sans-serif</FontFamily>
+    <FontFamily x:Key="MonoFont">Cascadia Code, Consolas</FontFamily>
 
-    <!-- CARD = Simple bordered panel -->
+    <!-- CARD -->
     <Style x:Key="CardStyle" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
-        <Setter Property="Padding" Value="12" />
+        <Setter Property="Padding" Value="16" />
         <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
     </Style>
 
     <Style x:Key="StatCardStyle" TargetType="Border" BasedOn="{StaticResource CardStyle}">
-        <Setter Property="Padding" Value="10" />
-        <Setter Property="MinWidth" Value="140" />
+        <Setter Property="Padding" Value="16" />
+        <Setter Property="MinWidth" Value="160" />
     </Style>
 
-    <!-- Classic Button -->
+    <!-- Primary Button -->
     <Style x:Key="PrimaryButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="{StaticResource SidebarBrush}" />
+        <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="Foreground" Value="#0F172A" />
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Padding" Value="16,10" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="6"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bd" Property="Background" Value="{StaticResource PrimaryHoverBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource SidebarHoverBrush}" />
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
-        <Setter Property="FontSize" Value="11" />
-        <Setter Property="Padding" Value="12,4" />
-        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Padding" Value="16,10" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="6"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bd" Property="Background" Value="#475569" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
-
-    <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}" />
 
     <Style x:Key="DangerButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
-        <Setter Property="Foreground" Value="{StaticResource DangerBrush}" />
+        <Setter Property="Background" Value="{StaticResource DangerBrush}" />
     </Style>
 
-    <!-- Classic TextBox -->
+    <!-- TextBox -->
     <Style x:Key="ModernTextBoxStyle" TargetType="TextBox">
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
-        <Setter Property="FontSize" Value="11" />
-        <Setter Property="Padding" Value="4,2" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Padding" Value="10,8" />
         <Setter Property="Background" Value="{StaticResource InputBgBrush}" />
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
@@ -105,9 +144,9 @@
         <Setter Property="GridLinesVisibility" Value="Horizontal" />
         <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource BorderBrush}" />
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
-        <Setter Property="FontSize" Value="11" />
-        <Setter Property="RowHeight" Value="28" />
-        <Setter Property="ColumnHeaderHeight" Value="26" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="RowHeight" Value="40" />
+        <Setter Property="ColumnHeaderHeight" Value="40" />
         <Setter Property="HeadersVisibility" Value="Column" />
         <Setter Property="SelectionMode" Value="Single" />
         <Setter Property="AutoGenerateColumns" Value="False" />
@@ -118,27 +157,27 @@
     </Style>
 
     <Style x:Key="ModernDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
-        <Setter Property="Background" Value="{StaticResource SidebarBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="Background" Value="#334155" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
         <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="FontSize" Value="10" />
-        <Setter Property="Padding" Value="6,0" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Padding" Value="12,0" />
         <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
         <Setter Property="BorderThickness" Value="0,0,1,1" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
     </Style>
 
-    <!-- Classic Nav Button -->
+    <!-- Nav Button -->
     <Style x:Key="NavButtonStyle" TargetType="RadioButton">
         <Setter Property="Foreground" Value="{StaticResource SidebarTextBrush}" />
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
-        <Setter Property="FontSize" Value="11" />
-        <Setter Property="Padding" Value="8,4" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Padding" Value="12,10" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
-                    <Border x:Name="border" Background="Transparent" Padding="{TemplateBinding Padding}" Margin="2,0">
+                    <Border x:Name="border" Background="Transparent" CornerRadius="6" Padding="{TemplateBinding Padding}" Margin="4,2">
                         <ContentPresenter VerticalAlignment="Center" />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -156,42 +195,47 @@
     </Style>
 
     <Style x:Key="SidebarToggleStyle" TargetType="Button">
-        <Setter Property="Background" Value="{StaticResource SidebarBrush}" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource SidebarTextBrush}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
-        <Setter Property="Padding" Value="4" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="6" />
         <Setter Property="Cursor" Value="Hand" />
     </Style>
 
     <!-- Typography -->
     <Style x:Key="FormLabelStyle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
-        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontSize" Value="12" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
-        <Setter Property="Margin" Value="0,0,0,2" />
+        <Setter Property="Margin" Value="0,0,0,4" />
     </Style>
 
     <Style x:Key="PageTitleStyle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
-        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontSize" Value="22" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
     </Style>
 
     <Style x:Key="SectionTitleStyle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="14" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
     </Style>
 
     <Style x:Key="BadgeStyle" TargetType="Border">
-        <Setter Property="Padding" Value="6,2" />
-        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="8,4" />
+        <Setter Property="CornerRadius" Value="4" />
         <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <Style TargetType="Calendar">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="13" />
     </Style>
 
 </ResourceDictionary>

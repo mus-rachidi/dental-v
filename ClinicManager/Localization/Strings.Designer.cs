@@ -65,5 +65,13 @@ namespace ClinicManager.Localization {
         public static string ExportComplete => ResourceManager.GetString("ExportComplete", resourceCulture) ?? "Export completed successfully";
         public static string InvalidLicense => ResourceManager.GetString("InvalidLicense", resourceCulture) ?? "Invalid license key";
         public static string LicenseActivated => ResourceManager.GetString("LicenseActivated", resourceCulture) ?? "License activated successfully!";
+        public static string Validation => ResourceManager.GetString("Validation", resourceCulture) ?? "Validation";
+        public static string NotFound => ResourceManager.GetString("NotFound", resourceCulture) ?? "Not Found";
+        public static string SelectPatientRequired => ResourceManager.GetString("SelectPatientRequired", resourceCulture) ?? "Please select a patient first.";
+        public static string PatientNameRequired => ResourceManager.GetString("PatientNameRequired", resourceCulture) ?? "Patient name is required.";
+        public static string DoctorRequired => ResourceManager.GetString("DoctorRequired", resourceCulture) ?? "Doctor name is required.";
+        public static string InvalidTimeFormat => ResourceManager.GetString("InvalidTimeFormat", resourceCulture) ?? "Please enter time in HH:mm format (e.g. 09:30).";
+        public static string NoAppointmentsInRange => ResourceManager.GetString("NoAppointmentsInRange", resourceCulture) ?? "No appointments found for the selected date range.";
+        public static string NoPatients => ResourceManager.GetString("NoPatients", resourceCulture) ?? "No patients found. Add patients first.";
     }
 }

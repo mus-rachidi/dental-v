@@ -133,7 +133,7 @@ public class BillingViewModel : ViewModelBase, ILoadable
         {
             if (EditPatientId == 0)
             {
-                MessageBox.Show("Please select a patient.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Helpers.NotificationHelper.SelectPatientRequired();
                 return;
             }
 
