@@ -5,7 +5,7 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
-    <!-- <ApplicationIcon>Resources\Icons\app.ico</ApplicationIcon> -->
+    <ApplicationIcon>Resources\Icons\app.ico</ApplicationIcon>
     <AssemblyName>ClinicManager</AssemblyName>
     <RootNamespace>ClinicManager</RootNamespace>
     <Version>1.0.0</Version>
@@ -32,11 +32,10 @@
     <PackageReference Include="System.Management" Version="8.0.0" />
   </ItemGroup>
 
-  <!-- Uncomment when you have a real .ico file:
+
   <ItemGroup>
     <Resource Include="Resources\Icons\app.ico" />
   </ItemGroup>
-  -->
 
   <ItemGroup>
     <EmbeddedResource Update="Localization\Strings.resx">
