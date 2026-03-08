@@ -22,11 +22,7 @@ public class LicenseManager
 
     private static readonly string LicensePath = Path.Combine(LicenseDir, ".license");
 
-    // AES key for encrypting the license file on disk (32 bytes for AES-256)
-    private static readonly byte[] AesKey = Encoding.UTF8.GetBytes("Cl!n1cM@nager$LicKey2026!Sec#re!");
-    private static readonly byte[] AesIv = Encoding.UTF8.GetBytes("CM$IV2026!Secure");
-
-    // Shared secret used by both the app and the LicenseGenerator tool
+    // Shared secret used by both the app and the LicenseGenerator tool (required for key validation)
     private const string LicenseSecret = "ClinicManager-License-Secret-2026-XK9#mP2$vL";
 
     public bool IsLicensed()
@@ -85,7 +81,8 @@ public class LicenseManager
     {
         Directory.CreateDirectory(LicenseDir);
         var json = JsonSerializer.Serialize(license);
-        var encrypted = EncryptString(json);
+        var plainBytes = Encoding.UTF8.GetBytes(json);
+        var encrypted = ProtectedData.Protect(plainBytes, null, DataProtectionScope.CurrentUser);
         File.WriteAllBytes(LicensePath, encrypted);
         File.SetAttributes(LicensePath, FileAttributes.Hidden);
     }
@@ -97,8 +94,20 @@ public class LicenseManager
         try
         {
             var encrypted = File.ReadAllBytes(LicensePath);
-            var json = DecryptString(encrypted);
-            return JsonSerializer.Deserialize<LicenseData>(json);
+            byte[] plainBytes;
+            try
+            {
+                plainBytes = ProtectedData.Unprotect(encrypted, null, DataProtectionScope.CurrentUser);
+            }
+            catch
+            {
+                plainBytes = DecryptLegacyAes(encrypted);
+            }
+            var json = Encoding.UTF8.GetString(plainBytes);
+            var license = JsonSerializer.Deserialize<LicenseData>(json);
+            if (license != null)
+                SaveLicense(license);
+            return license;
         }
         catch
         {
@@ -106,30 +115,17 @@ public class LicenseManager
         }
     }
 
-    private byte[] EncryptString(string plainText)
+    private static readonly byte[] LegacyAesKey = Encoding.UTF8.GetBytes("Cl!n1cM@nager$LicKey2026!Sec#re!");
+    private static readonly byte[] LegacyAesIv = Encoding.UTF8.GetBytes("CM$IV2026!Secure");
+
+    private static byte[] DecryptLegacyAes(byte[] cipherBytes)
     {
         using var aes = Aes.Create();
-        aes.Key = AesKey;
-        aes.IV = AesIv;
-
-        using var ms = new MemoryStream();
-        using (var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write))
-        using (var sw = new StreamWriter(cs))
-        {
-            sw.Write(plainText);
-        }
-        return ms.ToArray();
-    }
-
-    private string DecryptString(byte[] cipherBytes)
-    {
-        using var aes = Aes.Create();
-        aes.Key = AesKey;
-        aes.IV = AesIv;
-
+        aes.Key = LegacyAesKey;
+        aes.IV = LegacyAesIv;
         using var ms = new MemoryStream(cipherBytes);
         using var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Read);
         using var sr = new StreamReader(cs);
-        return sr.ReadToEnd();
+        return Encoding.UTF8.GetBytes(sr.ReadToEnd());
     }
 }

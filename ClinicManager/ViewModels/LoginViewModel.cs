@@ -40,7 +40,7 @@ public class LoginViewModel : ViewModelBase
 
     public ICommand LoginCommand { get; }
 
-    public Action<User>? OnLoginSuccess { get; set; }
+    public Action<User, bool>? OnLoginSuccess { get; set; }
 
     public LoginViewModel(AuthService authService)
     {
@@ -63,7 +63,7 @@ public class LoginViewModel : ViewModelBase
             var result = await _authService.LoginAsync(Username, Password);
             if (result.Success && result.User != null)
             {
-                OnLoginSuccess?.Invoke(result.User);
+                OnLoginSuccess?.Invoke(result.User, result.MustChangePassword);
             }
             else
             {

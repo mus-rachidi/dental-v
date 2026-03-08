@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ClinicManager.Database;
@@ -37,6 +38,12 @@ public class PaymentService
             .Where(p => p.Date.Date >= from.Date && p.Date.Date <= to.Date)
             .OrderByDescending(p => p.Date)
             .ToListAsync();
+    }
+
+    public async Task<Payment?> GetByIdAsync(int id)
+    {
+        using var db = new ClinicDbContext();
+        return await db.Payments.FindAsync(id);
     }
 
     public async Task<Payment> CreateAsync(Payment payment)
@@ -145,10 +152,32 @@ public class PaymentService
             .ToListAsync();
     }
 
+    private static readonly SemaphoreSlim _invoiceLock = new(1, 1);
+
     private async Task<string> GenerateInvoiceNumberAsync()
     {
-        using var db = new ClinicDbContext();
-        var count = await db.Payments.CountAsync();
-        return $"INV-{DateTime.Now:yyyyMM}-{count + 1:D4}";
+        await _invoiceLock.WaitAsync();
+        try
+        {
+            var prefix = $"INV-{DateTime.Now:yyyyMM}-";
+            using var db = new ClinicDbContext();
+            var numbers = await db.Payments
+                .Where(p => p.InvoiceNumber.StartsWith(prefix))
+                .Select(p => p.InvoiceNumber)
+                .ToListAsync();
+            var maxNum = numbers
+                .Select(s =>
+                {
+                    var parts = s.Split('-');
+                    return parts.Length >= 3 && int.TryParse(parts[2], out var n) ? n : 0;
+                })
+                .DefaultIfEmpty(0)
+                .Max();
+            return $"{prefix}{maxNum + 1:D4}";
+        }
+        finally
+        {
+            _invoiceLock.Release();
+        }
     }
 }

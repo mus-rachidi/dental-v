@@ -43,8 +43,13 @@ public class XRayService
         }
     }
 
+    private static readonly string[] AllowedImageExtensions = { ".jpg", ".jpeg", ".png", ".bmp" };
+    private const int MaxFileSizeBytes = 10 * 1024 * 1024;
+
     public static string SaveXRayImage(int patientId, string sourcePath)
     {
+        ValidateImagePath(sourcePath);
+
         var dir = Path.Combine(ClinicDbContext.GetDatabaseDirectory(), "XRays");
         Directory.CreateDirectory(dir);
 
@@ -54,5 +59,23 @@ public class XRayService
 
         File.Copy(sourcePath, destPath, overwrite: true);
         return destPath;
+    }
+
+    private static void ValidateImagePath(string sourcePath)
+    {
+        if (string.IsNullOrWhiteSpace(sourcePath))
+            throw new ArgumentException("File path is required.");
+
+        var fullPath = Path.GetFullPath(sourcePath);
+        if (!File.Exists(fullPath))
+            throw new FileNotFoundException("File not found.", fullPath);
+
+        var ext = Path.GetExtension(fullPath);
+        if (string.IsNullOrEmpty(ext) || !AllowedImageExtensions.Contains(ext.ToLowerInvariant()))
+            throw new ArgumentException($"Invalid file type. Allowed: {string.Join(", ", AllowedImageExtensions)}");
+
+        var info = new FileInfo(fullPath);
+        if (info.Length > MaxFileSizeBytes)
+            throw new InvalidOperationException($"File too large. Maximum size: {MaxFileSizeBytes / (1024 * 1024)} MB.");
     }
 }

@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using ClinicManager.Helpers;
 using ClinicManager.Models;
 using ClinicManager.Services;
@@ -63,7 +64,7 @@ public class PatientsViewModel : ViewModelBase, ILoadable
     private readonly ExportService _exportService;
     private readonly SettingsService _settingsService;
     private readonly ToothService _toothService;
-    private readonly XRayService _xRayService = new();
+    private readonly XRayService _xRayService;
 
     private string _searchQuery = string.Empty;
     private Patient? _selectedPatient;
@@ -75,11 +76,26 @@ public class PatientsViewModel : ViewModelBase, ILoadable
     private int _healthyCount;
     private int _issueCount;
     private string _selectedPatientTab = "Info";
+    private DispatcherTimer? _searchDebounce;
 
     public string SearchQuery
     {
         get => _searchQuery;
-        set { SetProperty(ref _searchQuery, value); _ = SearchAsync(); }
+        set
+        {
+            if (!SetProperty(ref _searchQuery, value)) return;
+            _searchDebounce?.Stop();
+            _searchDebounce = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(300)
+            };
+            _searchDebounce.Tick += (s, e) =>
+            {
+                _searchDebounce?.Stop();
+                _ = SearchAsync();
+            };
+            _searchDebounce.Start();
+        }
     }
 
     public Patient? SelectedPatient
@@ -147,12 +163,14 @@ public class PatientsViewModel : ViewModelBase, ILoadable
     public ICommand AddXRayCommand { get; }
     public ICommand DeleteXRayCommand { get; }
 
-    public PatientsViewModel(PatientService patientService, ExportService exportService, SettingsService settingsService)
+    public PatientsViewModel(PatientService patientService, ExportService exportService, SettingsService settingsService,
+        ToothService toothService, XRayService xRayService)
     {
         _patientService = patientService;
         _exportService = exportService;
         _settingsService = settingsService;
-        _toothService = new ToothService();
+        _toothService = toothService;
+        _xRayService = xRayService;
 
         AddCommand = new RelayCommand(StartAdd);
         EditCommand = new RelayCommand(StartEdit, () => HasSelection);
@@ -229,7 +247,11 @@ public class PatientsViewModel : ViewModelBase, ILoadable
             var xrays = await _xRayService.GetByPatientAsync(SelectedPatient.Id);
             foreach (var x in xrays) XRays.Add(x);
         }
-        catch { }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[LoadPatientDentalChart] {ex}");
+            MessageBox.Show($"Could not load dental chart: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
     }
 
     private static ToothViewModel ToVm(ToothRecord t) => new()

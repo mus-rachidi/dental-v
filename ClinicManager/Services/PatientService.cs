@@ -34,9 +34,9 @@ public class PatientService
         using var db = new ClinicDbContext();
         var lower = query.ToLower();
         return await db.Patients
-            .Where(p => p.FullName.ToLower().Contains(lower)
-                     || p.Phone.Contains(query)
-                     || p.Email.ToLower().Contains(lower))
+            .Where(p => (p.FullName != null && p.FullName.ToLower().Contains(lower))
+                     || (p.Phone != null && p.Phone.Contains(query))
+                     || (p.Email != null && p.Email.ToLower().Contains(lower)))
             .OrderBy(p => p.FullName)
             .ToListAsync();
     }

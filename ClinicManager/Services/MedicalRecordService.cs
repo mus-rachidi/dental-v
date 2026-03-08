@@ -74,10 +74,10 @@ public class MedicalRecordService
         var lower = query.ToLower();
         return await db.MedicalRecords
             .Include(r => r.Patient)
-            .Where(r => r.Diagnosis.ToLower().Contains(lower)
-                     || r.Prescription.ToLower().Contains(lower)
-                     || r.Notes.ToLower().Contains(lower)
-                     || (r.Patient != null && r.Patient.FullName.ToLower().Contains(lower)))
+            .Where(r => (r.Diagnosis != null && r.Diagnosis.ToLower().Contains(lower))
+                     || (r.Prescription != null && r.Prescription.ToLower().Contains(lower))
+                     || (r.Notes != null && r.Notes.ToLower().Contains(lower))
+                     || (r.Patient != null && r.Patient.FullName != null && r.Patient.FullName.ToLower().Contains(lower)))
             .OrderByDescending(r => r.Date)
             .ToListAsync();
     }

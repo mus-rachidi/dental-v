@@ -137,28 +137,38 @@ public class BillingViewModel : ViewModelBase, ILoadable
                 return;
             }
 
-            var payment = new Payment
-            {
-                Id = _editId,
-                PatientId = EditPatientId,
-                Amount = EditAmount,
-                Date = EditDate,
-                Method = EditMethod,
-                Status = EditStatus,
-                Description = EditDescription
-            };
-
             if (_editId == 0)
             {
+                var payment = new Payment
+                {
+                    PatientId = EditPatientId,
+                    Amount = EditAmount,
+                    Date = EditDate,
+                    Method = EditMethod,
+                    Status = EditStatus,
+                    Description = EditDescription
+                };
                 await _paymentService.CreateAsync(payment);
                 var uid = App.SessionService?.CurrentUser?.Id;
                 if (uid.HasValue) AuditService.Log(uid.Value, AuditService.Actions.CreatePayment, payment.Description);
             }
             else
             {
-                await _paymentService.UpdateAsync(payment);
+                var existing = await _paymentService.GetByIdAsync(_editId);
+                if (existing == null)
+                {
+                    MessageBox.Show("Payment not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                existing.PatientId = EditPatientId;
+                existing.Amount = EditAmount;
+                existing.Date = EditDate;
+                existing.Method = EditMethod;
+                existing.Status = EditStatus;
+                existing.Description = EditDescription;
+                await _paymentService.UpdateAsync(existing);
                 var uid = App.SessionService?.CurrentUser?.Id;
-                if (uid.HasValue) AuditService.Log(uid.Value, AuditService.Actions.EditPayment, payment.Description);
+                if (uid.HasValue) AuditService.Log(uid.Value, AuditService.Actions.EditPayment, existing.Description);
             }
 
             IsEditing = false;

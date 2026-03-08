@@ -1,22 +1,169 @@
 <UserControl x:Class="ClinicManager.Views.Pages.InventoryPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:helpers="clr-namespace:ClinicManager.Helpers">
+
+    <UserControl.Resources>
+        <helpers:BoolToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+
     <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Border Width="48" Height="48" Margin="0,0,0,12" HorizontalAlignment="Center"
-                    Background="{DynamicResource WarningBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
-                <TextBlock Text="&#xE773;" FontFamily="Segoe MDL2 Assets" FontSize="24"
-                           Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <DockPanel Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
+            <DockPanel DockPanel.Dock="Top" Margin="20,16,20,12">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="40" Height="40" CornerRadius="8" Background="{DynamicResource InfoBrush}" Margin="0,0,12,0">
+                        <TextBlock Text="&#xE773;" FontFamily="Segoe MDL2 Assets" FontSize="20"
+                                   Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Inventory" Style="{DynamicResource PageTitleStyle}" />
+                        <TextBlock Text="Track supplies, equipment, and stock levels" FontSize="12"
+                                   Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,2,0,0" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="&#xE72C; Refresh" Command="{Binding RefreshCommand}"
+                            Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,8,0" Padding="14,8" />
+                    <Button Content="&#xE710; Add Item" Command="{Binding AddCommand}"
+                            Style="{DynamicResource PrimaryButtonStyle}" Padding="14,8" />
+                </StackPanel>
+            </DockPanel>
+
+            <Border DockPanel.Dock="Top" Margin="20,0,20,12" Visibility="{Binding HasLowStock, Converter={StaticResource BoolToVis}}">
+                <Border Style="{DynamicResource CardStyle}" Padding="12,10"
+                        Background="{DynamicResource WarningLightBrush}"
+                        BorderBrush="{DynamicResource WarningBrush}" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                   Foreground="{DynamicResource WarningBrush}" Margin="0,0,10,0" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding LowStockItems.Count, StringFormat='{}{0} item(s) below minimum stock level'}"
+                                   FontSize="12" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Border>
             </Border>
-            <TextBlock Text="Inventory Management" FontSize="20" FontWeight="Bold"
-                       Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,6" />
-            <TextBlock Text="Track medical supplies, equipment, and stock levels" FontSize="12"
-                       Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,20" />
-            <Border Style="{DynamicResource BadgeStyle}" Background="{DynamicResource WarningLightBrush}" 
-                    HorizontalAlignment="Center" Padding="12,4">
-                <TextBlock Text="Coming Soon" FontSize="11" FontWeight="SemiBold"
-                           Foreground="{DynamicResource WarningBrush}" />
+
+            <Border DockPanel.Dock="Top" Margin="20,0,20,12">
+                <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{DynamicResource ModernTextBoxStyle}"
+                         Tag="Search by name, category, supplier..." />
             </Border>
-        </StackPanel>
+
+            <Border DockPanel.Dock="Top" Margin="20,0,20,8"
+                    Visibility="{Binding HasSelection, Converter={StaticResource BoolToVis}}">
+                <Border Style="{DynamicResource CardStyle}" Padding="12,10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Quick Restock:" VerticalAlignment="Center" Margin="0,0,8,0"
+                                   Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" />
+                        <TextBox Text="{Binding RestockQuantity, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="80" Style="{DynamicResource ModernTextBoxStyle}" />
+                        <Button Content="Add Stock" Command="{Binding RestockCommand}"
+                                Style="{DynamicResource PrimaryButtonStyle}" Margin="12,0,0,0" Padding="12,6" />
+                    </StackPanel>
+                </Border>
+            </Border>
+
+            <Border Margin="20,0,20,20" Style="{DynamicResource CardStyle}" Padding="0">
+                <DataGrid ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}"
+                          Style="{DynamicResource ModernDataGridStyle}"
+                          ColumnHeaderStyle="{DynamicResource ModernDataGridColumnHeaderStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" />
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                        <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="100" />
+                        <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}" Width="60" />
+                        <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="50" />
+                        <DataGridTextColumn Header="Min" Binding="{Binding MinStockLevel}" Width="50" />
+                        <DataGridTextColumn Header="Price" Binding="{Binding UnitPrice, StringFormat='{}{0:N2} MAD'}" Width="90" />
+                        <DataGridTextColumn Header="Supplier" Binding="{Binding Supplier}" Width="120" />
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Edit" Command="{Binding EditCommand}" />
+                            <MenuItem Header="Restock" Command="{Binding RestockCommand}" />
+                            <MenuItem Header="Delete" Command="{Binding DeleteCommand}" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+            </Border>
+        </DockPanel>
+
+        <ScrollViewer Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}"
+                      VerticalScrollBarVisibility="Auto" Padding="24,20">
+            <Border Style="{DynamicResource CardStyle}" MaxWidth="520" HorizontalAlignment="Center">
+                <StackPanel>
+                    <TextBlock Text="{Binding EditId, StringFormat='Item #{0}', FallbackValue='New Inventory Item'}"
+                               Style="{DynamicResource PageTitleStyle}" Margin="0,0,0,20" />
+
+                    <TextBlock Text="Item Name *" Style="{DynamicResource FormLabelStyle}" />
+                    <TextBox Text="{Binding EditName, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{DynamicResource ModernTextBoxStyle}" Margin="0,0,0,16" />
+
+                    <TextBlock Text="Category" Style="{DynamicResource FormLabelStyle}" />
+                    <ComboBox ItemsSource="{Binding Categories}" Text="{Binding EditCategory, UpdateSourceTrigger=PropertyChanged}"
+                              IsEditable="True" FontSize="13" Padding="10" Margin="0,0,0,16" />
+
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Quantity" Style="{DynamicResource FormLabelStyle}" />
+                            <TextBox Text="{Binding EditQuantity, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{DynamicResource ModernTextBoxStyle}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Unit" Style="{DynamicResource FormLabelStyle}" />
+                            <ComboBox Text="{Binding EditUnit, UpdateSourceTrigger=PropertyChanged}" IsEditable="True"
+                                      FontSize="13" Padding="10">
+                                <ComboBoxItem Content="pcs" />
+                                <ComboBoxItem Content="box" />
+                                <ComboBoxItem Content="pack" />
+                                <ComboBoxItem Content="ml" />
+                                <ComboBoxItem Content="g" />
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Grid.Column="4">
+                            <TextBlock Text="Min Stock" Style="{DynamicResource FormLabelStyle}" />
+                            <TextBox Text="{Binding EditMinStockLevel, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{DynamicResource ModernTextBoxStyle}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Unit Price (MAD)" Style="{DynamicResource FormLabelStyle}" />
+                            <TextBox Text="{Binding EditUnitPrice, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{DynamicResource ModernTextBoxStyle}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Supplier" Style="{DynamicResource FormLabelStyle}" />
+                            <TextBox Text="{Binding EditSupplier, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{DynamicResource ModernTextBoxStyle}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Text="Notes" Style="{DynamicResource FormLabelStyle}" />
+                    <TextBox Text="{Binding EditNotes, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{DynamicResource ModernTextBoxStyle}" AcceptsReturn="True"
+                             MinHeight="50" TextWrapping="Wrap" Margin="0,0,0,24" />
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Cancel" Command="{Binding CancelEditCommand}"
+                                Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,8,0" />
+                        <Button Content="Save" Command="{Binding SaveCommand}"
+                                Style="{DynamicResource PrimaryButtonStyle}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
     </Grid>
 </UserControl>

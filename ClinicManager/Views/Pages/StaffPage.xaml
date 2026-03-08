@@ -1,22 +1,139 @@
 <UserControl x:Class="ClinicManager.Views.Pages.StaffPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="clr-namespace:ClinicManager.Models"
+             xmlns:helpers="clr-namespace:ClinicManager.Helpers">
+
+    <UserControl.Resources>
+        <helpers:BoolToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+
     <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Border Width="48" Height="48" Margin="0,0,0,12" HorizontalAlignment="Center"
-                    Background="{DynamicResource PrimaryBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
-                <TextBlock Text="&#xE716;" FontFamily="Segoe MDL2 Assets" FontSize="24"
-                           Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <DockPanel Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
+            <DockPanel DockPanel.Dock="Top" Margin="20,16,20,12">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="40" Height="40" CornerRadius="8" Background="{DynamicResource PrimaryBrush}" Margin="0,0,12,0">
+                        <TextBlock Text="&#xE716;" FontFamily="Segoe MDL2 Assets" FontSize="20"
+                                   Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Staff Management" Style="{DynamicResource PageTitleStyle}" />
+                        <TextBlock Text="Manage doctors, nurses, and clinic staff" FontSize="12"
+                                   Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,2,0,0" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="&#xE72C; Refresh" Command="{Binding RefreshCommand}"
+                            Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,8,0" Padding="14,8" />
+                    <Button Content="&#xE710; Add Staff" Command="{Binding AddCommand}"
+                            Style="{DynamicResource PrimaryButtonStyle}" Padding="14,8" />
+                </StackPanel>
+            </DockPanel>
+
+            <Border DockPanel.Dock="Top" Margin="20,0,20,12">
+                <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{DynamicResource ModernTextBoxStyle}"
+                         Tag="Search by name, email, phone..." />
             </Border>
-            <TextBlock Text="Staff Management" FontSize="20" FontWeight="Bold"
-                       Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,6" />
-            <TextBlock Text="Manage doctors, nurses, and clinic staff members" FontSize="12"
-                       Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,20" />
-            <Border Style="{DynamicResource BadgeStyle}" Background="{DynamicResource WarningLightBrush}" 
-                    HorizontalAlignment="Center" Padding="12,4">
-                <TextBlock Text="Coming Soon" FontSize="11" FontWeight="SemiBold"
-                           Foreground="{DynamicResource WarningBrush}" />
+
+            <Border Margin="20,0,20,20" Style="{DynamicResource CardStyle}" Padding="0">
+                <DataGrid ItemsSource="{Binding Staff}" SelectedItem="{Binding SelectedStaff}"
+                          Style="{DynamicResource ModernDataGridStyle}"
+                          ColumnHeaderStyle="{DynamicResource ModernDataGridColumnHeaderStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" />
+                        <DataGridTextColumn Header="Name" Binding="{Binding FullName}" Width="*" />
+                        <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="100" />
+                        <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="120" />
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="180" />
+                        <DataGridTextColumn Header="Specialization" Binding="{Binding Specialization}" Width="120" />
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="80" />
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Edit" Command="{Binding EditCommand}" />
+                            <MenuItem Header="Delete" Command="{Binding DeleteCommand}" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
             </Border>
-        </StackPanel>
+        </DockPanel>
+
+        <ScrollViewer Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}"
+                      VerticalScrollBarVisibility="Auto" Padding="24,20">
+            <Border Style="{DynamicResource CardStyle}" MaxWidth="520" HorizontalAlignment="Center">
+                <StackPanel>
+                    <TextBlock Text="{Binding EditId, StringFormat='Staff #{0}', FallbackValue='New Staff Member'}"
+                               Style="{DynamicResource PageTitleStyle}" Margin="0,0,0,20" />
+
+                    <TextBlock Text="Full Name *" Style="{DynamicResource FormLabelStyle}" />
+                    <TextBox Text="{Binding EditFullName, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{DynamicResource ModernTextBoxStyle}" Margin="0,0,0,16" />
+
+                    <TextBlock Text="Role" Style="{DynamicResource FormLabelStyle}" />
+                    <ComboBox SelectedItem="{Binding EditRole}" FontSize="13" Padding="10" Margin="0,0,0,16">
+                        <models:StaffRole>Dentist</models:StaffRole>
+                        <models:StaffRole>Hygienist</models:StaffRole>
+                        <models:StaffRole>Nurse</models:StaffRole>
+                        <models:StaffRole>Assistant</models:StaffRole>
+                        <models:StaffRole>Receptionist</models:StaffRole>
+                        <models:StaffRole>Other</models:StaffRole>
+                    </ComboBox>
+
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Phone" Style="{DynamicResource FormLabelStyle}" />
+                            <TextBox Text="{Binding EditPhone, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{DynamicResource ModernTextBoxStyle}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Email" Style="{DynamicResource FormLabelStyle}" />
+                            <TextBox Text="{Binding EditEmail, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{DynamicResource ModernTextBoxStyle}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Text="Specialization" Style="{DynamicResource FormLabelStyle}" />
+                    <TextBox Text="{Binding EditSpecialization, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{DynamicResource ModernTextBoxStyle}" Margin="0,0,0,16" />
+
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Hire Date" Style="{DynamicResource FormLabelStyle}" />
+                            <DatePicker SelectedDate="{Binding EditHireDate}" FontSize="13" Padding="8" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Status" Style="{DynamicResource FormLabelStyle}" />
+                            <ComboBox SelectedItem="{Binding EditStatus}" FontSize="13" Padding="10">
+                                <models:StaffStatus>Active</models:StaffStatus>
+                                <models:StaffStatus>Inactive</models:StaffStatus>
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Text="Notes" Style="{DynamicResource FormLabelStyle}" />
+                    <TextBox Text="{Binding EditNotes, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{DynamicResource ModernTextBoxStyle}" AcceptsReturn="True"
+                             MinHeight="60" TextWrapping="Wrap" Margin="0,0,0,24" />
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Cancel" Command="{Binding CancelEditCommand}"
+                                Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,8,0" />
+                        <Button Content="Save" Command="{Binding SaveCommand}"
+                                Style="{DynamicResource PrimaryButtonStyle}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
     </Grid>
 </UserControl>

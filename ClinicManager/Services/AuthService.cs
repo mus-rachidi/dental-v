@@ -12,6 +12,7 @@ public class AuthResult
     public bool Success { get; set; }
     public User? User { get; set; }
     public string Message { get; set; } = string.Empty;
+    public bool MustChangePassword { get; set; }
 }
 
 public class AuthService
@@ -66,7 +67,12 @@ public class AuthService
         user.LastLogin = DateTime.UtcNow;
         await db.SaveChangesAsync();
 
-        return new AuthResult { Success = true, User = user };
+        return new AuthResult
+        {
+            Success = true,
+            User = user,
+            MustChangePassword = user.MustChangePassword
+        };
     }
 
     public async Task<(bool Success, string Message)> CreateUserAsync(string username, string password, UserRole role)
@@ -112,6 +118,7 @@ public class AuthService
         user.FailedLoginAttempts = 0;
         user.LockoutEnd = null;
         user.Status = UserStatus.Active;
+        user.MustChangePassword = false;
         await db.SaveChangesAsync();
         return (true, "Password reset successfully.");
     }
@@ -172,7 +179,8 @@ public class AuthService
             PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123", BCrypt.Net.BCrypt.GenerateSalt(12)),
             Role = UserRole.Admin,
             Status = UserStatus.Active,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow,
+            MustChangePassword = true
         };
         db.Users.Add(admin);
         await db.SaveChangesAsync();

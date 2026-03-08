@@ -65,8 +65,16 @@ public partial class App : Application
             var loginVm = _serviceProvider.GetRequiredService<LoginViewModel>();
             var loginWindow = new LoginWindow(loginVm);
 
-            loginVm.OnLoginSuccess = (user) =>
+            loginVm.OnLoginSuccess = (user, mustChangePassword) =>
             {
+                if (mustChangePassword)
+                {
+                    var authService = _serviceProvider!.GetRequiredService<AuthService>();
+                    var changePwdDialog = new ChangePasswordDialog(authService, user);
+                    if (changePwdDialog.ShowDialog() != true || !changePwdDialog.Success)
+                        return;
+                }
+
                 SessionService!.SetCurrentUser(user);
                 SessionService.SetLogoutCallback(() =>
                 {
@@ -119,6 +127,9 @@ public partial class App : Application
         services.AddSingleton<PaymentService>();
         services.AddSingleton<MedicalRecordService>();
         services.AddSingleton<ToothService>();
+        services.AddSingleton<XRayService>();
+        services.AddSingleton<StaffService>();
+        services.AddSingleton<InventoryService>();
         services.AddSingleton<SettingsService>();
         services.AddSingleton<ExportService>();
         services.AddSingleton<DatabaseBackupService>();

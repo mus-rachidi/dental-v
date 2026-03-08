@@ -52,7 +52,12 @@ public partial class MainWindow : Window
 
     protected override void OnClosing(CancelEventArgs e)
     {
-        var settings = ((MainViewModel)DataContext).SettingsVM;
+        if (DataContext is not MainViewModel vm)
+        {
+            base.OnClosing(e);
+            return;
+        }
+        var settings = vm.SettingsVM;
         if (settings.MinimizeToTray)
         {
             e.Cancel = true;

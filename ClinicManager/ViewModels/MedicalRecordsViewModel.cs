@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using ClinicManager.Helpers;
 using ClinicManager.Models;
 using ClinicManager.Services;
@@ -28,6 +29,7 @@ public class MedicalRecordsViewModel : ViewModelBase, ILoadable
     private string _editPrescription = string.Empty;
     private string _editNotes = string.Empty;
     private string _editVitals = string.Empty;
+    private DispatcherTimer? _searchDebounce;
 
     public MedicalRecord? SelectedRecord
     {
@@ -38,7 +40,22 @@ public class MedicalRecordsViewModel : ViewModelBase, ILoadable
     public bool IsEditing { get => _isEditing; set => SetProperty(ref _isEditing, value); }
     public bool IsLoading { get => _isLoading; set => SetProperty(ref _isLoading, value); }
     public bool HasSelection => SelectedRecord != null;
-    public string SearchQuery { get => _searchQuery; set { SetProperty(ref _searchQuery, value); _ = SearchAsync(); } }
+    public string SearchQuery
+    {
+        get => _searchQuery;
+        set
+        {
+            if (!SetProperty(ref _searchQuery, value)) return;
+            _searchDebounce?.Stop();
+            _searchDebounce = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(300) };
+            _searchDebounce.Tick += (s, e) =>
+            {
+                _searchDebounce?.Stop();
+                _ = SearchAsync();
+            };
+            _searchDebounce.Start();
+        }
+    }
 
     public int EditPatientId { get => _editPatientId; set => SetProperty(ref _editPatientId, value); }
     public DateTime EditDate { get => _editDate; set => SetProperty(ref _editDate, value); }

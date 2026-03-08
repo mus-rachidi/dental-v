@@ -1,22 +1,179 @@
 <UserControl x:Class="ClinicManager.Views.Pages.ReportsPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Border Width="48" Height="48" Margin="0,0,0,12" HorizontalAlignment="Center"
-                    Background="{DynamicResource InfoBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
-                <TextBlock Text="&#xE9F9;" FontFamily="Segoe MDL2 Assets" FontSize="24"
-                           Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+             xmlns:helpers="clr-namespace:ClinicManager.Helpers">
+
+    <UserControl.Resources>
+        <helpers:BoolToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="20,16,20,24">
+
+            <DockPanel Margin="0,0,0,16">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="40" Height="40" CornerRadius="8" Background="{DynamicResource PrimaryBrush}" Margin="0,0,12,0">
+                        <TextBlock Text="&#xE9F9;" FontFamily="Segoe MDL2 Assets" FontSize="20"
+                                   Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Reports &amp; Analytics" Style="{DynamicResource PageTitleStyle}" />
+                        <TextBlock Text="Financial reports, patient statistics, and analytics" FontSize="12"
+                                   Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,2,0,0" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="&#xE72C; Refresh" Command="{Binding RefreshCommand}"
+                            Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,8,0" Padding="14,8" />
+                    <Button Content="&#xE8C7; Export Excel" Command="{Binding ExportExcelCommand}"
+                            Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,8,0" Padding="14,8" />
+                    <Button Content="&#xE8A5; Export PDF" Command="{Binding ExportPdfCommand}"
+                            Style="{DynamicResource PrimaryButtonStyle}" Padding="14,8" />
+                </StackPanel>
+            </DockPanel>
+
+            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,12" Padding="14,10">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                               Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <TextBlock Text="From" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="12"
+                               Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold" />
+                    <DatePicker SelectedDate="{Binding FilterFrom}" Width="140" />
+                    <TextBlock Text="To" VerticalAlignment="Center" Margin="16,0,8,0" FontSize="12"
+                               Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold" />
+                    <DatePicker SelectedDate="{Binding FilterTo}" Width="140" />
+                    <Button Content="Apply" Command="{Binding RefreshCommand}"
+                            Style="{DynamicResource PrimaryButtonStyle}" Margin="16,0,0,0" Padding="18,7" />
+                </StackPanel>
             </Border>
-            <TextBlock Text="Reports &amp; Analytics" FontSize="20" FontWeight="Bold"
-                       Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,6" />
-            <TextBlock Text="View financial reports, patient statistics, and analytics" FontSize="12"
-                       Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,20" />
-            <Border Style="{DynamicResource BadgeStyle}" Background="{DynamicResource WarningLightBrush}" 
-                    HorizontalAlignment="Center" Padding="12,4">
-                <TextBlock Text="Coming Soon" FontSize="11" FontWeight="SemiBold"
-                           Foreground="{DynamicResource WarningBrush}" />
-            </Border>
+
+            <UniformGrid Columns="4" Margin="0,0,0,16">
+                <Border Style="{DynamicResource StatCardStyle}" Margin="0,0,6,6">
+                    <DockPanel>
+                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
+                               Background="{DynamicResource PrimaryBrush}">
+                            <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Total Patients" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" />
+                            <TextBlock Text="{Binding TotalPatients}" FontSize="20" FontWeight="Bold"
+                                       Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,2,0,0" />
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+                <Border Style="{DynamicResource StatCardStyle}" Margin="6,0,6,6">
+                    <DockPanel>
+                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
+                               Background="{DynamicResource SuccessBrush}">
+                            <TextBlock Text="&#xE8FA;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="New in Period" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" />
+                            <TextBlock Text="{Binding NewPatientsInPeriod}" FontSize="20" FontWeight="Bold"
+                                       Foreground="{DynamicResource SuccessBrush}" Margin="0,2,0,0" />
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+                <Border Style="{DynamicResource StatCardStyle}" Margin="6,0,6,6">
+                    <DockPanel>
+                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
+                               Background="{DynamicResource InfoBrush}">
+                            <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Appointments" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" />
+                            <TextBlock Text="{Binding TotalAppointments}" FontSize="20" FontWeight="Bold"
+                                       Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,2,0,0" />
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+                <Border Style="{DynamicResource StatCardStyle}" Margin="6,0,0,6">
+                    <DockPanel>
+                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
+                               Background="{DynamicResource SuccessBrush}">
+                            <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Completed" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" />
+                            <TextBlock Text="{Binding CompletedAppointments}" FontSize="20" FontWeight="Bold"
+                                       Foreground="{DynamicResource SuccessBrush}" Margin="0,2,0,0" />
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+                <Border Style="{DynamicResource StatCardStyle}" Margin="0,6,6,6">
+                    <DockPanel>
+                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
+                               Background="{DynamicResource SuccessBrush}">
+                            <TextBlock Text="&#xE8C7;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Revenue (MAD)" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" />
+                            <TextBlock Text="{Binding TotalRevenue, StringFormat='{}{0:N0}'}" FontSize="18" FontWeight="Bold"
+                                       Foreground="{DynamicResource SuccessBrush}" Margin="0,2,0,0" />
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+                <Border Style="{DynamicResource StatCardStyle}" Margin="6,6,6,6">
+                    <DockPanel>
+                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
+                               Background="{DynamicResource DangerBrush}">
+                            <TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Pending Bills" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" />
+                            <TextBlock Text="{Binding PendingBills, StringFormat='{}{0:N0} MAD'}" FontSize="18" FontWeight="Bold"
+                                       Foreground="{DynamicResource DangerBrush}" Margin="0,2,0,0" />
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+                <Border Style="{DynamicResource StatCardStyle}" Margin="6,6,6,6">
+                    <DockPanel>
+                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
+                               Background="{DynamicResource WarningBrush}">
+                            <TextBlock Text="&#xE773;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Low Stock Items" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" />
+                            <TextBlock Text="{Binding LowStockCount}" FontSize="18" FontWeight="Bold"
+                                       Foreground="{DynamicResource WarningBrush}" Margin="0,2,0,0" />
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+                <Border Style="{DynamicResource StatCardStyle}" Margin="6,6,0,6" />
+            </UniformGrid>
+
+            <Grid Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="220" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Monthly Revenue (MAD)" Style="{DynamicResource SectionTitleStyle}" Margin="0,0,0,8" />
+                <Border Grid.Row="1" Grid.Column="0" Style="{DynamicResource CardStyle}" Padding="12">
+                    <lvc:CartesianChart Series="{Binding RevenueSeries}" XAxes="{Binding RevenueXAxes}"
+                                       TooltipPosition="Top" />
+                </Border>
+
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="Appointments by Doctor" Style="{DynamicResource SectionTitleStyle}" Margin="0,0,0,8" />
+                <Border Grid.Row="1" Grid.Column="2" Style="{DynamicResource CardStyle}" Padding="12">
+                    <lvc:PieChart Series="{Binding AppointmentsByDoctorSeries}"
+                                  InitialRotation="-90" MaxAngle="360"
+                                  TooltipPosition="Right" />
+                </Border>
+            </Grid>
         </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </UserControl>

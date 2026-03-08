@@ -23,6 +23,8 @@ public class ClinicDbContext : DbContext
     public DbSet<XRayRecord> XRayRecords => Set<XRayRecord>();
     public DbSet<User> Users => Set<User>();
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+    public DbSet<StaffMember> StaffMembers => Set<StaffMember>();
+    public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -108,6 +110,18 @@ public class ClinicDbContext : DbContext
             entity.HasIndex(e => e.UserId);
             entity.HasIndex(e => e.Timestamp);
         });
+
+        modelBuilder.Entity<StaffMember>(entity =>
+        {
+            entity.HasIndex(e => e.FullName);
+            entity.HasIndex(e => e.Role);
+        });
+
+        modelBuilder.Entity<InventoryItem>(entity =>
+        {
+            entity.HasIndex(e => e.Name);
+            entity.HasIndex(e => e.Category);
+        });
     }
 
     private static TimeSpan ParseTimeSpanFromDb(object? v)
@@ -147,6 +161,48 @@ public class ClinicDbContext : DbContext
         CreateAuditLogTableIfMissing(conn);
         MigratePatientProFields(conn);
         MigratePaymentMoroccoFields(conn);
+        AddColumnIfMissing(conn, "Users", "MustChangePassword", "INTEGER DEFAULT 0 NOT NULL");
+        CreateStaffTableIfMissing(conn);
+        CreateInventoryTableIfMissing(conn);
+    }
+
+    private static void CreateStaffTableIfMissing(SqliteConnection conn)
+    {
+        using var cmd = conn.CreateCommand();
+        cmd.CommandText = @"
+            CREATE TABLE IF NOT EXISTS StaffMembers (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                FullName TEXT NOT NULL,
+                Role INTEGER NOT NULL DEFAULT 3,
+                Phone TEXT DEFAULT '' NOT NULL,
+                Email TEXT DEFAULT '' NOT NULL,
+                Specialization TEXT DEFAULT '' NOT NULL,
+                HireDate TEXT NOT NULL DEFAULT (date('now')),
+                Status INTEGER NOT NULL DEFAULT 0,
+                Notes TEXT DEFAULT '' NOT NULL,
+                CreatedAt TEXT NOT NULL DEFAULT (datetime('now'))
+            )";
+        cmd.ExecuteNonQuery();
+    }
+
+    private static void CreateInventoryTableIfMissing(SqliteConnection conn)
+    {
+        using var cmd = conn.CreateCommand();
+        cmd.CommandText = @"
+            CREATE TABLE IF NOT EXISTS InventoryItems (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                Name TEXT NOT NULL,
+                Category TEXT DEFAULT '' NOT NULL,
+                Quantity INTEGER NOT NULL DEFAULT 0,
+                Unit TEXT DEFAULT 'pcs' NOT NULL,
+                MinStockLevel INTEGER NOT NULL DEFAULT 0,
+                UnitPrice REAL NOT NULL DEFAULT 0,
+                Supplier TEXT DEFAULT '' NOT NULL,
+                LastRestockedDate TEXT,
+                Notes TEXT DEFAULT '' NOT NULL,
+                CreatedAt TEXT NOT NULL DEFAULT (datetime('now'))
+            )";
+        cmd.ExecuteNonQuery();
     }
 
     private static void CreateUsersTableIfMissing(SqliteConnection conn)

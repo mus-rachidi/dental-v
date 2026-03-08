@@ -42,6 +42,9 @@ public class MainViewModel : ViewModelBase
         PaymentService paymentService,
         MedicalRecordService medicalRecordService,
         ToothService toothService,
+        XRayService xRayService,
+        StaffService staffService,
+        InventoryService inventoryService,
         SettingsService settingsService,
         ExportService exportService,
         UserService userService,
@@ -50,13 +53,13 @@ public class MainViewModel : ViewModelBase
         Database.DatabaseBackupService backupService)
     {
         DashboardVM = new DashboardViewModel(patientService, appointmentService, paymentService, toothService);
-        PatientsVM = new PatientsViewModel(patientService, exportService, settingsService);
+        PatientsVM = new PatientsViewModel(patientService, exportService, settingsService, toothService, xRayService);
         AppointmentsVM = new AppointmentsViewModel(appointmentService, patientService);
-        StaffVM = new StaffViewModel();
+        StaffVM = new StaffViewModel(staffService);
         BillingVM = new BillingViewModel(paymentService, patientService, exportService);
-        InventoryVM = new InventoryViewModel();
+        InventoryVM = new InventoryViewModel(inventoryService);
         MedicalRecordsVM = new MedicalRecordsViewModel(medicalRecordService, patientService);
-        ReportsVM = new ReportsViewModel();
+        ReportsVM = new ReportsViewModel(paymentService, patientService, appointmentService, exportService, settingsService, inventoryService);
         SettingsVM = new SettingsViewModel(settingsService, licenseManager, backupService);
         UsersVM = new UsersManagementViewModel(userService, authService);
 

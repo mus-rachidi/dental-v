@@ -37,7 +37,8 @@ public partial class PatientsPage : UserControl
 
     private void Tooth_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is Button btn && btn.Tag is ToothViewModel tooth && DataContext is PatientsViewModel vm)
+        var fe = sender as System.Windows.FrameworkElement;
+        if (fe?.Tag is ToothViewModel tooth && DataContext is PatientsViewModel vm)
         {
             vm.SelectTooth(tooth);
             _suppressConditionChange = true;

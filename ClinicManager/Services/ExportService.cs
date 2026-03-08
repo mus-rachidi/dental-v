@@ -164,4 +164,73 @@ public class ExportService
             workbook.SaveAs(filePath);
         });
     }
+
+    public async Task ExportPaymentsToPdfAsync(List<Payment> payments, string filePath, string clinicName)
+    {
+        await Task.Run(() =>
+        {
+            Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(30);
+                    page.DefaultTextStyle(x => x.FontSize(10));
+
+                    page.Header().Column(col =>
+                    {
+                        col.Item().Text(clinicName).FontSize(20).Bold().FontColor(Colors.Blue.Darken2);
+                        col.Item().Text("Payment Report").FontSize(14).FontColor(Colors.Grey.Darken1);
+                        col.Item().PaddingBottom(10).LineHorizontal(1).LineColor(Colors.Grey.Lighten2);
+                    });
+
+                    page.Content().Table(table =>
+                    {
+                        table.ColumnsDefinition(cols =>
+                        {
+                            cols.RelativeColumn(2);
+                            cols.RelativeColumn(3);
+                            cols.RelativeColumn(2);
+                            cols.RelativeColumn(2);
+                            cols.RelativeColumn(2);
+                        });
+
+                        table.Header(header =>
+                        {
+                            header.Cell().Background(Colors.Blue.Darken2).Padding(5)
+                                  .Text("Invoice").FontColor(Colors.White).Bold();
+                            header.Cell().Background(Colors.Blue.Darken2).Padding(5)
+                                  .Text("Patient").FontColor(Colors.White).Bold();
+                            header.Cell().Background(Colors.Blue.Darken2).Padding(5)
+                                  .Text("Amount").FontColor(Colors.White).Bold();
+                            header.Cell().Background(Colors.Blue.Darken2).Padding(5)
+                                  .Text("Date").FontColor(Colors.White).Bold();
+                            header.Cell().Background(Colors.Blue.Darken2).Padding(5)
+                                  .Text("Status").FontColor(Colors.White).Bold();
+                        });
+
+                        foreach (var p in payments)
+                        {
+                            var bg = payments.IndexOf(p) % 2 == 0
+                                ? Colors.White : Colors.Grey.Lighten4;
+                            table.Cell().Background(bg).Padding(5).Text(p.InvoiceNumber);
+                            table.Cell().Background(bg).Padding(5).Text(p.Patient?.FullName ?? "");
+                            table.Cell().Background(bg).Padding(5).Text($"{p.Amount:N2} MAD");
+                            table.Cell().Background(bg).Padding(5).Text(p.Date.ToString("yyyy-MM-dd"));
+                            table.Cell().Background(bg).Padding(5).Text(p.Status.ToString());
+                        }
+                    });
+
+                    page.Footer().AlignCenter()
+                        .Text(t =>
+                        {
+                            t.Span("Page ");
+                            t.CurrentPageNumber();
+                            t.Span(" of ");
+                            t.TotalPages();
+                        });
+                });
+            }).GeneratePdf(filePath);
+        });
+    }
 }
