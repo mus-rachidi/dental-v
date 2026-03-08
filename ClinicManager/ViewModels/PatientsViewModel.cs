@@ -313,7 +313,18 @@ public class PatientsViewModel : ViewModelBase, ILoadable
             Email = SelectedPatient.Email,
             Address = SelectedPatient.Address,
             Notes = SelectedPatient.Notes,
-            PhotoPath = SelectedPatient.PhotoPath
+            PhotoPath = SelectedPatient.PhotoPath,
+            CIN = SelectedPatient.CIN,
+            EmergencyContact = SelectedPatient.EmergencyContact,
+            RegistrationDate = SelectedPatient.RegistrationDate,
+            Allergies = SelectedPatient.Allergies,
+            Medications = SelectedPatient.Medications,
+            ChronicDiseases = SelectedPatient.ChronicDiseases,
+            PregnancyStatus = SelectedPatient.PregnancyStatus,
+            CNSSNumber = SelectedPatient.CNSSNumber,
+            CNSSCoverageType = SelectedPatient.CNSSCoverageType,
+            CNSSRegistrationDate = SelectedPatient.CNSSRegistrationDate,
+            CNSSValidityDate = SelectedPatient.CNSSValidityDate
         };
         LoadPhoto(EditingPatient.PhotoPath);
         IsEditing = true;

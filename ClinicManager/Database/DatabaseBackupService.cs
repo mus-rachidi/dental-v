@@ -9,7 +9,7 @@ namespace ClinicManager.Database;
 public class DatabaseBackupService
 {
     private readonly ILogger<DatabaseBackupService> _logger;
-    private const int MaxBackups = 10;
+    private const int MaxBackups = 30;
 
     public DatabaseBackupService(ILogger<DatabaseBackupService> logger)
     {

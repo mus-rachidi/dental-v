@@ -16,6 +16,7 @@ namespace ClinicManager;
 public partial class App : Application
 {
     private IServiceProvider? _serviceProvider;
+    private System.Windows.Threading.DispatcherTimer? _backupTimer;
 
     protected override async void OnStartup(StartupEventArgs e)
     {
@@ -58,6 +59,9 @@ public partial class App : Application
             var mainWindow = new MainWindow(mainVm);
             MainWindow = mainWindow;
             mainWindow.Show();
+
+            // Start scheduled backup if enabled
+            StartScheduledBackup(settings);
         }
         catch (Exception ex)
         {
@@ -87,6 +91,32 @@ public partial class App : Application
 
         // ViewModels
         services.AddSingleton<MainViewModel>();
+    }
+
+    private void StartScheduledBackup(Models.AppSettings settings)
+    {
+        if (!settings.AutoBackup || _serviceProvider == null) return;
+
+        var intervalHours = settings.BackupIntervalHours <= 0 ? 24 : settings.BackupIntervalHours;
+        _backupTimer = new System.Windows.Threading.DispatcherTimer
+        {
+            Interval = TimeSpan.FromHours(intervalHours)
+        };
+        _backupTimer.Tick += async (s, _) =>
+        {
+            try
+            {
+                var backupService = _serviceProvider.GetRequiredService<DatabaseBackupService>();
+                var path = await backupService.CreateBackupAsync(
+                    string.IsNullOrEmpty(settings.BackupPath) ? null : settings.BackupPath);
+                System.Diagnostics.Debug.WriteLine($"Auto-backup completed: {path}");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Auto-backup failed: {ex.Message}");
+            }
+        };
+        _backupTimer.Start();
     }
 
     private void ApplyTheme(string theme)
@@ -136,6 +166,7 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
+        _backupTimer?.Stop();
         base.OnExit(e);
     }
 }

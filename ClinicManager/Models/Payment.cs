@@ -23,6 +23,14 @@ public enum PaymentStatus
     Cancelled
 }
 
+public enum CNSSClaimStatus
+{
+    NotSubmitted,
+    Submitted,
+    Approved,
+    Rejected
+}
+
 public class Payment
 {
     [Key]
@@ -52,4 +60,31 @@ public class Payment
     public string InvoiceNumber { get; set; } = string.Empty;
 
     public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+    // Morocco & CNSS fields
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal TreatmentCost { get; set; }
+
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal CNSSCoveredAmount { get; set; }
+
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal PatientAmount { get; set; }
+
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal DiscountAmount { get; set; }
+
+    [Column(TypeName = "decimal(5,2)")]
+    public decimal VATRate { get; set; }
+
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal VATAmount { get; set; }
+
+    [MaxLength(3)]
+    public string Currency { get; set; } = "MAD";
+
+    public CNSSClaimStatus CNSSClaimStatus { get; set; } = CNSSClaimStatus.NotSubmitted;
+
+    [MaxLength(50)]
+    public string CNSSReceiptNumber { get; set; } = string.Empty;
 }

@@ -49,7 +49,7 @@
                         <TextBlock Foreground="White" FontWeight="Bold" FontSize="12">
                             <Run Text="{local:Localize Total}" />
                             <Run Text=": " />
-                            <Run Text="{Binding TotalAmount, StringFormat='{}{0:C}'}" />
+                            <Run Text="{Binding TotalAmount, StringFormat='{}{0:N2} MAD'}" />
                         </TextBlock>
                     </Border>
                 </DockPanel>
@@ -64,7 +64,7 @@
                         <DataGridTextColumn Header="{local:Localize InvoiceNumber}" Binding="{Binding InvoiceNumber}" Width="140" />
                         <DataGridTextColumn Header="{local:Localize PatientName}" Binding="{Binding Patient.FullName}" Width="*" />
                         <DataGridTextColumn Header="{local:Localize Amount}" 
-                                            Binding="{Binding Amount, StringFormat='{}{0:C}'}" Width="100" />
+                                            Binding="{Binding Amount, StringFormat='{}{0:N2} MAD'}" Width="100" />
                         <DataGridTextColumn Header="{local:Localize Date}" 
                                             Binding="{Binding Date, StringFormat='{}{0:yyyy-MM-dd}'}" Width="110" />
                         <DataGridTextColumn Header="{local:Localize PaymentMethod}" Binding="{Binding Method}" Width="120" />

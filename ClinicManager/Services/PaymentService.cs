@@ -46,6 +46,14 @@ public class PaymentService
         if (string.IsNullOrEmpty(payment.InvoiceNumber))
             payment.InvoiceNumber = await GenerateInvoiceNumberAsync();
 
+        // Morocco: ensure CNSS fields have defaults; backward compat: TreatmentCost = Amount if not set
+        if (payment.TreatmentCost == 0) payment.TreatmentCost = payment.Amount;
+        if (payment.PatientAmount == 0) payment.PatientAmount = payment.Amount - payment.CNSSCoveredAmount - payment.DiscountAmount;
+        if (payment.PatientAmount < 0) payment.PatientAmount = 0;
+        if (payment.VATAmount == 0 && payment.VATRate > 0)
+            payment.VATAmount = Helpers.MoroccoFormatting.CalculateVAT(payment.TreatmentCost, payment.VATRate);
+        if (string.IsNullOrEmpty(payment.Currency)) payment.Currency = "MAD";
+
         using var db = new ClinicDbContext();
         db.Payments.Add(payment);
         await db.SaveChangesAsync();
@@ -94,6 +102,18 @@ public class PaymentService
         return await db.Payments
             .Where(p => p.Status == PaymentStatus.Completed)
             .SumAsync(p => p.Amount);
+    }
+
+    /// <summary>Get payments for CNSS report (Morocco).</summary>
+    public async Task<List<Payment>> GetCNSSReportAsync(DateTime from, DateTime to)
+    {
+        using var db = new ClinicDbContext();
+        return await db.Payments
+            .Include(p => p.Patient)
+            .Where(p => p.Date.Date >= from.Date && p.Date.Date <= to.Date
+                && p.CNSSCoveredAmount > 0)
+            .OrderByDescending(p => p.Date)
+            .ToListAsync();
     }
 
     private async Task<string> GenerateInvoiceNumberAsync()

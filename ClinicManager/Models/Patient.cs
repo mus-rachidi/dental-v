@@ -35,6 +35,38 @@ public class Patient
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
+    // Morocco & Pro fields
+    [MaxLength(20)]
+    public string CIN { get; set; } = string.Empty;
+
+    [MaxLength(200)]
+    public string EmergencyContact { get; set; } = string.Empty;
+
+    public DateTime RegistrationDate { get; set; } = DateTime.Now;
+
+    [MaxLength(1000)]
+    public string Allergies { get; set; } = string.Empty;
+
+    [MaxLength(1000)]
+    public string Medications { get; set; } = string.Empty;
+
+    [MaxLength(1000)]
+    public string ChronicDiseases { get; set; } = string.Empty;
+
+    [MaxLength(50)]
+    public string PregnancyStatus { get; set; } = string.Empty;
+
+    // CNSS (Caisse Nationale de Sécurité Sociale - Morocco)
+    [MaxLength(50)]
+    public string CNSSNumber { get; set; } = string.Empty;
+
+    [MaxLength(50)]
+    public string CNSSCoverageType { get; set; } = string.Empty;
+
+    public DateTime? CNSSRegistrationDate { get; set; }
+
+    public DateTime? CNSSValidityDate { get; set; }
+
     public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
     public virtual ICollection<MedicalRecord> MedicalRecords { get; set; } = new List<MedicalRecord>();

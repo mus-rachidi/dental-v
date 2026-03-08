@@ -191,6 +191,28 @@
                                                    FontSize="11" Margin="0,0,0,6" TextWrapping="Wrap"
                                                    Foreground="{DynamicResource TextPrimaryBrush}" />
 
+                                        <TextBlock Text="CIN" FontSize="9" FontWeight="Bold" Margin="0,0,0,1"
+                                                   Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        <TextBlock Text="{Binding SelectedPatient.CIN, FallbackValue='-'}" 
+                                                   FontSize="11" Margin="0,0,0,6"
+                                                   Foreground="{DynamicResource TextPrimaryBrush}" />
+
+                                        <TextBlock Text="EMERGENCY CONTACT" FontSize="9" FontWeight="Bold" Margin="0,0,0,1"
+                                                   Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        <TextBlock Text="{Binding SelectedPatient.EmergencyContact, FallbackValue='-'}" 
+                                                   FontSize="11" Margin="0,0,0,6"
+                                                   Foreground="{DynamicResource TextPrimaryBrush}" />
+
+                                        <TextBlock Text="CNSS" FontSize="9" FontWeight="Bold" Margin="0,0,0,1"
+                                                   Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        <TextBlock FontSize="11" Margin="0,0,0,6"
+                                                   Foreground="{DynamicResource TextPrimaryBrush}">
+                                            <Run Text="{Binding SelectedPatient.CNSSNumber, FallbackValue='-'}" />
+                                            <Run Text=" (" />
+                                            <Run Text="{Binding SelectedPatient.CNSSCoverageType, FallbackValue='-'}" />
+                                            <Run Text=")" />
+                                        </TextBlock>
+
                                         <TextBlock Text="NOTES" FontSize="9" FontWeight="Bold" Margin="0,0,0,1"
                                                    Foreground="{DynamicResource TextSecondaryBrush}" />
                                         <TextBlock Text="{Binding SelectedPatient.Notes, FallbackValue='-'}" 
@@ -479,6 +501,73 @@
                     <TextBlock Text="{local:Localize Address}" Style="{DynamicResource FormLabelStyle}" Margin="0,16,0,0" />
                     <TextBox Text="{Binding EditingPatient.Address, UpdateSourceTrigger=PropertyChanged}"
                              Style="{DynamicResource ModernTextBoxStyle}" Margin="0,0,0,16" />
+
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="CIN (Carte d'Identité)" Style="{DynamicResource FormLabelStyle}" />
+                            <TextBox Text="{Binding EditingPatient.CIN, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{DynamicResource ModernTextBoxStyle}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Emergency Contact" Style="{DynamicResource FormLabelStyle}" />
+                            <TextBox Text="{Binding EditingPatient.EmergencyContact, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{DynamicResource ModernTextBoxStyle}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Text="Medical History" Style="{DynamicResource SectionTitleStyle}" Margin="0,8,0,8" />
+                    <TextBlock Text="Allergies" Style="{DynamicResource FormLabelStyle}" />
+                    <TextBox Text="{Binding EditingPatient.Allergies, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{DynamicResource ModernTextBoxStyle}" Margin="0,0,0,8" />
+                    <TextBlock Text="Medications" Style="{DynamicResource FormLabelStyle}" />
+                    <TextBox Text="{Binding EditingPatient.Medications, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{DynamicResource ModernTextBoxStyle}" Margin="0,0,0,8" />
+                    <TextBlock Text="Chronic Diseases" Style="{DynamicResource FormLabelStyle}" />
+                    <TextBox Text="{Binding EditingPatient.ChronicDiseases, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{DynamicResource ModernTextBoxStyle}" Margin="0,0,0,16" />
+
+                    <TextBlock Text="CNSS (Sécurité Sociale)" Style="{DynamicResource SectionTitleStyle}" Margin="0,8,0,8" />
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="CNSS Number" Style="{DynamicResource FormLabelStyle}" />
+                            <TextBox Text="{Binding EditingPatient.CNSSNumber, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{DynamicResource ModernTextBoxStyle}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Coverage Type" Style="{DynamicResource FormLabelStyle}" />
+                            <ComboBox SelectedItem="{Binding EditingPatient.CNSSCoverageType}" FontSize="13" Padding="8,8">
+                                <ComboBoxItem Content="" />
+                                <ComboBoxItem Content="Assuré" />
+                                <ComboBoxItem Content="Ayant droit" />
+                                <ComboBoxItem Content="Pensionnaire" />
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="CNSS Registration Date" Style="{DynamicResource FormLabelStyle}" />
+                            <DatePicker SelectedDate="{Binding EditingPatient.CNSSRegistrationDate}" FontSize="13" Padding="8,8" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="CNSS Validity Date" Style="{DynamicResource FormLabelStyle}" />
+                            <DatePicker SelectedDate="{Binding EditingPatient.CNSSValidityDate}" FontSize="13" Padding="8,8" />
+                        </StackPanel>
+                    </Grid>
 
                     <TextBlock Text="{local:Localize Notes}" Style="{DynamicResource FormLabelStyle}" />
                     <TextBox Text="{Binding EditingPatient.Notes, UpdateSourceTrigger=PropertyChanged}"

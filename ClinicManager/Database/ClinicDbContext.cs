@@ -128,6 +128,36 @@ public class ClinicDbContext : DbContext
         AddColumnIfMissing(conn, "Patients", "PhotoPath", "TEXT DEFAULT '' NOT NULL");
         CreateTableIfMissing(conn);
         CreateXRayTableIfMissing(conn);
+        MigratePatientProFields(conn);
+        MigratePaymentMoroccoFields(conn);
+    }
+
+    private static void MigratePatientProFields(SqliteConnection conn)
+    {
+        AddColumnIfMissing(conn, "Patients", "CIN", "TEXT DEFAULT '' NOT NULL");
+        AddColumnIfMissing(conn, "Patients", "EmergencyContact", "TEXT DEFAULT '' NOT NULL");
+        AddColumnIfMissing(conn, "Patients", "RegistrationDate", "TEXT DEFAULT (date('now')) NOT NULL");
+        AddColumnIfMissing(conn, "Patients", "Allergies", "TEXT DEFAULT '' NOT NULL");
+        AddColumnIfMissing(conn, "Patients", "Medications", "TEXT DEFAULT '' NOT NULL");
+        AddColumnIfMissing(conn, "Patients", "ChronicDiseases", "TEXT DEFAULT '' NOT NULL");
+        AddColumnIfMissing(conn, "Patients", "PregnancyStatus", "TEXT DEFAULT '' NOT NULL");
+        AddColumnIfMissing(conn, "Patients", "CNSSNumber", "TEXT DEFAULT '' NOT NULL");
+        AddColumnIfMissing(conn, "Patients", "CNSSCoverageType", "TEXT DEFAULT '' NOT NULL");
+        AddColumnIfMissing(conn, "Patients", "CNSSRegistrationDate", "TEXT");
+        AddColumnIfMissing(conn, "Patients", "CNSSValidityDate", "TEXT");
+    }
+
+    private static void MigratePaymentMoroccoFields(SqliteConnection conn)
+    {
+        AddColumnIfMissing(conn, "Payments", "TreatmentCost", "REAL DEFAULT 0 NOT NULL");
+        AddColumnIfMissing(conn, "Payments", "CNSSCoveredAmount", "REAL DEFAULT 0 NOT NULL");
+        AddColumnIfMissing(conn, "Payments", "PatientAmount", "REAL DEFAULT 0 NOT NULL");
+        AddColumnIfMissing(conn, "Payments", "DiscountAmount", "REAL DEFAULT 0 NOT NULL");
+        AddColumnIfMissing(conn, "Payments", "VATRate", "REAL DEFAULT 20 NOT NULL");
+        AddColumnIfMissing(conn, "Payments", "VATAmount", "REAL DEFAULT 0 NOT NULL");
+        AddColumnIfMissing(conn, "Payments", "Currency", "TEXT DEFAULT 'MAD' NOT NULL");
+        AddColumnIfMissing(conn, "Payments", "CNSSClaimStatus", "INTEGER DEFAULT 0 NOT NULL");
+        AddColumnIfMissing(conn, "Payments", "CNSSReceiptNumber", "TEXT DEFAULT '' NOT NULL");
     }
 
     private static void AddColumnIfMissing(SqliteConnection conn, string table, string column, string definition)

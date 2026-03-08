@@ -61,7 +61,7 @@
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="{local:Localize TodayRevenue}" 
                                        Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" />
-                            <TextBlock Text="{Binding TodayRevenue, StringFormat='{}{0:C}'}" FontSize="16" FontWeight="Bold"
+                            <TextBlock Text="{Binding TodayRevenue, StringFormat='{}{0:N2} MAD'}" FontSize="16" FontWeight="Bold"
                                        Foreground="{DynamicResource SuccessBrush}" Margin="0,1,0,0" />
                         </StackPanel>
                     </DockPanel>
@@ -76,7 +76,7 @@
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="{local:Localize MonthRevenue}" 
                                        Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" />
-                            <TextBlock Text="{Binding MonthRevenue, StringFormat='{}{0:C}'}" FontSize="16" FontWeight="Bold"
+                            <TextBlock Text="{Binding MonthRevenue, StringFormat='{}{0:N2} MAD'}" FontSize="16" FontWeight="Bold"
                                        Foreground="{DynamicResource WarningBrush}" Margin="0,1,0,0" />
                         </StackPanel>
                     </DockPanel>
