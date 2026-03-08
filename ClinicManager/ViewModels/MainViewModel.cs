@@ -38,12 +38,13 @@ public class MainViewModel : ViewModelBase
         AppointmentService appointmentService,
         PaymentService paymentService,
         MedicalRecordService medicalRecordService,
+        ToothService toothService,
         SettingsService settingsService,
         ExportService exportService,
         Licensing.LicenseManager licenseManager,
         Database.DatabaseBackupService backupService)
     {
-        DashboardVM = new DashboardViewModel(patientService, appointmentService, paymentService);
+        DashboardVM = new DashboardViewModel(patientService, appointmentService, paymentService, toothService);
         PatientsVM = new PatientsViewModel(patientService, exportService, settingsService);
         AppointmentsVM = new AppointmentsViewModel(appointmentService, patientService);
         StaffVM = new StaffViewModel();
@@ -59,6 +60,8 @@ public class MainViewModel : ViewModelBase
 
         DashboardVM.NavigateToPatients = () => Navigate("Patients");
         DashboardVM.NavigateToAppointments = () => Navigate("Appointments");
+        DashboardVM.NavigateToBilling = () => Navigate("Billing");
+        DashboardVM.NavigateToMedicalRecords = () => Navigate("MedicalRecords");
     }
 
     private void Navigate(object parameter)

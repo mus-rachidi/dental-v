@@ -84,6 +84,7 @@ public partial class App : Application
         services.AddSingleton<AppointmentService>();
         services.AddSingleton<PaymentService>();
         services.AddSingleton<MedicalRecordService>();
+        services.AddSingleton<ToothService>();
         services.AddSingleton<SettingsService>();
         services.AddSingleton<ExportService>();
         services.AddSingleton<DatabaseBackupService>();

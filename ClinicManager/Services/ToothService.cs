@@ -106,6 +106,17 @@ public class ToothService
         return $"#{number} - {quadrant} {type}";
     }
 
+    public async Task<List<(ToothCondition Condition, int Count)>> GetConditionBreakdownAsync()
+    {
+        using var db = new ClinicDbContext();
+        var list = await db.ToothRecords.ToListAsync();
+        return list
+            .GroupBy(t => t.Condition)
+            .Select(g => (g.Key, g.Count()))
+            .OrderByDescending(x => x.Item2)
+            .ToList();
+    }
+
     public static string SavePatientPhoto(int patientId, string sourcePath)
     {
         var photosDir = Path.Combine(ClinicDbContext.GetDatabaseDirectory(), "Photos");

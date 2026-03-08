@@ -86,4 +86,21 @@ public class PatientService
             .Take(count)
             .ToListAsync();
     }
+
+    public async Task<int> GetNewPatientsThisMonthAsync()
+    {
+        var firstDay = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+        using var db = new ClinicDbContext();
+        return await db.Patients.CountAsync(p => p.CreatedAt >= firstDay);
+    }
+
+    public async Task<(int Male, int Female, int Other)> GetGenderDemographicsAsync()
+    {
+        using var db = new ClinicDbContext();
+        var patients = await db.Patients.ToListAsync();
+        var male = patients.Count(p => string.Equals(p.Gender, "Male", StringComparison.OrdinalIgnoreCase));
+        var female = patients.Count(p => string.Equals(p.Gender, "Female", StringComparison.OrdinalIgnoreCase));
+        var other = patients.Count - male - female;
+        return (male, female, Math.Max(0, other));
+    }
 }

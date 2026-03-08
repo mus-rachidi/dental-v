@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "N6vC3apOo54=",
+  "dgSpecHash": "pZFWKQjZc2U=",
   "success": true,
   "projectFilePath": "/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/ClinicManager.csproj",
   "expectedPackageFiles": [
@@ -9,8 +9,14 @@
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/documentformat.openxml/2.16.0/documentformat.openxml.2.16.0.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/excelnumberformat/1.1.0/excelnumberformat.1.1.0.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/hardcodet.notifyicon.wpf/1.1.0/hardcodet.notifyicon.wpf.1.1.0.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/harfbuzzsharp/8.3.0.1/harfbuzzsharp.8.3.0.1.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/harfbuzzsharp.nativeassets.macos/8.3.0.1/harfbuzzsharp.nativeassets.macos.8.3.0.1.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/harfbuzzsharp.nativeassets.win32/8.3.0.1/harfbuzzsharp.nativeassets.win32.8.3.0.1.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/irony.netcore/1.0.11/irony.netcore.1.0.11.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/livechartscore/2.0.0-rc5.4/livechartscore.2.0.0-rc5.4.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/livechartscore.skiasharpview/2.0.0-rc5.4/livechartscore.skiasharpview.2.0.0-rc5.4.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/livechartscore.skiasharpview.wpf/2.0.0-rc5.4/livechartscore.skiasharpview.wpf.2.0.0-rc5.4.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/microsoft.bcl.asyncinterfaces/6.0.0/microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/microsoft.codeanalysis.analyzers/3.3.3/microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/microsoft.codeanalysis.common/4.5.0/microsoft.codeanalysis.common.4.5.0.nupkg.sha512",
@@ -41,6 +47,8 @@
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/microsoft.win32.primitives/4.3.0/microsoft.win32.primitives.4.3.0.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/netstandard.library/1.6.1/netstandard.library.1.6.1.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/opentk/3.3.1/opentk.3.3.1.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/opentk.glwpfcontrol/3.3.0/opentk.glwpfcontrol.3.3.0.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/questpdf/2024.3.0/questpdf.2024.3.0.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl/4.3.2/runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl/4.3.2/runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
@@ -59,6 +67,12 @@
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl/4.3.2/runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.2/runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/sixlabors.fonts/1.0.0/sixlabors.fonts.1.0.0.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/skiasharp/3.116.1/skiasharp.3.116.1.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/skiasharp.harfbuzz/3.116.1/skiasharp.harfbuzz.3.116.1.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/skiasharp.nativeassets.macos/3.116.1/skiasharp.nativeassets.macos.3.116.1.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/skiasharp.nativeassets.win32/3.116.1/skiasharp.nativeassets.win32.3.116.1.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/skiasharp.views.desktop.common/3.116.1/skiasharp.views.desktop.common.3.116.1.nupkg.sha512",
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/skiasharp.views.wpf/3.116.1/skiasharp.views.wpf.3.116.1.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/sqlitepclraw.bundle_e_sqlite3/2.1.6/sqlitepclraw.bundle_e_sqlite3.2.1.6.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/sqlitepclraw.core/2.1.6/sqlitepclraw.core.2.1.6.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/sqlitepclraw.lib.e_sqlite3/2.1.6/sqlitepclraw.lib.e_sqlite3.2.1.6.nupkg.sha512",
@@ -142,13 +156,40 @@
   ],
   "logs": [
     {
-      "code": "NU1900",
+      "code": "NU1701",
       "level": "Warning",
-      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json.",
+      "message": "Package 'OpenTK 3.3.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
       "projectPath": "/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/ClinicManager.csproj",
       "warningLevel": 1,
       "filePath": "/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/ClinicManager.csproj",
-      "targetGraphs": []
+      "libraryId": "OpenTK",
+      "targetGraphs": [
+        "net8.0-windows7.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "message": "Package 'OpenTK.GLWpfControl 3.3.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
+      "projectPath": "/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/ClinicManager.csproj",
+      "warningLevel": 1,
+      "filePath": "/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/ClinicManager.csproj",
+      "libraryId": "OpenTK.GLWpfControl",
+      "targetGraphs": [
+        "net8.0-windows7.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "message": "Package 'SkiaSharp.Views.WPF 3.116.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
+      "projectPath": "/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/ClinicManager.csproj",
+      "warningLevel": 1,
+      "filePath": "/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/ClinicManager.csproj",
+      "libraryId": "SkiaSharp.Views.WPF",
+      "targetGraphs": [
+        "net8.0-windows7.0"
+      ]
     }
   ]
 }

@@ -101,4 +101,28 @@ public class AppointmentService
         return await db.Appointments
             .CountAsync(a => a.Date.Date >= now.Date && a.Status == AppointmentStatus.Scheduled);
     }
+
+    public async Task<int> GetCompletedCountAsync(DateTime? from = null, DateTime? to = null)
+    {
+        using var db = new ClinicDbContext();
+        var query = db.Appointments.Where(a => a.Status == AppointmentStatus.Completed);
+        if (from.HasValue) query = query.Where(a => a.Date.Date >= from.Value.Date);
+        if (to.HasValue) query = query.Where(a => a.Date.Date <= to.Value.Date);
+        return await query.CountAsync();
+    }
+
+    public async Task<List<(string Doctor, int Count)>> GetAppointmentsByDoctorAsync(int months = 6)
+    {
+        var start = DateTime.Today.AddMonths(-months);
+        using var db = new ClinicDbContext();
+        var list = await db.Appointments
+            .Where(a => a.Date >= start)
+            .ToListAsync();
+
+        return list
+            .GroupBy(a => string.IsNullOrEmpty(a.DoctorName) ? "(Unassigned)" : a.DoctorName)
+            .Select(g => (g.Key, g.Count()))
+            .OrderByDescending(x => x.Item2)
+            .ToList();
+    }
 }

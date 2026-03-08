@@ -57,6 +57,10 @@
               "target": "Package",
               "version": "[1.1.0, )"
             },
+            "LiveChartsCore.SkiaSharpView.WPF": {
+              "target": "Package",
+              "version": "[2.0.0-rc5.4, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "suppressParent": "All",
               "target": "Package",

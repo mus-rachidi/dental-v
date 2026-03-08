@@ -104,6 +104,35 @@ public class PaymentService
             .SumAsync(p => p.Amount);
     }
 
+    public async Task<decimal> GetPendingBillsAmountAsync()
+    {
+        using var db = new ClinicDbContext();
+        return await db.Payments
+            .Where(p => p.Status == PaymentStatus.Pending)
+            .SumAsync(p => p.Amount);
+    }
+
+    public async Task<List<(string Month, decimal Amount)>> GetMonthlyRevenueAsync(int months = 6)
+    {
+        var result = new List<(string, decimal)>();
+        var today = DateTime.Today;
+        using var db = new ClinicDbContext();
+
+        for (var i = months - 1; i >= 0; i--)
+        {
+            var start = today.AddMonths(-i);
+            var firstDay = new DateTime(start.Year, start.Month, 1);
+            var lastDay = firstDay.AddMonths(1).AddDays(-1);
+
+            var amount = await db.Payments
+                .Where(p => p.Date >= firstDay && p.Date <= lastDay && p.Status == PaymentStatus.Completed)
+                .SumAsync(p => p.Amount);
+
+            result.Add((firstDay.ToString("MMM yyyy"), amount));
+        }
+        return result;
+    }
+
     /// <summary>Get payments for CNSS report (Morocco).</summary>
     public async Task<List<Payment>> GetCNSSReportAsync(DateTime from, DateTime to)
     {
