@@ -55,11 +55,11 @@ public class ClinicDbContext : DbContext
                   .WithMany(p => p.Appointments)
                   .HasForeignKey(e => e.PatientId)
                   .OnDelete(DeleteBehavior.Cascade);
-            // SQLite doesn't support TimeSpan - store as "HH:mm" string
+            // SQLite doesn't support TimeSpan in ORDER BY - store as ticks (long) for sortable queries
             entity.Property(e => e.Time)
                   .HasConversion(
-                      v => $"{v.Hours:D2}:{v.Minutes:D2}",
-                      v => ParseTimeSpan(v));
+                      v => v.Ticks,
+                      v => ParseTimeSpanFromDb(v));
         });
 
         modelBuilder.Entity<Payment>(entity =>
@@ -110,16 +110,18 @@ public class ClinicDbContext : DbContext
         });
     }
 
-    private static TimeSpan ParseTimeSpan(string? v)
+    private static TimeSpan ParseTimeSpanFromDb(object? v)
     {
-        if (string.IsNullOrWhiteSpace(v)) return new TimeSpan(9, 0, 0);
-        if (TimeSpan.TryParse(v, out var ts)) return ts;
-        // Handle "HH:mm" format
-        var parts = v.Split(':');
+        if (v == null || v == DBNull.Value) return new TimeSpan(9, 0, 0);
+        if (v is long ticks) return TimeSpan.FromTicks(ticks);
+        var s = v.ToString();
+        if (string.IsNullOrWhiteSpace(s)) return new TimeSpan(9, 0, 0);
+        if (long.TryParse(s, System.Globalization.NumberStyles.Integer, null, out var t))
+            return TimeSpan.FromTicks(t);
+        if (TimeSpan.TryParse(s, out var ts)) return ts;
+        var parts = s.Split(':');
         if (parts.Length >= 2 && int.TryParse(parts[0], out var h) && int.TryParse(parts[1], out var m))
             return new TimeSpan(h, m, 0);
-        // Handle ticks (legacy SQLite REAL column)
-        if (long.TryParse(v, out var ticks)) return TimeSpan.FromTicks(ticks);
         return new TimeSpan(9, 0, 0);
     }
 
