@@ -17,7 +17,7 @@
                                    Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="Staff Management" Style="{DynamicResource PageTitleStyle}" />
+                        <TextBlock Text="Staff Management tooko" Style="{DynamicResource PageTitleStyle}" />
                         <TextBlock Text="Manage doctors, nurses, and clinic staff" FontSize="12"
                                    Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,2,0,0" />
                     </StackPanel>
