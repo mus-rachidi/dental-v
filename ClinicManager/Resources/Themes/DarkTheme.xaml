@@ -2,29 +2,29 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- ═══════════════════════════════════════════════════════════════════ -->
-    <!-- MODERN DARK THEME - Professional UI                                 -->
+    <!-- PROFESSIONAL DARK THEME - ClinicPro                                 -->
     <!-- ═══════════════════════════════════════════════════════════════════ -->
-    <SolidColorBrush x:Key="PrimaryBrush" Color="#818CF8" />
-    <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#6366F1" />
-    <SolidColorBrush x:Key="PrimaryLightBrush" Color="#312E81" />
-    <SolidColorBrush x:Key="PrimaryDarkBrush" Color="#6366F1" />
-    <SolidColorBrush x:Key="AccentBrush" Color="#818CF8" />
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#38BDF8" />
+    <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#0EA5E9" />
+    <SolidColorBrush x:Key="PrimaryLightBrush" Color="#0C4A6E" />
+    <SolidColorBrush x:Key="PrimaryDarkBrush" Color="#0284C7" />
+    <SolidColorBrush x:Key="AccentBrush" Color="#38BDF8" />
     <SolidColorBrush x:Key="SuccessBrush" Color="#34D399" />
     <SolidColorBrush x:Key="SuccessLightBrush" Color="#064E3B" />
     <SolidColorBrush x:Key="WarningBrush" Color="#FBBF24" />
     <SolidColorBrush x:Key="WarningLightBrush" Color="#78350F" />
     <SolidColorBrush x:Key="DangerBrush" Color="#F87171" />
     <SolidColorBrush x:Key="DangerLightBrush" Color="#7F1D1D" />
-    <SolidColorBrush x:Key="InfoBrush" Color="#60A5FA" />
-    <SolidColorBrush x:Key="InfoLightBrush" Color="#1E3A8A" />
+    <SolidColorBrush x:Key="InfoBrush" Color="#38BDF8" />
+    <SolidColorBrush x:Key="InfoLightBrush" Color="#0C4A6E" />
 
     <SolidColorBrush x:Key="BackgroundBrush" Color="#0F172A" />
     <SolidColorBrush x:Key="SurfaceBrush" Color="#1E293B" />
     <SolidColorBrush x:Key="SidebarBrush" Color="#0F172A" />
     <SolidColorBrush x:Key="SidebarTextBrush" Color="#E2E8F0" />
     <SolidColorBrush x:Key="SidebarHoverBrush" Color="#334155" />
-    <SolidColorBrush x:Key="SidebarActiveBgBrush" Color="#6366F1" />
-    <SolidColorBrush x:Key="SidebarActiveIndicatorBrush" Color="#6366F1" />
+    <SolidColorBrush x:Key="SidebarActiveBgBrush" Color="#0EA5E9" />
+    <SolidColorBrush x:Key="SidebarActiveIndicatorBrush" Color="#0EA5E9" />
 
     <SolidColorBrush x:Key="TextPrimaryBrush" Color="#F8FAFC" />
     <SolidColorBrush x:Key="TextSecondaryBrush" Color="#94A3B8" />
@@ -33,7 +33,7 @@
     <SolidColorBrush x:Key="InputBgBrush" Color="#1E293B" />
     <SolidColorBrush x:Key="RowHoverBrush" Color="#334155" />
     <SolidColorBrush x:Key="RowAlternateBrush" Color="#1E293B" />
-    <SolidColorBrush x:Key="RowSelectedBrush" Color="#6366F1" />
+    <SolidColorBrush x:Key="RowSelectedBrush" Color="#0EA5E9" />
 
     <FontFamily x:Key="PrimaryFont">Segoe UI, sans-serif</FontFamily>
     <FontFamily x:Key="MonoFont">Cascadia Code, Consolas</FontFamily>
@@ -41,14 +41,14 @@
     <!-- CARD -->
     <Style x:Key="CardStyle" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
-        <Setter Property="Padding" Value="16" />
+        <Setter Property="Padding" Value="20" />
         <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="CornerRadius" Value="12" />
     </Style>
 
     <Style x:Key="StatCardStyle" TargetType="Border" BasedOn="{StaticResource CardStyle}">
-        <Setter Property="Padding" Value="16" />
+        <Setter Property="Padding" Value="18" />
         <Setter Property="MinWidth" Value="160" />
     </Style>
 
@@ -59,7 +59,7 @@
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
         <Setter Property="FontSize" Value="13" />
         <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="Padding" Value="16,10" />
+        <Setter Property="Padding" Value="18,11" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template">
@@ -84,13 +84,13 @@
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
         <Setter Property="FontSize" Value="13" />
-        <Setter Property="Padding" Value="16,10" />
+        <Setter Property="Padding" Value="18,11" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="6"
+                    <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="8"
                             Padding="{TemplateBinding Padding}">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
@@ -223,14 +223,14 @@
 
     <Style x:Key="PageTitleStyle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
-        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontSize" Value="24" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
     </Style>
 
     <Style x:Key="SectionTitleStyle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="15" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
     </Style>

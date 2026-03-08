@@ -233,29 +233,29 @@
                             <ScrollViewer x:Name="ChartPanel" VerticalScrollBarVisibility="Auto" 
                                           Padding="12,10" Visibility="Collapsed">
                                 <StackPanel>
-                                    <!-- Legend - Clean horizontal layout -->
-                                    <Border Background="{DynamicResource SurfaceBrush}" Padding="10,8" Margin="0,0,0,12"
-                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="6">
+                                    <!-- Legend - Professional horizontal layout -->
+                                    <Border Background="{DynamicResource SurfaceBrush}" Padding="12,10" Margin="0,0,0,14"
+                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="8">
                                         <WrapPanel>
-                                            <Border Width="10" Height="10" Margin="0,0,4,0" CornerRadius="2" Background="#10B981" VerticalAlignment="Center" />
-                                            <TextBlock Text="Healthy" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,12,0" VerticalAlignment="Center" />
-                                            <Border Width="10" Height="10" Margin="0,0,4,0" CornerRadius="2" Background="#EF4444" VerticalAlignment="Center" />
-                                            <TextBlock Text="Cavity" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,12,0" VerticalAlignment="Center" />
-                                            <Border Width="10" Height="10" Margin="0,0,4,0" CornerRadius="2" Background="#3B82F6" VerticalAlignment="Center" />
-                                            <TextBlock Text="Filled" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,12,0" VerticalAlignment="Center" />
-                                            <Border Width="10" Height="10" Margin="0,0,4,0" CornerRadius="2" Background="#F59E0B" VerticalAlignment="Center" />
-                                            <TextBlock Text="Crown" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,12,0" VerticalAlignment="Center" />
-                                            <Border Width="10" Height="10" Margin="0,0,4,0" CornerRadius="2" Background="#6B7280" VerticalAlignment="Center" />
-                                            <TextBlock Text="Missing" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" />
+                                            <Border Width="12" Height="12" Margin="0,0,6,0" CornerRadius="3" Background="#10B981" VerticalAlignment="Center" />
+                                            <TextBlock Text="Healthy" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,14,0" VerticalAlignment="Center" />
+                                            <Border Width="12" Height="12" Margin="0,0,6,0" CornerRadius="3" Background="#EF4444" VerticalAlignment="Center" />
+                                            <TextBlock Text="Cavity" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,14,0" VerticalAlignment="Center" />
+                                            <Border Width="12" Height="12" Margin="0,0,6,0" CornerRadius="3" Background="#3B82F6" VerticalAlignment="Center" />
+                                            <TextBlock Text="Filled" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,14,0" VerticalAlignment="Center" />
+                                            <Border Width="12" Height="12" Margin="0,0,6,0" CornerRadius="3" Background="#F59E0B" VerticalAlignment="Center" />
+                                            <TextBlock Text="Crown" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,14,0" VerticalAlignment="Center" />
+                                            <Border Width="12" Height="12" Margin="0,0,6,0" CornerRadius="3" Background="#6B7280" VerticalAlignment="Center" />
+                                            <TextBlock Text="Missing" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" />
                                         </WrapPanel>
                                     </Border>
 
                                     <!-- Upper Jaw -->
-                                    <TextBlock Text="UPPER JAW (Patient's Right → Left)" FontWeight="SemiBold" FontSize="11" 
+                                    <TextBlock Text="UPPER JAW (Patient's Right → Left)" FontWeight="SemiBold" FontSize="12" 
                                                Foreground="{DynamicResource PrimaryBrush}"
-                                               HorizontalAlignment="Center" Margin="0,0,0,8" />
-                                    <Border Background="{DynamicResource SurfaceBrush}" Padding="12,10" Margin="0,0,0,8"
-                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="8">
+                                               HorizontalAlignment="Center" Margin="0,0,0,10" />
+                                    <Border Background="{DynamicResource SurfaceBrush}" Padding="14,12" Margin="0,0,0,10"
+                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="10">
                                         <ItemsControl ItemsSource="{Binding UpperTeeth}" HorizontalAlignment="Center">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -264,13 +264,17 @@
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Border Width="44" Height="56" Margin="2" Cursor="Hand"
+                                                    <Border Width="48" Height="60" Margin="3" Cursor="Hand"
                                                             Background="Transparent" BorderThickness="2" BorderBrush="Transparent"
+                                                            CornerRadius="6"
                                                             MouseLeftButtonDown="Tooth_Click" Tag="{Binding}"
                                                             ToolTip="{Binding Name}">
                                                         <Border.Style>
                                                             <Style TargetType="Border">
                                                                 <Style.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Background" Value="{DynamicResource RowHoverBrush}" />
+                                                                    </Trigger>
                                                                     <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                                                         <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
                                                                         <Setter Property="Background" Value="{DynamicResource PrimaryLightBrush}" />
@@ -280,9 +284,9 @@
                                                         </Border.Style>
                                                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                                             <TextBlock Text="{Binding ToothNumber}" FontSize="10" FontWeight="Bold"
-                                                                       HorizontalAlignment="Center" Margin="0,0,0,2"
+                                                                       HorizontalAlignment="Center" Margin="0,0,0,3"
                                                                        Foreground="{DynamicResource TextSecondaryBrush}" />
-                                                            <controls:ToothShapeControl Width="36" Height="40"
+                                                            <controls:ToothShapeControl Width="40" Height="44"
                                                                 ToothType="{Binding Type}"
                                                                 ConditionColor="{Binding Color, Converter={StaticResource StringToBrush}}" />
                                                         </StackPanel>
@@ -293,14 +297,14 @@
                                     </Border>
 
                                     <!-- Jaw Separator -->
-                                    <Border Height="2" Background="{DynamicResource PrimaryBrush}" Margin="8,4" Opacity="0.3" />
+                                    <Border Height="2" Background="{DynamicResource PrimaryBrush}" Margin="12,6" Opacity="0.35" />
 
                                     <!-- Lower Jaw -->
-                                    <TextBlock Text="LOWER JAW (Patient's Right → Left)" FontWeight="SemiBold" FontSize="11" 
+                                    <TextBlock Text="LOWER JAW (Patient's Right → Left)" FontWeight="SemiBold" FontSize="12" 
                                                Foreground="{DynamicResource PrimaryBrush}"
-                                               HorizontalAlignment="Center" Margin="0,8,0,8" />
-                                    <Border Background="{DynamicResource SurfaceBrush}" Padding="12,10" Margin="0,0,0,12"
-                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="8">
+                                               HorizontalAlignment="Center" Margin="0,10,0,10" />
+                                    <Border Background="{DynamicResource SurfaceBrush}" Padding="14,12" Margin="0,0,0,14"
+                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="10">
                                         <ItemsControl ItemsSource="{Binding LowerTeeth}" HorizontalAlignment="Center">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -309,13 +313,17 @@
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Border Width="44" Height="56" Margin="2" Cursor="Hand"
+                                                    <Border Width="48" Height="60" Margin="3" Cursor="Hand"
                                                             Background="Transparent" BorderThickness="2" BorderBrush="Transparent"
+                                                            CornerRadius="6"
                                                             MouseLeftButtonDown="Tooth_Click" Tag="{Binding}"
                                                             ToolTip="{Binding Name}">
                                                         <Border.Style>
                                                             <Style TargetType="Border">
                                                                 <Style.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Background" Value="{DynamicResource RowHoverBrush}" />
+                                                                    </Trigger>
                                                                     <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                                                         <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
                                                                         <Setter Property="Background" Value="{DynamicResource PrimaryLightBrush}" />
@@ -324,11 +332,11 @@
                                                             </Style>
                                                         </Border.Style>
                                                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                            <controls:ToothShapeControl Width="36" Height="40"
+                                                            <controls:ToothShapeControl Width="40" Height="44"
                                                                 ToothType="{Binding Type}"
                                                                 ConditionColor="{Binding Color, Converter={StaticResource StringToBrush}}" />
                                                             <TextBlock Text="{Binding ToothNumber}" FontSize="10" FontWeight="Bold"
-                                                                       HorizontalAlignment="Center" Margin="0,2,0,0"
+                                                                       HorizontalAlignment="Center" Margin="0,3,0,0"
                                                                        Foreground="{DynamicResource TextSecondaryBrush}" />
                                                         </StackPanel>
                                                     </Border>
@@ -338,8 +346,8 @@
                                     </Border>
 
                                     <!-- Selected Tooth Detail -->
-                                    <Border Margin="0,8,0,0" Background="{DynamicResource SurfaceBrush}" 
-                                            Padding="14" BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="1" CornerRadius="8"
+                                    <Border Margin="0,10,0,0" Background="{DynamicResource SurfaceBrush}" 
+                                            Padding="16" BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="1" CornerRadius="10"
                                             Visibility="{Binding SelectedTooth, Converter={StaticResource NullToVis}, FallbackValue=Collapsed}">
                                         <StackPanel>
                                             <TextBlock Text="{Binding SelectedTooth.Name}" FontWeight="SemiBold" FontSize="12"

@@ -69,7 +69,7 @@ public partial class ToothShapeControl : UserControl
     private void UpdateColors()
     {
         var fill = ConditionColor.Clone();
-        fill.Opacity = 0.25;
+        fill.Opacity = 0.5;
         var stroke = ConditionColor;
 
         IncisorPath.Fill = fill;
