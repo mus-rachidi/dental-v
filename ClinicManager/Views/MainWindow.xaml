@@ -4,11 +4,16 @@
         xmlns:local="clr-namespace:ClinicManager.Localization"
         xmlns:pages="clr-namespace:ClinicManager.Views.Pages"
         xmlns:vm="clr-namespace:ClinicManager.ViewModels"
+        xmlns:helpers="clr-namespace:ClinicManager.Helpers"
         Title="{local:Localize AppTitle}" 
         Height="700" Width="1100" MinHeight="500" MinWidth="800"
         WindowStartupLocation="CenterScreen"
         Background="{DynamicResource BackgroundBrush}"
         Icon="pack://application:,,,/ClinicManager;component/Resources/Icons/app.ico">
+
+    <Window.Resources>
+        <helpers:BoolToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
 
     <Window.InputBindings>
         <KeyBinding Key="F5" Command="{Binding CurrentViewModel.RefreshCommand}" />
@@ -158,6 +163,17 @@
                         <TextBlock x:Name="LabelSystem" Text="System" FontSize="9" FontWeight="Bold" 
                                    Foreground="{DynamicResource TextMutedBrush}" Margin="10,4,0,2" />
 
+                        <RadioButton x:Name="NavUsersBtn" Style="{DynamicResource NavButtonStyle}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Users"
+                                     GroupName="Nav" ToolTip="User Management"
+                                     Visibility="{Binding CanManageUsers, Converter={StaticResource BoolToVis}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="11" 
+                                           VerticalAlignment="Center" Margin="0,0,6,0" />
+                                <TextBlock x:Name="NavUsers" Text="Users" VerticalAlignment="Center" FontSize="11" />
+                            </StackPanel>
+                        </RadioButton>
+
                         <RadioButton Style="{DynamicResource NavButtonStyle}"
                                      Command="{Binding NavigateCommand}" CommandParameter="Settings"
                                      GroupName="Nav" ToolTip="Settings">
@@ -182,6 +198,10 @@
                     BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,0,1"
                     Padding="16,0,20,0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock x:Name="CurrentUserText" VerticalAlignment="Center" Margin="0,0,16,0"
+                               Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" />
+                    <Button x:Name="LogoutBtn" Content="Logout" Click="LogoutBtn_Click"
+                            Style="{DynamicResource SecondaryButtonStyle}" Padding="10,6" Margin="0,0,16,0" FontSize="11" />
                     <TextBlock Text="{local:Localize Language}" VerticalAlignment="Center" Margin="0,0,6,0"
                                Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" />
                     <ComboBox x:Name="LangCombo" Width="120" SelectedIndex="{Binding SettingsVM.SelectedLanguageIndex}"
@@ -210,6 +230,7 @@
                     <DataTemplate DataType="{x:Type vm:MedicalRecordsViewModel}"><pages:MedicalRecordsPage /></DataTemplate>
                     <DataTemplate DataType="{x:Type vm:ReportsViewModel}"><pages:ReportsPage /></DataTemplate>
                     <DataTemplate DataType="{x:Type vm:SettingsViewModel}"><pages:SettingsPage /></DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:UsersManagementViewModel}"><pages:UsersPage /></DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>
         </DockPanel>

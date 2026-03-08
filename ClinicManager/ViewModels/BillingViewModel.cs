@@ -149,9 +149,17 @@ public class BillingViewModel : ViewModelBase, ILoadable
             };
 
             if (_editId == 0)
+            {
                 await _paymentService.CreateAsync(payment);
+                var uid = App.SessionService?.CurrentUser?.Id;
+                if (uid.HasValue) AuditService.Log(uid.Value, AuditService.Actions.CreatePayment, payment.Description);
+            }
             else
+            {
                 await _paymentService.UpdateAsync(payment);
+                var uid = App.SessionService?.CurrentUser?.Id;
+                if (uid.HasValue) AuditService.Log(uid.Value, AuditService.Actions.EditPayment, payment.Description);
+            }
 
             IsEditing = false;
             await LoadAsync();
@@ -168,7 +176,10 @@ public class BillingViewModel : ViewModelBase, ILoadable
         var result = MessageBox.Show(Localization.Strings.ConfirmDelete, Localization.Strings.Confirm, MessageBoxButton.YesNo, MessageBoxImage.Warning);
         if (result != MessageBoxResult.Yes) return;
 
+        var desc = SelectedPayment.Description;
         await _paymentService.DeleteAsync(SelectedPayment.Id);
+        var uid = App.SessionService?.CurrentUser?.Id;
+        if (uid.HasValue) AuditService.Log(uid.Value, AuditService.Actions.DeletePayment, desc);
         SelectedPayment = null;
         await LoadAsync();
     }

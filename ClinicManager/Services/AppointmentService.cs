@@ -13,8 +13,8 @@ public class AppointmentService
     public async Task<List<Appointment>> GetAllAsync()
     {
         using var db = new ClinicDbContext();
-        var list = await db.Appointments.Include(a => a.Patient).ToListAsync();
-        return list.OrderByDescending(a => a.Date).ThenBy(a => a.Time).ToList();
+        var list = await db.Appointments.Include(a => a.Patient).AsNoTracking().ToListAsync();
+        return list.AsEnumerable().OrderByDescending(a => a.Date).ThenBy(a => a.Time).ToList();
     }
 
     public async Task<List<Appointment>> GetTodayAsync()
@@ -24,8 +24,9 @@ public class AppointmentService
         var list = await db.Appointments
             .Include(a => a.Patient)
             .Where(a => a.Date.Date == today)
+            .AsNoTracking()
             .ToListAsync();
-        return list.OrderBy(a => a.Time).ToList();
+        return list.AsEnumerable().OrderBy(a => a.Time).ToList();
     }
 
     public async Task<List<Appointment>> GetByDateRangeAsync(DateTime from, DateTime to)
@@ -34,8 +35,9 @@ public class AppointmentService
         var list = await db.Appointments
             .Include(a => a.Patient)
             .Where(a => a.Date.Date >= from.Date && a.Date.Date <= to.Date)
+            .AsNoTracking()
             .ToListAsync();
-        return list.OrderBy(a => a.Date).ThenBy(a => a.Time).ToList();
+        return list.AsEnumerable().OrderBy(a => a.Date).ThenBy(a => a.Time).ToList();
     }
 
     public async Task<List<Appointment>> GetByPatientAsync(int patientId)

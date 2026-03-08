@@ -16,6 +16,8 @@ namespace ClinicManager;
 public partial class App : Application
 {
     private IServiceProvider? _serviceProvider;
+
+    public static SessionService? SessionService { get; private set; }
     private System.Windows.Threading.DispatcherTimer? _backupTimer;
 
     protected override async void OnStartup(StartupEventArgs e)
@@ -54,14 +56,43 @@ public partial class App : Application
                 }
             }
 
-            // Show main window
-            var mainVm = _serviceProvider.GetRequiredService<MainViewModel>();
-            var mainWindow = new MainWindow(mainVm);
-            MainWindow = mainWindow;
-            mainWindow.Show();
+            // Ensure default admin exists
+            var authService = _serviceProvider.GetRequiredService<AuthService>();
+            await authService.EnsureAdminExistsAsync();
 
-            // Start scheduled backup if enabled
-            StartScheduledBackup(settings);
+            // Authentication - show login first
+            SessionService = _serviceProvider.GetRequiredService<SessionService>();
+            var loginVm = _serviceProvider.GetRequiredService<LoginViewModel>();
+            var loginWindow = new LoginWindow(loginVm);
+
+            loginVm.OnLoginSuccess = (user) =>
+            {
+                SessionService!.SetCurrentUser(user);
+                SessionService.SetLogoutCallback(() =>
+                {
+                    AuditService.Log(user.Id, AuditService.Actions.Logout);
+                    SessionService.SetCurrentUser(null);
+                    MainWindow?.Close();
+                    var newLogin = _serviceProvider!.GetRequiredService<LoginViewModel>();
+                    newLogin.OnLoginSuccess = loginVm.OnLoginSuccess;
+                    var newLoginWin = new LoginWindow(newLogin);
+                    MainWindow = newLoginWin;
+                    newLoginWin.Show();
+                });
+
+                AuditService.Log(user.Id, AuditService.Actions.Login);
+
+                var mainVm = _serviceProvider.GetRequiredService<MainViewModel>();
+                var mainWindow = new MainWindow(mainVm);
+                MainWindow = mainWindow;
+                mainWindow.Show();
+                loginWindow.Close();
+                mainVm.Initialize();
+                StartScheduledBackup(settings);
+            };
+
+            MainWindow = loginWindow;
+            loginWindow.Show();
         }
         catch (Exception ex)
         {
@@ -80,6 +111,9 @@ public partial class App : Application
         });
 
         // Services
+        services.AddSingleton<AuthService>();
+        services.AddSingleton<SessionService>();
+        services.AddSingleton<UserService>();
         services.AddSingleton<PatientService>();
         services.AddSingleton<AppointmentService>();
         services.AddSingleton<PaymentService>();
@@ -92,6 +126,7 @@ public partial class App : Application
 
         // ViewModels
         services.AddSingleton<MainViewModel>();
+        services.AddTransient<LoginViewModel>();
     }
 
     private void StartScheduledBackup(Models.AppSettings settings)

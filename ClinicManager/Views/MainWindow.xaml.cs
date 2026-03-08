@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ClinicManager.Services;
 using ClinicManager.ViewModels;
 
 namespace ClinicManager.Views;
@@ -14,11 +15,23 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = viewModel;
-        viewModel.Initialize();
 
+        Loaded += MainWindow_Loaded;
         InputBindings.Add(new KeyBinding(
             new ToggleSidebarCommand(this),
             Key.B, ModifierKeys.Control));
+    }
+
+    private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+    {
+        var user = App.SessionService?.CurrentUser;
+        CurrentUserText.Text = user != null ? $"{user.Username} ({user.Role})" : "";
+        SessionService.TrackActivity(this);
+    }
+
+    private void LogoutBtn_Click(object sender, RoutedEventArgs e)
+    {
+        App.SessionService?.Logout();
     }
 
     private async void LangCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -81,6 +94,7 @@ public partial class MainWindow : Window
         NavInventory.Visibility = vis;
         NavReports.Visibility = vis;
         NavSettings.Visibility = vis;
+        if (NavUsers != null) NavUsers.Visibility = vis; // Users label (when admin)
 
         ToggleIcon.Text = _sidebarCollapsed ? "\uE76C" : "\uE700";
     }

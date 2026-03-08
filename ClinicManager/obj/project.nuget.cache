@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "pZFWKQjZc2U=",
+  "dgSpecHash": "/jtjFYwTQ7M=",
   "success": true,
   "projectFilePath": "/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/ClinicManager.csproj",
   "expectedPackageFiles": [
+    "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/closedxml/0.102.2/closedxml.0.102.2.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/communitytoolkit.mvvm/8.2.2/communitytoolkit.mvvm.8.2.2.nupkg.sha512",
     "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget/documentformat.openxml/2.16.0/documentformat.openxml.2.16.0.nupkg.sha512",

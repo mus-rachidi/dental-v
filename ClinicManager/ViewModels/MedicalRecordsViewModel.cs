@@ -155,9 +155,17 @@ public class MedicalRecordsViewModel : ViewModelBase, ILoadable
             };
 
             if (_editId == 0)
+            {
                 await _recordService.CreateAsync(record);
+                var uid = App.SessionService?.CurrentUser?.Id;
+                if (uid.HasValue) AuditService.Log(uid.Value, AuditService.Actions.EditMedicalRecord, record.Diagnosis);
+            }
             else
+            {
                 await _recordService.UpdateAsync(record);
+                var uid = App.SessionService?.CurrentUser?.Id;
+                if (uid.HasValue) AuditService.Log(uid.Value, AuditService.Actions.EditMedicalRecord, record.Diagnosis);
+            }
 
             IsEditing = false;
             await LoadAsync();
@@ -174,7 +182,10 @@ public class MedicalRecordsViewModel : ViewModelBase, ILoadable
         var result = MessageBox.Show(Localization.Strings.ConfirmDelete, Localization.Strings.Confirm, MessageBoxButton.YesNo, MessageBoxImage.Warning);
         if (result != MessageBoxResult.Yes) return;
 
+        var diag = SelectedRecord.Diagnosis;
         await _recordService.DeleteAsync(SelectedRecord.Id);
+        var uid = App.SessionService?.CurrentUser?.Id;
+        if (uid.HasValue) AuditService.Log(uid.Value, AuditService.Actions.DeleteMedicalRecord, diag);
         SelectedRecord = null;
         await LoadAsync();
     }

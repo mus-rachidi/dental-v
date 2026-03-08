@@ -38,6 +38,18 @@ public class IntToVisibilityConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
+public class StringToVisibilityConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var hasContent = !string.IsNullOrWhiteSpace(value?.ToString());
+        return hasContent ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}
+
 public class InverseBoolConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

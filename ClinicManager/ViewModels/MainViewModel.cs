@@ -18,6 +18,9 @@ public class MainViewModel : ViewModelBase
     public MedicalRecordsViewModel MedicalRecordsVM { get; }
     public ReportsViewModel ReportsVM { get; }
     public SettingsViewModel SettingsVM { get; }
+    public UsersManagementViewModel UsersVM { get; }
+
+    public bool CanManageUsers => App.SessionService?.HasPermission(Models.Permission.ManageUsers) ?? false;
 
     public ViewModelBase CurrentViewModel
     {
@@ -41,6 +44,8 @@ public class MainViewModel : ViewModelBase
         ToothService toothService,
         SettingsService settingsService,
         ExportService exportService,
+        UserService userService,
+        AuthService authService,
         Licensing.LicenseManager licenseManager,
         Database.DatabaseBackupService backupService)
     {
@@ -53,6 +58,7 @@ public class MainViewModel : ViewModelBase
         MedicalRecordsVM = new MedicalRecordsViewModel(medicalRecordService, patientService);
         ReportsVM = new ReportsViewModel();
         SettingsVM = new SettingsViewModel(settingsService, licenseManager, backupService);
+        UsersVM = new UsersManagementViewModel(userService, authService);
 
         _currentViewModel = DashboardVM;
 
@@ -80,6 +86,7 @@ public class MainViewModel : ViewModelBase
             "MedicalRecords" => MedicalRecordsVM,
             "Reports" => ReportsVM,
             "Settings" => SettingsVM,
+            "Users" => UsersVM,
             _ => DashboardVM
         };
 

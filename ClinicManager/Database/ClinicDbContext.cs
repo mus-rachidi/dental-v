@@ -21,6 +21,8 @@ public class ClinicDbContext : DbContext
     public DbSet<MedicalRecord> MedicalRecords => Set<MedicalRecord>();
     public DbSet<ToothRecord> ToothRecords => Set<ToothRecord>();
     public DbSet<XRayRecord> XRayRecords => Set<XRayRecord>();
+    public DbSet<User> Users => Set<User>();
+    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -95,6 +97,17 @@ public class ClinicDbContext : DbContext
                   .HasForeignKey(e => e.PatientId)
                   .OnDelete(DeleteBehavior.Cascade);
         });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasIndex(e => e.Username).IsUnique();
+        });
+
+        modelBuilder.Entity<AuditLog>(entity =>
+        {
+            entity.HasIndex(e => e.UserId);
+            entity.HasIndex(e => e.Timestamp);
+        });
     }
 
     private static TimeSpan ParseTimeSpan(string? v)
@@ -128,8 +141,51 @@ public class ClinicDbContext : DbContext
         AddColumnIfMissing(conn, "Patients", "PhotoPath", "TEXT DEFAULT '' NOT NULL");
         CreateTableIfMissing(conn);
         CreateXRayTableIfMissing(conn);
+        CreateUsersTableIfMissing(conn);
+        CreateAuditLogTableIfMissing(conn);
         MigratePatientProFields(conn);
         MigratePaymentMoroccoFields(conn);
+    }
+
+    private static void CreateUsersTableIfMissing(SqliteConnection conn)
+    {
+        using var cmd = conn.CreateCommand();
+        cmd.CommandText = @"
+            CREATE TABLE IF NOT EXISTS Users (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                Username TEXT NOT NULL UNIQUE,
+                PasswordHash TEXT NOT NULL,
+                Role INTEGER NOT NULL DEFAULT 3,
+                Status INTEGER NOT NULL DEFAULT 0,
+                CreatedAt TEXT NOT NULL DEFAULT (datetime('now')),
+                LastLogin TEXT,
+                FailedLoginAttempts INTEGER NOT NULL DEFAULT 0,
+                LockoutEnd TEXT
+            )";
+        cmd.ExecuteNonQuery();
+        using var idx = conn.CreateCommand();
+        idx.CommandText = "CREATE UNIQUE INDEX IF NOT EXISTS IX_Users_Username ON Users (Username)";
+        idx.ExecuteNonQuery();
+    }
+
+    private static void CreateAuditLogTableIfMissing(SqliteConnection conn)
+    {
+        using var cmd = conn.CreateCommand();
+        cmd.CommandText = @"
+            CREATE TABLE IF NOT EXISTS AuditLogs (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                UserId INTEGER NOT NULL,
+                Action TEXT NOT NULL,
+                Timestamp TEXT NOT NULL DEFAULT (datetime('now')),
+                Details TEXT
+            )";
+        cmd.ExecuteNonQuery();
+        using var idx = conn.CreateCommand();
+        idx.CommandText = "CREATE INDEX IF NOT EXISTS IX_AuditLogs_UserId ON AuditLogs (UserId)";
+        idx.ExecuteNonQuery();
+        using var idx2 = conn.CreateCommand();
+        idx2.CommandText = "CREATE INDEX IF NOT EXISTS IX_AuditLogs_Timestamp ON AuditLogs (Timestamp)";
+        idx2.ExecuteNonQuery();
     }
 
     private static void MigratePatientProFields(SqliteConnection conn)

@@ -195,9 +195,17 @@ public class AppointmentsViewModel : ViewModelBase, ILoadable
             };
 
             if (_editId == 0)
+            {
                 await _appointmentService.CreateAsync(appointment);
+                var uid = App.SessionService?.CurrentUser?.Id;
+                if (uid.HasValue) AuditService.Log(uid.Value, AuditService.Actions.CreateAppointment, appointment.Patient?.FullName);
+            }
             else
+            {
                 await _appointmentService.UpdateAsync(appointment);
+                var uid = App.SessionService?.CurrentUser?.Id;
+                if (uid.HasValue) AuditService.Log(uid.Value, AuditService.Actions.EditAppointment, appointment.Patient?.FullName);
+            }
 
             IsEditing = false;
             await LoadAsync();
@@ -219,7 +227,10 @@ public class AppointmentsViewModel : ViewModelBase, ILoadable
 
         try
         {
+            var pid = SelectedAppointment.PatientId;
             await _appointmentService.DeleteAsync(SelectedAppointment.Id);
+            var uid = App.SessionService?.CurrentUser?.Id;
+            if (uid.HasValue) AuditService.Log(uid.Value, AuditService.Actions.DeleteAppointment, $"PatientId:{pid}");
             SelectedAppointment = null;
             await LoadAsync();
         }

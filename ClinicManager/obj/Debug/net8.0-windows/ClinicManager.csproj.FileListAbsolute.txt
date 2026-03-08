@@ -208,3 +208,8 @@
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/bin/Debug/net8.0-windows/runtimes/win-arm64/native/libSkiaSharp.dll
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/bin/Debug/net8.0-windows/runtimes/win-x64/native/libSkiaSharp.dll
 /Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/bin/Debug/net8.0-windows/runtimes/win-x86/native/libSkiaSharp.dll
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/Views/LoginWindow.g.cs
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/Views/Pages/UsersPage.g.cs
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/bin/Debug/net8.0-windows/BCrypt.Net-Next.dll
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/Views/LoginWindow.baml
+/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/Debug/net8.0-windows/Views/Pages/UsersPage.baml

@@ -378,6 +378,8 @@ public class PatientsViewModel : ViewModelBase, ILoadable
             if (EditingPatient.Id == 0)
             {
                 var created = await _patientService.CreateAsync(EditingPatient);
+                var uid = App.SessionService?.CurrentUser?.Id;
+                if (uid.HasValue) AuditService.Log(uid.Value, AuditService.Actions.CreatePatient, created.FullName);
                 if (!string.IsNullOrEmpty(EditingPatient.PhotoPath) && File.Exists(EditingPatient.PhotoPath))
                 {
                     var saved = ToothService.SavePatientPhoto(created.Id, EditingPatient.PhotoPath);
@@ -395,6 +397,8 @@ public class PatientsViewModel : ViewModelBase, ILoadable
                     EditingPatient.PhotoPath = saved;
                 }
                 await _patientService.UpdateAsync(EditingPatient);
+                var uid = App.SessionService?.CurrentUser?.Id;
+                if (uid.HasValue) AuditService.Log(uid.Value, AuditService.Actions.EditPatient, EditingPatient.FullName);
             }
 
             IsEditing = false;
@@ -425,7 +429,10 @@ public class PatientsViewModel : ViewModelBase, ILoadable
 
         try
         {
+            var name = SelectedPatient.FullName;
             await _patientService.DeleteAsync(SelectedPatient.Id);
+            var uid = App.SessionService?.CurrentUser?.Id;
+            if (uid.HasValue) AuditService.Log(uid.Value, AuditService.Actions.DeletePatient, name);
             SelectedPatient = null;
             await LoadAsync();
         }

@@ -119,6 +119,16 @@
         <Setter Property="BorderThickness" Value="1" />
     </Style>
 
+    <Style x:Key="ModernPasswordBoxStyle" TargetType="PasswordBox">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Padding" Value="10,8" />
+        <Setter Property="Background" Value="{StaticResource InputBgBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
     <!-- DataGrid Row -->
     <Style x:Key="ModernDataGridRowStyle" TargetType="DataGridRow">
         <Setter Property="Background" Value="Transparent" />
