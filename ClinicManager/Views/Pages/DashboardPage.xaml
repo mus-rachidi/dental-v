@@ -11,10 +11,10 @@
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-        <StackPanel Margin="16,12,16,20">
+        <StackPanel Margin="20,16,20,24">
 
             <!-- Header + Quick Actions -->
-            <DockPanel Margin="0,0,0,12">
+            <DockPanel Margin="0,0,0,16">
                 <StackPanel>
                     <TextBlock Text="{local:Localize Dashboard}" Style="{DynamicResource PageTitleStyle}" />
                     <TextBlock Text="{local:Localize Welcome}" Foreground="{DynamicResource TextSecondaryBrush}" 
@@ -43,36 +43,41 @@
             </Border>
 
             <!-- Search + Filter -->
-            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,12" Padding="12,10">
+            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,16" Padding="16,12">
                 <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="16" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
-                             Style="{DynamicResource ModernTextBoxStyle}" FontSize="12"
-                             Tag="{local:Localize QuickSearch}" />
-                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="{local:Localize From}" VerticalAlignment="Center" Margin="0,0,6,0" FontSize="11"
+                    <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                             Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{DynamicResource ModernTextBoxStyle}"
+                             Tag="{local:Localize QuickSearch}" Margin="0,0,0,12" />
+                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="{local:Localize From}" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13"
                                    Foreground="{DynamicResource TextSecondaryBrush}" />
-                        <DatePicker SelectedDate="{Binding FilterFrom}" Width="110" FontSize="11" />
-                        <TextBlock Text="{local:Localize To}" VerticalAlignment="Center" Margin="12,0,6,0" FontSize="11"
+                        <DatePicker SelectedDate="{Binding FilterFrom}" Width="130" FontSize="13" Margin="0,0,16,0" />
+                        <TextBlock Text="{local:Localize To}" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13"
                                    Foreground="{DynamicResource TextSecondaryBrush}" />
-                        <DatePicker SelectedDate="{Binding FilterTo}" Width="110" FontSize="11" />
+                        <DatePicker SelectedDate="{Binding FilterTo}" Width="130" FontSize="13" Margin="0,0,16,0" />
                         <Button Content="{local:Localize Apply}" Command="{Binding FilterCommand}"
-                                Style="{DynamicResource PrimaryButtonStyle}" Margin="12,0,0,0" Padding="12,6" FontSize="11" />
+                                Style="{DynamicResource PrimaryButtonStyle}" />
                     </StackPanel>
                 </Grid>
             </Border>
 
             <!-- KPI Tiles (clickable) -->
-            <UniformGrid Columns="4" Margin="0,0,0,12">
+            <UniformGrid Columns="4" Margin="0,0,0,16">
                 <Border Style="{DynamicResource StatCardStyle}" Margin="0,0,6,6" Cursor="Hand"
                         MouseLeftButtonDown="KpiPatients_Click"
                         ToolTip="Click to view Patients">
                     <DockPanel>
-                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
+                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="0"
                                 Background="{DynamicResource PrimaryBrush}">
                             <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="18"
                                        Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -90,7 +95,7 @@
                         MouseLeftButtonDown="KpiPatients_Click"
                         ToolTip="New patients this month">
                     <DockPanel>
-                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
+                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="0"
                                 Background="{DynamicResource SuccessBrush}">
                             <TextBlock Text="&#xE8FA;" FontFamily="Segoe MDL2 Assets" FontSize="18"
                                        Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -108,7 +113,7 @@
                         MouseLeftButtonDown="KpiAppointments_Click"
                         ToolTip="Click to view Appointments">
                     <DockPanel>
-                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
+                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="0"
                                 Background="{DynamicResource InfoBrush}">
                             <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets" FontSize="18"
                                        Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -126,8 +131,8 @@
                         MouseLeftButtonDown="KpiAppointments_Click"
                         ToolTip="Upcoming appointments">
                     <DockPanel>
-                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
-                                Background="#8B5CF6">
+                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="0"
+                                Background="{DynamicResource InfoBrush}">
                             <TextBlock Text="&#xE823;" FontFamily="Segoe MDL2 Assets" FontSize="18"
                                        Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
@@ -144,7 +149,7 @@
                         MouseLeftButtonDown="KpiMedicalRecords_Click"
                         ToolTip="Completed treatments">
                     <DockPanel>
-                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
+                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="0"
                                 Background="{DynamicResource SuccessBrush}">
                             <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" FontSize="18"
                                        Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -162,7 +167,7 @@
                         MouseLeftButtonDown="KpiBilling_Click"
                         ToolTip="Today's revenue">
                     <DockPanel>
-                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
+                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="0"
                                 Background="{DynamicResource SuccessBrush}">
                             <TextBlock Text="&#xE8C7;" FontFamily="Segoe MDL2 Assets" FontSize="18"
                                        Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -180,7 +185,7 @@
                         MouseLeftButtonDown="KpiBilling_Click"
                         ToolTip="This month's revenue">
                     <DockPanel>
-                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
+                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="0"
                                 Background="{DynamicResource WarningBrush}">
                             <TextBlock Text="&#xE9D9;" FontFamily="Segoe MDL2 Assets" FontSize="18"
                                        Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -198,7 +203,7 @@
                         MouseLeftButtonDown="KpiBilling_Click"
                         ToolTip="Pending bills to collect">
                     <DockPanel>
-                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
+                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="0"
                                 Background="{DynamicResource DangerBrush}">
                             <TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets" FontSize="18"
                                        Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -214,7 +219,7 @@
             </UniformGrid>
 
             <!-- Charts Row -->
-            <Grid Margin="0,0,0,12">
+            <Grid Margin="0,0,0,16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="12" />
@@ -259,8 +264,8 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="12" />
-                    <ColumnDefinition Width="320" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="340" MinWidth="280" />
                 </Grid.ColumnDefinitions>
 
                 <Border Style="{DynamicResource CardStyle}" Padding="16">
@@ -269,42 +274,46 @@
                             <TextBlock Text="{local:Localize TodayAppointments}" Style="{DynamicResource SectionTitleStyle}" />
                             <Button Content="{local:Localize Appointments}" DockPanel.Dock="Right" 
                                     Command="{Binding ViewAllAppointmentsCommand}"
-                                    Style="{DynamicResource SecondaryButtonStyle}" Padding="10,6" FontSize="11" />
+                                    Style="{DynamicResource SecondaryButtonStyle}" />
                         </DockPanel>
-                        <ItemsControl ItemsSource="{Binding TodayAppointmentsList}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Margin="0,0,0,6" Padding="10,8" Cursor="Hand"
-                                            Background="{DynamicResource RowAlternateBrush}"
-                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
-                                            MouseLeftButtonDown="Appointment_Click">
-                                        <DockPanel>
-                                            <Border Width="4" Margin="0,0,10,0" Background="{DynamicResource PrimaryBrush}" />
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding Patient.FullName}" FontWeight="SemiBold" 
-                                                           Foreground="{DynamicResource TextPrimaryBrush}" FontSize="12" />
-                                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                                                    <TextBlock Text="{Binding Time, StringFormat='{}{0:hh\\:mm}'}" 
-                                                               Foreground="{DynamicResource PrimaryBrush}" FontSize="11" />
-                                                    <TextBlock Text=" • " Foreground="{DynamicResource TextMutedBrush}" />
-                                                    <TextBlock Text="{Binding DoctorName}" 
-                                                               Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" />
-                                                </StackPanel>
-                                            </StackPanel>
-                                            <Border DockPanel.Dock="Right" Padding="8,4" CornerRadius="4"
-                                                    Background="{DynamicResource PrimaryLightBrush}" VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding Status}" FontSize="10" 
-                                                           Foreground="{DynamicResource TextPrimaryBrush}" />
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="280">
+                            <StackPanel>
+                                <ItemsControl ItemsSource="{Binding TodayAppointmentsList}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Margin="0,0,0,6" Padding="10,8" Cursor="Hand"
+                                                    Background="{DynamicResource RowAlternateBrush}"
+                                                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
+                                                    MouseLeftButtonDown="Appointment_Click">
+                                                <DockPanel>
+                                                    <Border Width="4" Margin="0,0,10,0" Background="{DynamicResource PrimaryBrush}" />
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Patient.FullName}" FontWeight="SemiBold" 
+                                                                   Foreground="{DynamicResource TextPrimaryBrush}" FontSize="12" />
+                                                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                                            <TextBlock Text="{Binding Time, StringFormat='{}{0:hh\\:mm}'}" 
+                                                                       Foreground="{DynamicResource PrimaryBrush}" FontSize="11" />
+                                                            <TextBlock Text=" • " Foreground="{DynamicResource TextMutedBrush}" />
+                                                            <TextBlock Text="{Binding DoctorName}" 
+                                                                       Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    <Border DockPanel.Dock="Right" Padding="8,4" CornerRadius="0"
+                                                            Background="{DynamicResource PrimaryLightBrush}" VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding Status}" FontSize="10" 
+                                                                   Foreground="{DynamicResource TextPrimaryBrush}" />
+                                                    </Border>
+                                                </DockPanel>
                                             </Border>
-                                        </DockPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <TextBlock Text="{local:Localize NoAppointmentsToday}" FontSize="12"
-                                   Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center"
-                                   Margin="0,20,0,0"
-                                   Visibility="{Binding TodayAppointments, Converter={StaticResource IntToVis}, ConverterParameter=ZeroToVisible}" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <TextBlock Text="{local:Localize NoAppointmentsToday}" FontSize="12"
+                                           Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center"
+                                           Margin="0,20,0,0"
+                                           Visibility="{Binding TodayAppointments, Converter={StaticResource IntToVis}, ConverterParameter=ZeroToVisible}" />
+                            </StackPanel>
+                        </ScrollViewer>
                     </DockPanel>
                 </Border>
 
@@ -314,8 +323,9 @@
                             <TextBlock Text="{local:Localize RecentPatients}" Style="{DynamicResource SectionTitleStyle}" />
                             <Button Content="{local:Localize Patients}" DockPanel.Dock="Right"
                                     Command="{Binding ViewAllPatientsCommand}"
-                                    Style="{DynamicResource SecondaryButtonStyle}" Padding="10,6" FontSize="11" />
+                                    Style="{DynamicResource SecondaryButtonStyle}" />
                         </DockPanel>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="280">
                         <ItemsControl ItemsSource="{Binding RecentPatients}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
@@ -324,7 +334,7 @@
                                             BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
                                             MouseLeftButtonDown="Patient_Click">
                                         <DockPanel>
-                                            <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="4"
+                                            <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="0"
                                                     Background="{DynamicResource PrimaryBrush}">
                                                 <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="14"
                                                            Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -340,6 +350,7 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+                        </ScrollViewer>
                     </DockPanel>
                 </Border>
             </Grid>

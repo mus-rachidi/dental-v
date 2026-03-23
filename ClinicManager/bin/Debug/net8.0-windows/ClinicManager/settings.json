@@ -1,0 +1,14 @@
+{
+  "Language": "en",
+  "Theme": "Light",
+  "ClinicName": "My Clinic",
+  "ClinicAddress": "",
+  "ClinicPhone": "",
+  "DefaultDoctor": "",
+  "DefaultAppointmentDuration": 30,
+  "AutoBackup": true,
+  "BackupPath": "",
+  "BackupIntervalHours": 24,
+  "MinimizeToTray": true,
+  "StartWithWindows": false
+}

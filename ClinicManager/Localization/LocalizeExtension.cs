@@ -14,11 +14,23 @@ public class LocalizeExtension : MarkupExtension
 
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        var binding = new Binding($"[{Key}]")
+        if (string.IsNullOrEmpty(Key))
+            return string.Empty;
+
+        try
         {
-            Source = TranslationSource.Instance,
-            Mode = BindingMode.OneWay
-        };
-        return binding.ProvideValue(serviceProvider);
+            var binding = new Binding($"[{Key}]")
+            {
+                Source = TranslationSource.Instance,
+                Mode = BindingMode.OneWay,
+                FallbackValue = $"[{Key}]"
+            };
+            return binding.ProvideValue(serviceProvider);
+        }
+        catch
+        {
+            try { return TranslationSource.Instance[Key]; }
+            catch { return Key; }
+        }
     }
 }

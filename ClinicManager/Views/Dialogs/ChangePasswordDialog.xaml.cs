@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using ClinicManager.Models;
@@ -21,12 +22,21 @@ public partial class ChangePasswordDialog : Window
 
     private async void OkButton_Click(object sender, RoutedEventArgs e)
     {
-        var newPassword = NewPasswordBox.Password;
-        var confirm = ConfirmPasswordBox.Password;
+        if (OkButton?.IsEnabled == false) return;
+        e.Handled = true;
+        ErrorText.Visibility = Visibility.Collapsed;
+        var newPassword = NewPasswordBox?.Password ?? string.Empty;
+        var confirm = ConfirmPasswordBox?.Password ?? string.Empty;
 
         if (string.IsNullOrEmpty(newPassword))
         {
             ShowError("Please enter a new password.");
+            return;
+        }
+
+        if (string.IsNullOrEmpty(confirm))
+        {
+            ShowError("Please confirm your password.");
             return;
         }
 
@@ -44,18 +54,34 @@ public partial class ChangePasswordDialog : Window
         }
 
         OkButton.IsEnabled = false;
-        var (resetSuccess, resetMessage) = await _authService.ResetPasswordAsync(_user.Id, newPassword);
-        OkButton.IsEnabled = true;
-
-        if (resetSuccess)
+        OkButton.Content = "Saving...";
+        try
         {
-            Success = true;
-            DialogResult = true;
-            Close();
+            var (resetSuccess, resetMessage) = await _authService.ResetPasswordAsync(_user.Id, newPassword);
+            Dispatcher.Invoke(() =>
+            {
+                if (resetSuccess)
+                {
+                    Success = true;
+                    DialogResult = true;
+                    Close();
+                }
+                else
+                {
+                    ShowError(resetMessage);
+                    OkButton.IsEnabled = true;
+                    OkButton.Content = "Accept / Change Password";
+                }
+            });
         }
-        else
+        catch (Exception ex)
         {
-            ShowError(resetMessage);
+            Dispatcher.Invoke(() =>
+            {
+                ShowError(string.IsNullOrEmpty(ex.Message) ? "An error occurred. Please try again." : ex.Message);
+                OkButton.IsEnabled = true;
+                OkButton.Content = "Accept / Change Password";
+            });
         }
     }
 

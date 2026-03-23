@@ -16,4 +16,10 @@ public partial class UsersPage : UserControl
         if (DataContext is UsersManagementViewModel vm && sender is PasswordBox pb)
             vm.EditPassword = pb.Password;
     }
+
+    private void EditConfirmPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is UsersManagementViewModel vm && sender is PasswordBox pb)
+            vm.EditConfirmPassword = pb.Password;
+    }
 }

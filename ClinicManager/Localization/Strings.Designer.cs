@@ -73,5 +73,8 @@ namespace ClinicManager.Localization {
         public static string InvalidTimeFormat => ResourceManager.GetString("InvalidTimeFormat", resourceCulture) ?? "Please enter time in HH:mm format (e.g. 09:30).";
         public static string NoAppointmentsInRange => ResourceManager.GetString("NoAppointmentsInRange", resourceCulture) ?? "No appointments found for the selected date range.";
         public static string NoPatients => ResourceManager.GetString("NoPatients", resourceCulture) ?? "No patients found. Add patients first.";
+        public static string Logout => ResourceManager.GetString("Logout", resourceCulture) ?? "Logout";
+        public static string SessionExpired => ResourceManager.GetString("SessionExpired", resourceCulture) ?? "Session Expired";
+        public static string SessionExpiredMessage => ResourceManager.GetString("SessionExpiredMessage", resourceCulture) ?? "You have been logged out due to inactivity.";
     }
 }

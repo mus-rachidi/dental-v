@@ -10,21 +10,23 @@ public partial class SettingsPage : UserControl
         InitializeComponent();
     }
 
-    private void LanguageCombo_Changed(object sender, SelectionChangedEventArgs e)
+    private async void LanguageCombo_Changed(object sender, SelectionChangedEventArgs e)
     {
         if (DataContext is SettingsViewModel vm && LanguageCombo.SelectedIndex >= 0)
         {
             var lang = LanguageCombo.SelectedIndex == 0 ? "en" : "fr";
             vm.ApplyLanguage(lang);
+            await vm.SaveSettingsSilentAsync();
         }
     }
 
-    private void ThemeCombo_Changed(object sender, SelectionChangedEventArgs e)
+    private async void ThemeCombo_Changed(object sender, SelectionChangedEventArgs e)
     {
         if (DataContext is SettingsViewModel vm && ThemeCombo.SelectedIndex >= 0)
         {
             var theme = ThemeCombo.SelectedIndex == 0 ? "Light" : "Dark";
             vm.ApplyThemeFromUI(theme);
+            await vm.SaveSettingsSilentAsync();
         }
     }
 }

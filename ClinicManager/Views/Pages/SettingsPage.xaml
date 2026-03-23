@@ -5,15 +5,15 @@
              xmlns:local="clr-namespace:ClinicManager.Localization">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-        <StackPanel MaxWidth="580" Margin="16,12,16,16">
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+        <StackPanel MaxWidth="600" Margin="20,16,20,24">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
                 <TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="22"
                            Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,10,0" />
                 <TextBlock Text="{local:Localize Settings}" Style="{DynamicResource PageTitleStyle}" />
             </StackPanel>
 
             <!-- General Settings -->
-            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,10">
+            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,16">
                 <StackPanel>
                     <TextBlock Text="{local:Localize General}" Style="{DynamicResource SectionTitleStyle}" Margin="0,0,0,8" />
 
@@ -48,9 +48,9 @@
             </Border>
 
             <!-- Appearance -->
-            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,10">
+            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,16">
                 <StackPanel>
-                    <TextBlock Text="Appearance" Style="{DynamicResource SectionTitleStyle}" Margin="0,0,0,8" />
+                    <TextBlock Text="{local:Localize Appearance}" Style="{DynamicResource SectionTitleStyle}" Margin="0,0,0,8" />
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -63,8 +63,8 @@
                             <TextBlock Text="{local:Localize Language}" Style="{DynamicResource FormLabelStyle}" />
                             <ComboBox x:Name="LanguageCombo" SelectedIndex="{Binding SelectedLanguageIndex}" 
                                       FontSize="13" Padding="10" SelectionChanged="LanguageCombo_Changed">
-                                <ComboBoxItem Content="English" />
-                                <ComboBoxItem Content="Français" />
+                                <ComboBoxItem Content="{local:Localize LanguageEnglish}" />
+                                <ComboBoxItem Content="{local:Localize LanguageFrench}" />
                             </ComboBox>
                         </StackPanel>
 
@@ -72,8 +72,8 @@
                             <TextBlock Text="{local:Localize Theme}" Style="{DynamicResource FormLabelStyle}" />
                             <ComboBox x:Name="ThemeCombo" SelectedIndex="{Binding SelectedThemeIndex}" 
                                       FontSize="13" Padding="10" SelectionChanged="ThemeCombo_Changed">
-                                <ComboBoxItem Content="Light" />
-                                <ComboBoxItem Content="Dark" />
+                                <ComboBoxItem Content="{local:Localize LightMode}" />
+                                <ComboBoxItem Content="{local:Localize DarkMode}" />
                             </ComboBox>
                         </StackPanel>
                     </Grid>
@@ -84,7 +84,7 @@
             </Border>
 
             <!-- Backup Settings -->
-            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,10">
+            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,16">
                 <StackPanel>
                     <TextBlock Text="{local:Localize BackupSettings}" Style="{DynamicResource SectionTitleStyle}" Margin="0,0,0,8" />
 
@@ -101,7 +101,7 @@
             </Border>
 
             <!-- License Info -->
-            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,10">
+            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,16">
                 <StackPanel>
                     <TextBlock Text="{local:Localize LicenseInfo}" Style="{DynamicResource SectionTitleStyle}" Margin="0,0,0,8" />
 

@@ -12,22 +12,22 @@
     <Grid>
         <!-- Main List -->
         <DockPanel Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
-            <DockPanel DockPanel.Dock="Top" Margin="16,12,16,8">
+            <DockPanel DockPanel.Dock="Top" Margin="20,16,20,12">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xE8C7;" FontFamily="Segoe MDL2 Assets" FontSize="22"
-                               Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,10,0" />
+                               Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,12,0" />
                     <TextBlock Text="{local:Localize Billing}" Style="{DynamicResource PageTitleStyle}" VerticalAlignment="Center" />
                 </StackPanel>
-                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
                     <Button Content="{local:Localize ExportToExcel}" Command="{Binding ExportCommand}"
-                            Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,8,0" Padding="16,8" />
+                            Style="{DynamicResource SecondaryButtonStyle}" Margin="0,0,12,0" />
                     <Button Content="{local:Localize AddPayment}" Command="{Binding AddCommand}"
-                            Style="{DynamicResource PrimaryButtonStyle}" Padding="16,8" />
+                            Style="{DynamicResource PrimaryButtonStyle}" />
                 </StackPanel>
             </DockPanel>
 
             <!-- Filter + Total -->
-            <Border DockPanel.Dock="Top" Margin="16,0,16,8">
+            <Border DockPanel.Dock="Top" Margin="20,0,20,12">
                 <DockPanel>
                     <Border Style="{DynamicResource CardStyle}" Padding="14,10">
                         <StackPanel Orientation="Horizontal">
@@ -55,20 +55,20 @@
                 </DockPanel>
             </Border>
 
-            <Border Margin="16,0,16,12" Style="{DynamicResource CardStyle}" Padding="0">
+            <Border Margin="20,0,20,16" Style="{DynamicResource CardStyle}" Padding="0">
                 <DataGrid ItemsSource="{Binding Payments}" 
                           SelectedItem="{Binding SelectedPayment}"
                           Style="{DynamicResource ModernDataGridStyle}"
                           ColumnHeaderStyle="{DynamicResource ModernDataGridColumnHeaderStyle}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="{local:Localize InvoiceNumber}" Binding="{Binding InvoiceNumber}" Width="140" />
-                        <DataGridTextColumn Header="{local:Localize PatientName}" Binding="{Binding Patient.FullName}" Width="*" />
+                        <DataGridTextColumn Header="{local:Localize InvoiceNumber}" Binding="{Binding InvoiceNumber}" Width="140" MinWidth="90" />
+                        <DataGridTextColumn Header="{local:Localize PatientName}" Binding="{Binding Patient.FullName}" Width="*" MinWidth="100" />
                         <DataGridTextColumn Header="{local:Localize Amount}" 
-                                            Binding="{Binding Amount, StringFormat='{}{0:N2} MAD'}" Width="100" />
+                                            Binding="{Binding Amount, StringFormat='{}{0:N2} MAD'}" Width="100" MinWidth="80" />
                         <DataGridTextColumn Header="{local:Localize Date}" 
-                                            Binding="{Binding Date, StringFormat='{}{0:yyyy-MM-dd}'}" Width="110" />
-                        <DataGridTextColumn Header="{local:Localize PaymentMethod}" Binding="{Binding Method}" Width="120" />
-                        <DataGridTextColumn Header="{local:Localize Status}" Binding="{Binding Status}" Width="100" />
+                                            Binding="{Binding Date, StringFormat='{}{0:yyyy-MM-dd}'}" Width="110" MinWidth="90" />
+                        <DataGridTextColumn Header="{local:Localize PaymentMethod}" Binding="{Binding Method}" Width="120" MinWidth="80" />
+                        <DataGridTextColumn Header="{local:Localize Status}" Binding="{Binding Status}" Width="100" MinWidth="70" />
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>
@@ -113,14 +113,14 @@
                     </Grid>
 
                     <TextBlock Text="{local:Localize PaymentMethod}" Style="{DynamicResource FormLabelStyle}" />
-                    <ComboBox SelectedItem="{Binding EditMethod}" FontSize="13" Padding="10" Margin="0,0,0,16">
-                        <models:PaymentMethod>Cash</models:PaymentMethod>
-                        <models:PaymentMethod>CreditCard</models:PaymentMethod>
-                        <models:PaymentMethod>DebitCard</models:PaymentMethod>
-                        <models:PaymentMethod>Check</models:PaymentMethod>
-                        <models:PaymentMethod>Insurance</models:PaymentMethod>
-                        <models:PaymentMethod>BankTransfer</models:PaymentMethod>
-                        <models:PaymentMethod>Other</models:PaymentMethod>
+                    <ComboBox SelectedValue="{Binding EditMethod}" SelectedValuePath="Tag" FontSize="13" Padding="10" Margin="0,0,0,16">
+                        <ComboBoxItem Content="{local:Localize Cash}" Tag="{x:Static models:PaymentMethod.Cash}" />
+                        <ComboBoxItem Content="{local:Localize CreditCard}" Tag="{x:Static models:PaymentMethod.CreditCard}" />
+                        <ComboBoxItem Content="{local:Localize DebitCard}" Tag="{x:Static models:PaymentMethod.DebitCard}" />
+                        <ComboBoxItem Content="{local:Localize Check}" Tag="{x:Static models:PaymentMethod.Check}" />
+                        <ComboBoxItem Content="{local:Localize Insurance}" Tag="{x:Static models:PaymentMethod.Insurance}" />
+                        <ComboBoxItem Content="{local:Localize BankTransfer}" Tag="{x:Static models:PaymentMethod.BankTransfer}" />
+                        <ComboBoxItem Content="{local:Localize Other}" Tag="{x:Static models:PaymentMethod.Other}" />
                     </ComboBox>
 
                     <TextBlock Text="{local:Localize Description}" Style="{DynamicResource FormLabelStyle}" />

@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using System.Windows;
 using ClinicManager.Licensing;
 
@@ -8,6 +10,7 @@ public partial class LicenseDialog : Window
     private readonly LicenseManager _licenseManager;
 
     public bool IsActivated { get; private set; }
+    public bool IsSkipped { get; private set; }
 
     public LicenseDialog(LicenseManager licenseManager)
     {
@@ -39,18 +42,33 @@ public partial class LicenseDialog : Window
             return;
         }
 
-        if (_licenseManager.ActivateLicense(key, name))
+        try
         {
-            IsActivated = true;
-            MessageBox.Show("License activated successfully!", "Success",
-                MessageBoxButton.OK, MessageBoxImage.Information);
-            DialogResult = true;
-            Close();
+            if (_licenseManager.ActivateLicense(key, name))
+            {
+                IsActivated = true;
+                MessageBox.Show("License activated successfully!", "Success",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+                DialogResult = true;
+                Close();
+            }
+            else
+            {
+                var msg = _licenseManager.LastError ?? "Invalid license key. Please check and try again.";
+                ShowError(msg);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            ShowError("Invalid license key. Please check and try again.");
+            ShowError($"Unexpected error: {ex.Message}. Use 'Continue without license' to run the app.");
         }
+    }
+
+    private void ContinueWithoutLicense_Click(object sender, RoutedEventArgs e)
+    {
+        IsSkipped = true;
+        DialogResult = true;
+        Close();
     }
 
     private void ExitButton_Click(object sender, RoutedEventArgs e)

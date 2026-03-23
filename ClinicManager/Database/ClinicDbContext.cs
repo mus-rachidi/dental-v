@@ -3,16 +3,14 @@ using System.IO;
 using System.Security.Cryptography;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using ClinicManager.Helpers;
 using ClinicManager.Models;
 
 namespace ClinicManager.Database;
 
 public class ClinicDbContext : DbContext
 {
-    private static readonly string DbDirectory = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "ClinicManager");
-
+    private static readonly string DbDirectory = DataPathHelper.GetClinicManagerDirectory();
     private static readonly string DbPath = Path.Combine(DbDirectory, "clinic.db");
 
     public DbSet<Patient> Patients => Set<Patient>();
@@ -218,7 +216,8 @@ public class ClinicDbContext : DbContext
                 CreatedAt TEXT NOT NULL DEFAULT (datetime('now')),
                 LastLogin TEXT,
                 FailedLoginAttempts INTEGER NOT NULL DEFAULT 0,
-                LockoutEnd TEXT
+                LockoutEnd TEXT,
+                MustChangePassword INTEGER NOT NULL DEFAULT 0
             )";
         cmd.ExecuteNonQuery();
         using var idx = conn.CreateCommand();
@@ -250,7 +249,7 @@ public class ClinicDbContext : DbContext
     {
         AddColumnIfMissing(conn, "Patients", "CIN", "TEXT DEFAULT '' NOT NULL");
         AddColumnIfMissing(conn, "Patients", "EmergencyContact", "TEXT DEFAULT '' NOT NULL");
-        AddColumnIfMissing(conn, "Patients", "RegistrationDate", "TEXT DEFAULT (date('now')) NOT NULL");
+        AddColumnIfMissing(conn, "Patients", "RegistrationDate", "TEXT DEFAULT '' NOT NULL");
         AddColumnIfMissing(conn, "Patients", "Allergies", "TEXT DEFAULT '' NOT NULL");
         AddColumnIfMissing(conn, "Patients", "Medications", "TEXT DEFAULT '' NOT NULL");
         AddColumnIfMissing(conn, "Patients", "ChronicDiseases", "TEXT DEFAULT '' NOT NULL");
@@ -276,16 +275,22 @@ public class ClinicDbContext : DbContext
 
     private static void AddColumnIfMissing(SqliteConnection conn, string table, string column, string definition)
     {
-        using var cmd = conn.CreateCommand();
-        cmd.CommandText = $"PRAGMA table_info({table})";
-        using var reader = cmd.ExecuteReader();
-
-        while (reader.Read())
+        bool exists;
+        using (var cmd = conn.CreateCommand())
         {
-            if (reader.GetString(1).Equals(column, StringComparison.OrdinalIgnoreCase))
-                return;
+            cmd.CommandText = $"PRAGMA table_info({table})";
+            using var reader = cmd.ExecuteReader();
+            exists = false;
+            while (reader.Read())
+            {
+                if (reader.GetString(1).Equals(column, StringComparison.OrdinalIgnoreCase))
+                {
+                    exists = true;
+                    break;
+                }
+            }
         }
-        reader.Close();
+        if (exists) return;
 
         using var alter = conn.CreateCommand();
         alter.CommandText = $"ALTER TABLE {table} ADD COLUMN {column} {definition}";

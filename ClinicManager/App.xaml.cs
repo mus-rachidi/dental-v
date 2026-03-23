@@ -43,24 +43,47 @@ public partial class App : Application
             ApplyTheme(settings.Theme);
 
             // License check
-            var licenseManager = _serviceProvider.GetRequiredService<LicenseManager>();
-            if (!licenseManager.IsLicensed())
+            try
             {
-                var dialog = new LicenseDialog(licenseManager);
-                var result = dialog.ShowDialog();
-
-                if (result != true || !dialog.IsActivated)
+                var licenseManager = _serviceProvider.GetRequiredService<LicenseManager>();
+                if (!licenseManager.IsLicensed())
                 {
-                    Shutdown();
-                    return;
+                    var dialog = new LicenseDialog(licenseManager);
+                    var result = dialog.ShowDialog();
+
+                    if (result != true)
+                    {
+                        Shutdown();
+                        return;
+                    }
+                    // Proceed if activated or user chose "Continue without license"
                 }
             }
+            catch (Exception)
+            {
+                // If license check fails (e.g. access denied), proceed without license
+            }
 
-            // Ensure default admin exists
+            // Ensure default admin exists (admin / Admin@123)
             var authService = _serviceProvider.GetRequiredService<AuthService>();
-            await authService.EnsureAdminExistsAsync();
+            try
+            {
+                await authService.EnsureAdminExistsAsync();
+            }
+            catch (Exception ex)
+            {
+                var logDir = Path.Combine(ClinicManager.Helpers.DataPathHelper.GetClinicManagerDirectory(), "Logs");
+                try { Directory.CreateDirectory(logDir); } catch { }
+                try
+                {
+                    File.AppendAllText(Path.Combine(logDir, $"error_{DateTime.Now:yyyyMMdd}.log"),
+                        $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] EnsureAdmin failed: {ex}\n\n");
+                }
+                catch { }
+                // Continue to login screen - user can try admin/Admin@123 and we'll create on-the-fly
+            }
 
-            // Authentication - show login first
+            // Show sign-in, then main window on success
             SessionService = _serviceProvider.GetRequiredService<SessionService>();
             var loginVm = _serviceProvider.GetRequiredService<LoginViewModel>();
             var loginWindow = new LoginWindow(loginVm);
@@ -69,8 +92,8 @@ public partial class App : Application
             {
                 if (mustChangePassword)
                 {
-                    var authService = _serviceProvider!.GetRequiredService<AuthService>();
-                    var changePwdDialog = new ChangePasswordDialog(authService, user);
+                    var auth = _serviceProvider!.GetRequiredService<AuthService>();
+                    var changePwdDialog = new ChangePasswordDialog(auth, user);
                     if (changePwdDialog.ShowDialog() != true || !changePwdDialog.Success)
                         return;
                 }
@@ -80,21 +103,26 @@ public partial class App : Application
                 {
                     AuditService.Log(user.Id, AuditService.Actions.Logout);
                     SessionService.SetCurrentUser(null);
+                    if (MainWindow is MainWindow mw)
+                        mw.IsLoggingOut = true;
                     MainWindow?.Close();
                     var newLogin = _serviceProvider!.GetRequiredService<LoginViewModel>();
                     newLogin.OnLoginSuccess = loginVm.OnLoginSuccess;
                     var newLoginWin = new LoginWindow(newLogin);
                     MainWindow = newLoginWin;
                     newLoginWin.Show();
+                    newLoginWin.Activate();
                 });
 
                 AuditService.Log(user.Id, AuditService.Actions.Login);
 
                 var mainVm = _serviceProvider.GetRequiredService<MainViewModel>();
                 var mainWindow = new MainWindow(mainVm);
-                MainWindow = mainWindow;
+                var currentWindow = Application.Current.MainWindow;
                 mainWindow.Show();
-                loginWindow.Close();
+                if (currentWindow != null && currentWindow != mainWindow)
+                    currentWindow.Close();
+                MainWindow = mainWindow;
                 mainVm.Initialize();
                 StartScheduledBackup(settings);
             };
@@ -104,7 +132,8 @@ public partial class App : Application
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Failed to start application:\n{ex.Message}",
+            var fullMessage = GetFullExceptionMessage(ex);
+            MessageBox.Show($"Failed to start application:\n\n{fullMessage}",
                 "Startup Error", MessageBoxButton.OK, MessageBoxImage.Error);
             Shutdown();
         }
@@ -178,26 +207,59 @@ public partial class App : Application
 
     private void SetupLogging()
     {
-        var logDir = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "ClinicManager", "Logs");
-        Directory.CreateDirectory(logDir);
+        var logDir = GetLogDirectory();
+        try
+        {
+            Directory.CreateDirectory(logDir);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            logDir = Path.Combine(Path.GetTempPath(), "ClinicManager", "Logs");
+            try { Directory.CreateDirectory(logDir); } catch { /* best effort */ }
+        }
+        catch (IOException)
+        {
+            logDir = Path.Combine(Path.GetTempPath(), "ClinicManager", "Logs");
+            try { Directory.CreateDirectory(logDir); } catch { /* best effort */ }
+        }
 
+        var capturedLogDir = logDir;
         AppDomain.CurrentDomain.UnhandledException += (s, args) =>
         {
             var ex = args.ExceptionObject as Exception;
-            LogError(logDir, ex);
-            MessageBox.Show($"An unexpected error occurred:\n{ex?.Message}",
+            LogError(capturedLogDir, ex);
+            var msg = ex != null ? GetFullExceptionMessage(ex) : "Unknown error";
+            MessageBox.Show($"An unexpected error occurred:\n\n{msg}",
                 "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         };
 
         DispatcherUnhandledException += (s, args) =>
         {
-            LogError(logDir, args.Exception);
-            MessageBox.Show($"An unexpected error occurred:\n{args.Exception.Message}",
+            LogError(capturedLogDir, args.Exception);
+            var msg = GetFullExceptionMessage(args.Exception);
+            MessageBox.Show($"An unexpected error occurred:\n\n{msg}",
                 "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             args.Handled = true;
         };
+    }
+
+    private static string GetLogDirectory()
+    {
+        return Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "ClinicManager", "Logs");
+    }
+
+    private static string GetFullExceptionMessage(Exception ex)
+    {
+        var msg = ex.Message;
+        var inner = ex.InnerException;
+        while (inner != null)
+        {
+            msg += $"\n\nInner: {inner.GetType().Name}: {inner.Message}";
+            inner = inner.InnerException;
+        }
+        return msg;
     }
 
     private static void LogError(string logDir, Exception? ex)

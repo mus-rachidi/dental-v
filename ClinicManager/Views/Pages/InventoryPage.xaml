@@ -42,7 +42,7 @@
                 </Border>
             </Border>
 
-            <Border DockPanel.Dock="Top" Margin="20,0,20,12">
+            <Border DockPanel.Dock="Top" Margin="20,0,20,16">
                 <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
                          Style="{DynamicResource ModernTextBoxStyle}"
                          Tag="Search by name, category, supplier..." />
@@ -62,7 +62,7 @@
                 </Border>
             </Border>
 
-            <Border Margin="20,0,20,20" Style="{DynamicResource CardStyle}" Padding="0">
+            <Border Margin="20,0,20,16" Style="{DynamicResource CardStyle}" Padding="0">
                 <DataGrid ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}"
                           Style="{DynamicResource ModernDataGridStyle}"
                           ColumnHeaderStyle="{DynamicResource ModernDataGridColumnHeaderStyle}">

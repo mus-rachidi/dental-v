@@ -45,6 +45,7 @@ public class ReportsViewModel : ViewModelBase, ILoadable
     public decimal TotalRevenue { get => _totalRevenue; set => SetProperty(ref _totalRevenue, value); }
     public decimal PendingBills { get => _pendingBills; set => SetProperty(ref _pendingBills, value); }
     public int LowStockCount { get => _lowStockCount; set => SetProperty(ref _lowStockCount, value); }
+    public decimal AvgRevenuePerVisit => CompletedAppointments > 0 ? TotalRevenue / CompletedAppointments : 0;
 
     public ObservableCollection<ISeries> RevenueSeries { get; } = new();
     public ObservableCollection<ISeries> AppointmentsByDoctorSeries { get; } = new();
@@ -104,6 +105,7 @@ public class ReportsViewModel : ViewModelBase, ILoadable
             var payments = await _paymentService.GetByDateRangeAsync(FilterFrom, FilterTo);
             TotalRevenue = payments.Where(p => p.Status == Models.PaymentStatus.Completed).Sum(p => p.Amount);
             PendingBills = await _paymentService.GetPendingBillsAmountAsync();
+            OnPropertyChanged(nameof(AvgRevenuePerVisit));
 
             await LoadChartsAsync();
         }

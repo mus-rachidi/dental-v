@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ClinicManager.Helpers;
 using ClinicManager.Models;
 
 namespace ClinicManager.Services;
@@ -9,8 +10,7 @@ namespace ClinicManager.Services;
 public class SettingsService
 {
     private static readonly string SettingsPath = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "ClinicManager", "settings.json");
+        DataPathHelper.GetClinicManagerDirectory(), "settings.json");
 
     private AppSettings? _cached;
 
@@ -22,7 +22,7 @@ public class SettingsService
         if (!File.Exists(SettingsPath))
         {
             _cached = new AppSettings();
-            await SaveAsync(_cached);
+            try { await SaveAsync(_cached); } catch { /* use defaults if save fails */ }
             return _cached;
         }
 

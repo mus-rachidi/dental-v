@@ -11,7 +11,7 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <StackPanel Margin="20,16,20,24">
 
-            <DockPanel Margin="0,0,0,16">
+            <DockPanel Margin="0,0,0,20">
                 <StackPanel Orientation="Horizontal">
                     <Border Width="40" Height="40" CornerRadius="8" Background="{DynamicResource PrimaryBrush}" Margin="0,0,12,0">
                         <TextBlock Text="&#xE9F9;" FontFamily="Segoe MDL2 Assets" FontSize="20"
@@ -33,7 +33,7 @@
                 </StackPanel>
             </DockPanel>
 
-            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,12" Padding="14,10">
+            <Border Style="{DynamicResource CardStyle}" Margin="0,0,0,16" Padding="16,12">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets" FontSize="14"
                                Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0" />
@@ -48,7 +48,7 @@
                 </StackPanel>
             </Border>
 
-            <UniformGrid Columns="4" Margin="0,0,0,16">
+            <UniformGrid Columns="4" Margin="0,0,0,20">
                 <Border Style="{DynamicResource StatCardStyle}" Margin="0,0,6,6">
                     <DockPanel>
                         <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
@@ -147,10 +147,23 @@
                         </StackPanel>
                     </DockPanel>
                 </Border>
-                <Border Style="{DynamicResource StatCardStyle}" Margin="6,6,0,6" />
+                <Border Style="{DynamicResource StatCardStyle}" Margin="6,6,0,6">
+                    <DockPanel>
+                        <Border DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,12,0" CornerRadius="8"
+                               Background="{DynamicResource InfoBrush}">
+                            <TextBlock Text="&#xE9D9;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Avg per Visit" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" />
+                            <TextBlock Text="{Binding AvgRevenuePerVisit, StringFormat='{}{0:N0} MAD'}" FontSize="18" FontWeight="Bold"
+                                       Foreground="{DynamicResource InfoBrush}" Margin="0,2,0,0" />
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
             </UniformGrid>
 
-            <Grid Margin="0,0,0,12">
+            <Grid Margin="0,0,0,16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="12" />

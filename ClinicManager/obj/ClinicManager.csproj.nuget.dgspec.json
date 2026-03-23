@@ -1,26 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/ClinicManager.csproj": {}
+    "c:\\Users\\musta\\test\\ClinicManager\\ClinicManager.csproj": {}
   },
   "projects": {
-    "/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/ClinicManager.csproj": {
+    "c:\\Users\\musta\\test\\ClinicManager\\ClinicManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/ClinicManager.csproj",
+        "projectUniqueName": "c:\\Users\\musta\\test\\ClinicManager\\ClinicManager.csproj",
         "projectName": "ClinicManager",
-        "projectPath": "/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/ClinicManager.csproj",
-        "packagesPath": "/var/folders/5m/n97cg7n9143g759xdq_lwg1w0000gn/T/cursor-sandbox-cache/6fb4c90ab2ada25d35c04d0db19ddd99/nuget",
-        "outputPath": "/Users/mustapharachidi/Desktop/untitled folder 2/ClinicManager/obj/",
+        "projectPath": "c:\\Users\\musta\\test\\ClinicManager\\ClinicManager.csproj",
+        "packagesPath": "C:\\Users\\musta\\.nuget\\packages\\",
+        "outputPath": "c:\\Users\\musta\\test\\ClinicManager\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/mustapharachidi/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\musta\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0-windows"
         ],
         "sources": {
-          "/opt/homebrew/Cellar/dotnet/10.0.103/libexec/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -90,6 +89,10 @@
               "target": "Package",
               "version": "[2024.3.0, )"
             },
+            "SkiaSharp.NativeAssets.Win32": {
+              "target": "Package",
+              "version": "[3.116.1, )"
+            },
             "System.Management": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -112,7 +115,7 @@
               "version": "[8.0.24, 8.0.24]"
             },
             {
-              "name": "Microsoft.NETCore.App.Host.osx-arm64",
+              "name": "Microsoft.NETCore.App.Host.win-x64",
               "version": "[8.0.24, 8.0.24]"
             },
             {
@@ -132,7 +135,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "/opt/homebrew/Cellar/dotnet/10.0.103/libexec/sdk/10.0.103/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

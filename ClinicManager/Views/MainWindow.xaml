@@ -8,8 +8,7 @@
         Title="{local:Localize AppTitle}" 
         Height="700" Width="1100" MinHeight="500" MinWidth="800"
         WindowStartupLocation="CenterScreen"
-        Background="{DynamicResource BackgroundBrush}"
-        Icon="pack://application:,,,/ClinicManager;component/Resources/Icons/app.ico">
+        Background="{DynamicResource BackgroundBrush}">
 
     <Window.Resources>
         <helpers:BoolToVisibilityConverter x:Key="BoolToVis" />
@@ -25,9 +24,9 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- Classic Sidebar -->
+        <!-- Sidebar -->
         <Border Grid.Column="0" Background="{DynamicResource SidebarBrush}" 
-                BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,1,0">
+                BorderBrush="#1A252F" BorderThickness="0,0,1,0">
             <DockPanel>
 
                 <!-- Header -->
@@ -49,20 +48,20 @@
                 </Border>
 
                 <!-- Divider -->
-                <Border DockPanel.Dock="Top" Height="1" Background="{DynamicResource BorderBrush}" Margin="4,0" />
+                <Border DockPanel.Dock="Top" Height="1" Background="#1A252F" Margin="8,0" />
 
                 <!-- Footer -->
                 <StackPanel x:Name="FooterPanel" DockPanel.Dock="Bottom" Margin="8,0,8,8">
-                    <Border Height="1" Background="{DynamicResource BorderBrush}" Margin="0,0,0,6" />
-                    <TextBlock x:Name="FooterText" Text="v1.0" FontSize="9" 
-                               Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Center" />
+                    <Border Height="1" Background="#1A252F" Margin="0,0,0,8" />
+                    <TextBlock x:Name="FooterText" Text="v1.0" FontSize="10" 
+                               Foreground="#95A5A6" HorizontalAlignment="Center" />
                 </StackPanel>
 
                 <!-- Navigation -->
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,4,0,0">
                     <StackPanel>
                         <TextBlock x:Name="LabelOverview" Text="Overview" FontSize="9" FontWeight="Bold" 
-                                   Foreground="{DynamicResource TextMutedBrush}" Margin="10,4,0,2" />
+                                   Foreground="#95A5A6" Margin="10,8,0,4" />
 
                         <RadioButton Style="{DynamicResource NavButtonStyle}" IsChecked="True"
                                      Command="{Binding NavigateCommand}" CommandParameter="Dashboard"
@@ -76,7 +75,7 @@
                         </RadioButton>
 
                         <TextBlock x:Name="LabelManagement" Text="Management" FontSize="9" FontWeight="Bold" 
-                                   Foreground="{DynamicResource TextMutedBrush}" Margin="10,10,0,2" />
+                                   Foreground="#95A5A6" Margin="10,12,0,4" />
 
                         <RadioButton Style="{DynamicResource NavButtonStyle}"
                                      Command="{Binding NavigateCommand}" CommandParameter="Patients"
@@ -123,7 +122,7 @@
                         </RadioButton>
 
                         <TextBlock x:Name="LabelFinance" Text="Finance" FontSize="9" FontWeight="Bold" 
-                                   Foreground="{DynamicResource TextMutedBrush}" Margin="10,10,0,2" />
+                                   Foreground="#95A5A6" Margin="10,12,0,4" />
 
                         <RadioButton Style="{DynamicResource NavButtonStyle}"
                                      Command="{Binding NavigateCommand}" CommandParameter="Billing"
@@ -161,7 +160,7 @@
                         <Border Height="1" Background="{DynamicResource BorderBrush}" Margin="8,8,8,4" />
 
                         <TextBlock x:Name="LabelSystem" Text="System" FontSize="9" FontWeight="Bold" 
-                                   Foreground="{DynamicResource TextMutedBrush}" Margin="10,4,0,2" />
+                                   Foreground="#95A5A6" Margin="10,12,0,4" />
 
                         <RadioButton x:Name="NavUsersBtn" Style="{DynamicResource NavButtonStyle}"
                                      Command="{Binding NavigateCommand}" CommandParameter="Users"
@@ -194,20 +193,20 @@
         <!-- Main Content Area -->
         <DockPanel Grid.Column="1" Background="{DynamicResource BackgroundBrush}">
             <!-- Top Bar: Language + Theme -->
-            <Border DockPanel.Dock="Top" Height="44" Background="{DynamicResource SurfaceBrush}"
+            <Border DockPanel.Dock="Top" Height="48" Background="{DynamicResource SurfaceBrush}"
                     BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,0,1"
-                    Padding="16,0,20,0">
+                    Padding="20,0,24,0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <TextBlock x:Name="CurrentUserText" VerticalAlignment="Center" Margin="0,0,16,0"
                                Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" />
-                    <Button x:Name="LogoutBtn" Content="Logout" Click="LogoutBtn_Click"
+                    <Button x:Name="LogoutBtn" Content="{local:Localize Logout}" Click="LogoutBtn_Click"
                             Style="{DynamicResource SecondaryButtonStyle}" Padding="10,6" Margin="0,0,16,0" FontSize="11" />
                     <TextBlock Text="{local:Localize Language}" VerticalAlignment="Center" Margin="0,0,6,0"
                                Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" />
                     <ComboBox x:Name="LangCombo" Width="120" SelectedIndex="{Binding SettingsVM.SelectedLanguageIndex}"
                               SelectionChanged="LangCombo_SelectionChanged" Padding="8,4" FontSize="12">
-                        <ComboBoxItem Content="English" />
-                        <ComboBoxItem Content="Français" />
+                        <ComboBoxItem Content="{local:Localize LanguageEnglish}" />
+                        <ComboBoxItem Content="{local:Localize LanguageFrench}" />
                     </ComboBox>
                     <TextBlock Text="{local:Localize Theme}" VerticalAlignment="Center" Margin="16,0,6,0"
                                Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" />

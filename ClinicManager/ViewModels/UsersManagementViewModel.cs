@@ -18,6 +18,7 @@ public class UsersManagementViewModel : ViewModelBase, ILoadable
     private bool _isEditing;
     private string _editUsername = string.Empty;
     private string _editPassword = string.Empty;
+    private string _editConfirmPassword = string.Empty;
     private UserRole _editRole;
     private UserStatus _editStatus;
     private string _statusMessage = string.Empty;
@@ -51,6 +52,12 @@ public class UsersManagementViewModel : ViewModelBase, ILoadable
     {
         get => _editPassword;
         set => SetProperty(ref _editPassword, value);
+    }
+
+    public string EditConfirmPassword
+    {
+        get => _editConfirmPassword;
+        set => SetProperty(ref _editConfirmPassword, value);
     }
 
     public UserRole EditRole
@@ -107,6 +114,7 @@ public class UsersManagementViewModel : ViewModelBase, ILoadable
         SelectedUser = null;
         EditUsername = string.Empty;
         EditPassword = string.Empty;
+        EditConfirmPassword = string.Empty;
         EditRole = UserRole.Reception;
         EditStatus = UserStatus.Active;
         IsEditing = true;
@@ -118,6 +126,7 @@ public class UsersManagementViewModel : ViewModelBase, ILoadable
     {
         EditUsername = user.Username;
         EditPassword = string.Empty;
+        EditConfirmPassword = string.Empty;
         EditRole = user.Role;
         EditStatus = user.Status;
         IsEditing = true;
@@ -131,6 +140,7 @@ public class UsersManagementViewModel : ViewModelBase, ILoadable
         SelectedUser = null;
         EditUsername = string.Empty;
         EditPassword = string.Empty;
+        EditConfirmPassword = string.Empty;
     }
 
     private async Task SaveUserAsync()
@@ -146,6 +156,11 @@ public class UsersManagementViewModel : ViewModelBase, ILoadable
             if (string.IsNullOrEmpty(EditPassword))
             {
                 StatusMessage = "Password is required for new users.";
+                return;
+            }
+            if (EditPassword != EditConfirmPassword)
+            {
+                StatusMessage = "Password and Confirm Password do not match.";
                 return;
             }
             var (success, msg) = await _authService.CreateUserAsync(EditUsername, EditPassword, EditRole);
@@ -172,6 +187,11 @@ public class UsersManagementViewModel : ViewModelBase, ILoadable
 
             if (!string.IsNullOrEmpty(EditPassword))
             {
+                if (EditPassword != EditConfirmPassword)
+                {
+                    StatusMessage = "Password and Confirm Password do not match.";
+                    return;
+                }
                 var (success3, msg3) = await _authService.ResetPasswordAsync(SelectedUser.Id, EditPassword);
                 StatusMessage = success3 ? msg3 : msg;
             }
@@ -187,7 +207,21 @@ public class UsersManagementViewModel : ViewModelBase, ILoadable
 
     private async Task ResetPasswordAsync()
     {
-        if (SelectedUser == null || string.IsNullOrEmpty(EditPassword)) return;
+        if (SelectedUser == null)
+        {
+            StatusMessage = "Please select a user.";
+            return;
+        }
+        if (string.IsNullOrEmpty(EditPassword))
+        {
+            StatusMessage = "Please enter a new password.";
+            return;
+        }
+        if (EditPassword != EditConfirmPassword)
+        {
+            StatusMessage = "Password and Confirm Password do not match.";
+            return;
+        }
 
         var validation = AuthService.ValidatePassword(EditPassword);
         if (!validation.Success)
@@ -204,6 +238,7 @@ public class UsersManagementViewModel : ViewModelBase, ILoadable
             if (currentUser != null)
                 AuditService.Log(currentUser.Id, AuditService.Actions.ResetPassword, $"Reset password for: {SelectedUser.Username}");
             EditPassword = string.Empty;
+            EditConfirmPassword = string.Empty;
         }
     }
 }

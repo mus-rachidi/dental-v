@@ -1,7 +1,10 @@
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using ClinicManager.Services;
 using ClinicManager.ViewModels;
 
@@ -11,15 +14,27 @@ public partial class MainWindow : Window
 {
     private bool _sidebarCollapsed;
 
+    /// <summary>Set to true when logging out so minimize-to-tray is bypassed.</summary>
+    public bool IsLoggingOut { get; set; }
+
     public MainWindow(MainViewModel viewModel)
     {
         InitializeComponent();
         DataContext = viewModel;
-
+        TrySetIcon();
         Loaded += MainWindow_Loaded;
         InputBindings.Add(new KeyBinding(
             new ToggleSidebarCommand(this),
             Key.B, ModifierKeys.Control));
+    }
+
+    private void TrySetIcon()
+    {
+        try
+        {
+            Icon = BitmapFrame.Create(new Uri("pack://application:,,,/ClinicManager;component/Resources/Icons/app.ico", UriKind.Absolute));
+        }
+        catch { /* ignore icon load failure */ }
     }
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -58,7 +73,7 @@ public partial class MainWindow : Window
             return;
         }
         var settings = vm.SettingsVM;
-        if (settings.MinimizeToTray)
+        if (!IsLoggingOut && settings.MinimizeToTray)
         {
             e.Cancel = true;
             WindowState = WindowState.Minimized;

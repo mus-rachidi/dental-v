@@ -25,7 +25,7 @@
             </Grid.RowDefinitions>
 
             <!-- Header Bar -->
-            <DockPanel Grid.Row="0" Margin="16,12,16,8">
+            <DockPanel Grid.Row="0" Margin="20,16,20,12">
                 <TextBlock Text="{local:Localize Patients}" Style="{DynamicResource PageTitleStyle}" VerticalAlignment="Center" />
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Content="PDF" Command="{Binding ExportPdfCommand}"
@@ -38,33 +38,33 @@
             </DockPanel>
 
             <!-- Search Bar -->
-            <Border Grid.Row="1" Margin="16,0,16,8">
+            <Border Grid.Row="1" Margin="20,0,20,12">
                 <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
                          Style="{DynamicResource ModernTextBoxStyle}"
                          Tag="{local:Localize SearchPatients}" />
             </Border>
 
             <!-- Content: Patient Grid + Right Detail Panel -->
-            <Grid Grid.Row="2" Margin="16,0,16,12">
+            <Grid Grid.Row="2" Margin="20,0,20,16">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="10" />
-                    <ColumnDefinition Width="280" />
+                    <ColumnDefinition Width="*" MinWidth="300" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="300" MinWidth="280" />
                 </Grid.ColumnDefinitions>
 
                 <!-- Patient Data Grid -->
                 <Border Grid.Column="0" Style="{DynamicResource CardStyle}" Padding="0">
-                    <DataGrid ItemsSource="{Binding Patients}" 
+                    <DataGrid ItemsSource="{Binding Patients}"
                               SelectedItem="{Binding SelectedPatient}"
                               Style="{DynamicResource ModernDataGridStyle}"
                               ColumnHeaderStyle="{DynamicResource ModernDataGridColumnHeaderStyle}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" />
-                            <DataGridTextColumn Header="{local:Localize FullName}" Binding="{Binding FullName}" Width="*" />
-                            <DataGridTextColumn Header="{local:Localize Phone}" Binding="{Binding Phone}" Width="120" />
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" MinWidth="40" />
+                            <DataGridTextColumn Header="{local:Localize FullName}" Binding="{Binding FullName}" Width="*" MinWidth="100" />
+                            <DataGridTextColumn Header="{local:Localize Phone}" Binding="{Binding Phone}" Width="120" MinWidth="80" />
                             <DataGridTextColumn Header="{local:Localize DateOfBirth}" 
-                                                Binding="{Binding DateOfBirth, StringFormat='{}{0:yyyy-MM-dd}'}" Width="100" />
-                            <DataGridTextColumn Header="{local:Localize Gender}" Binding="{Binding Gender}" Width="70" />
+                                                Binding="{Binding DateOfBirth, StringFormat='{}{0:yyyy-MM-dd}'}" Width="100" MinWidth="85" />
+                            <DataGridTextColumn Header="{local:Localize Gender}" Binding="{Binding Gender}" Width="70" MinWidth="60" />
                         </DataGrid.Columns>
                         <DataGrid.ContextMenu>
                             <ContextMenu>
@@ -75,7 +75,7 @@
                     </DataGrid>
                 </Border>
 
-                <!-- ==================== RIGHT PANEL: Patient Detail + Dental Chart ==================== -->
+                <!-- Right Panel: Patient Detail + Dental Chart - always visible -->
                 <Border Grid.Column="2" Style="{DynamicResource CardStyle}" Padding="0">
                     <Grid>
                         <!-- Placeholder when no patient selected -->
@@ -158,13 +158,13 @@
                                             </Grid.ColumnDefinitions>
                                             <StackPanel Grid.Column="0" HorizontalAlignment="Center">
                                                 <TextBlock Text="{Binding HealthyCount}" FontSize="16" FontWeight="Bold"
-                                                           HorizontalAlignment="Center" Foreground="#10B981" />
+                                                           HorizontalAlignment="Center" Foreground="{DynamicResource SuccessBrush}" />
                                                 <TextBlock Text="Healthy" FontSize="9" HorizontalAlignment="Center"
                                                            Foreground="{DynamicResource TextSecondaryBrush}" />
                                             </StackPanel>
                                             <StackPanel Grid.Column="1" HorizontalAlignment="Center">
                                                 <TextBlock Text="{Binding IssueCount}" FontSize="16" FontWeight="Bold"
-                                                           HorizontalAlignment="Center" Foreground="#EF4444" />
+                                                           HorizontalAlignment="Center" Foreground="{DynamicResource DangerBrush}" />
                                                 <TextBlock Text="Issues" FontSize="9" HorizontalAlignment="Center"
                                                            Foreground="{DynamicResource TextSecondaryBrush}" />
                                             </StackPanel>
@@ -224,8 +224,7 @@
                                     <Button Content="Edit Patient" Command="{Binding EditCommand}"
                                             Style="{DynamicResource PrimaryButtonStyle}" Margin="0,0,0,8" />
                                     <Button Content="Delete" Command="{Binding DeleteCommand}"
-                                            Style="{DynamicResource SecondaryButtonStyle}" 
-                                            Foreground="#EF4444" BorderBrush="#EF4444" />
+                                            Style="{DynamicResource DangerButtonStyle}" />
                                 </StackPanel>
                             </ScrollViewer>
 
@@ -235,17 +234,17 @@
                                 <StackPanel>
                                     <!-- Legend - Professional horizontal layout -->
                                     <Border Background="{DynamicResource SurfaceBrush}" Padding="12,10" Margin="0,0,0,14"
-                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="8">
+                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="0">
                                         <WrapPanel>
-                                            <Border Width="12" Height="12" Margin="0,0,6,0" CornerRadius="3" Background="#10B981" VerticalAlignment="Center" />
+                                            <Border Width="12" Height="12" Margin="0,0,6,0" CornerRadius="0" Background="{DynamicResource SuccessBrush}" VerticalAlignment="Center" />
                                             <TextBlock Text="Healthy" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,14,0" VerticalAlignment="Center" />
-                                            <Border Width="12" Height="12" Margin="0,0,6,0" CornerRadius="3" Background="#EF4444" VerticalAlignment="Center" />
+                                            <Border Width="12" Height="12" Margin="0,0,6,0" CornerRadius="0" Background="{DynamicResource DangerBrush}" VerticalAlignment="Center" />
                                             <TextBlock Text="Cavity" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,14,0" VerticalAlignment="Center" />
-                                            <Border Width="12" Height="12" Margin="0,0,6,0" CornerRadius="3" Background="#3B82F6" VerticalAlignment="Center" />
+                                            <Border Width="12" Height="12" Margin="0,0,6,0" CornerRadius="0" Background="{DynamicResource InfoBrush}" VerticalAlignment="Center" />
                                             <TextBlock Text="Filled" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,14,0" VerticalAlignment="Center" />
-                                            <Border Width="12" Height="12" Margin="0,0,6,0" CornerRadius="3" Background="#F59E0B" VerticalAlignment="Center" />
+                                            <Border Width="12" Height="12" Margin="0,0,6,0" CornerRadius="0" Background="{DynamicResource WarningBrush}" VerticalAlignment="Center" />
                                             <TextBlock Text="Crown" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,14,0" VerticalAlignment="Center" />
-                                            <Border Width="12" Height="12" Margin="0,0,6,0" CornerRadius="3" Background="#6B7280" VerticalAlignment="Center" />
+                                            <Border Width="12" Height="12" Margin="0,0,6,0" CornerRadius="0" Background="{DynamicResource TextMutedBrush}" VerticalAlignment="Center" />
                                             <TextBlock Text="Missing" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" />
                                         </WrapPanel>
                                     </Border>
@@ -255,7 +254,7 @@
                                                Foreground="{DynamicResource PrimaryBrush}"
                                                HorizontalAlignment="Center" Margin="0,0,0,10" />
                                     <Border Background="{DynamicResource SurfaceBrush}" Padding="14,12" Margin="0,0,0,10"
-                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="10">
+                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="0">
                                         <ItemsControl ItemsSource="{Binding UpperTeeth}" HorizontalAlignment="Center">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -304,7 +303,7 @@
                                                Foreground="{DynamicResource PrimaryBrush}"
                                                HorizontalAlignment="Center" Margin="0,10,0,10" />
                                     <Border Background="{DynamicResource SurfaceBrush}" Padding="14,12" Margin="0,0,0,14"
-                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="10">
+                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="0">
                                         <ItemsControl ItemsSource="{Binding LowerTeeth}" HorizontalAlignment="Center">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -347,7 +346,7 @@
 
                                     <!-- Selected Tooth Detail -->
                                     <Border Margin="0,10,0,0" Background="{DynamicResource SurfaceBrush}" 
-                                            Padding="16" BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="1" CornerRadius="10"
+                                            Padding="16" BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="1" CornerRadius="0"
                                             Visibility="{Binding SelectedTooth, Converter={StaticResource NullToVis}, FallbackValue=Collapsed}">
                                         <StackPanel>
                                             <TextBlock Text="{Binding SelectedTooth.Name}" FontWeight="SemiBold" FontSize="12"
@@ -410,7 +409,7 @@
                                                             <ColumnDefinition Width="Auto" />
                                                         </Grid.ColumnDefinitions>
                                                         <Border Grid.Column="0" Width="56" Height="56"
-                                                                Background="#1a1a2e">
+                                                                Background="{DynamicResource SurfaceBrush}">
                                                             <Image Source="{Binding ImagePath, Converter={StaticResource PathToImage}}" 
                                                                    Stretch="UniformToFill" />
                                                         </Border>
@@ -427,7 +426,7 @@
                                                                 CommandParameter="{Binding}"
                                                                 FontFamily="Segoe MDL2 Assets" FontSize="12"
                                                                 Background="Transparent" BorderThickness="0"
-                                                                Foreground="#EF4444" Cursor="Hand"
+                                                                Foreground="{DynamicResource DangerBrush}" Cursor="Hand"
                                                                 ToolTip="Delete" VerticalAlignment="Center" />
                                                     </Grid>
                                                 </Border>
@@ -448,7 +447,7 @@
 
         <!-- ==================== EDIT FORM ==================== -->
         <ScrollViewer Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}"
-                      VerticalScrollBarVisibility="Auto" Padding="16,12">
+                      VerticalScrollBarVisibility="Auto" Padding="32,24">
             <Border Style="{DynamicResource CardStyle}" MaxWidth="540" HorizontalAlignment="Center">
                 <StackPanel>
                     <TextBlock Text="{Binding EditingPatient.Id, StringFormat='Patient #{0}', FallbackValue='New Patient'}" 

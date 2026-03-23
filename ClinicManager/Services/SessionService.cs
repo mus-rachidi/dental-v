@@ -2,6 +2,7 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using ClinicManager.Localization;
 using ClinicManager.Models;
 
 namespace ClinicManager.Services;
@@ -70,8 +71,8 @@ public class SessionService
             Application.Current.Dispatcher.Invoke(() =>
             {
                 MessageBox.Show(
-                    "You have been logged out due to inactivity.",
-                    "Session Expired",
+                    Strings.SessionExpiredMessage,
+                    Strings.SessionExpired,
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
                 _onLogoutRequested?.Invoke();

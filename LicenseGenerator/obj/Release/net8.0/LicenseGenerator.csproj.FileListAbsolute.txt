@@ -1,0 +1,15 @@
+C:\Users\musta\test\LicenseGenerator\bin\Release\net8.0\LicenseGenerator.exe
+C:\Users\musta\test\LicenseGenerator\bin\Release\net8.0\LicenseGenerator.deps.json
+C:\Users\musta\test\LicenseGenerator\bin\Release\net8.0\LicenseGenerator.runtimeconfig.json
+C:\Users\musta\test\LicenseGenerator\bin\Release\net8.0\LicenseGenerator.dll
+C:\Users\musta\test\LicenseGenerator\bin\Release\net8.0\LicenseGenerator.pdb
+C:\Users\musta\test\LicenseGenerator\obj\Release\net8.0\LicenseGenerator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\musta\test\LicenseGenerator\obj\Release\net8.0\LicenseGenerator.AssemblyInfoInputs.cache
+C:\Users\musta\test\LicenseGenerator\obj\Release\net8.0\LicenseGenerator.AssemblyInfo.cs
+C:\Users\musta\test\LicenseGenerator\obj\Release\net8.0\LicenseGenerator.csproj.CoreCompileInputs.cache
+C:\Users\musta\test\LicenseGenerator\obj\Release\net8.0\LicenseGenerator.sourcelink.json
+C:\Users\musta\test\LicenseGenerator\obj\Release\net8.0\LicenseGenerator.dll
+C:\Users\musta\test\LicenseGenerator\obj\Release\net8.0\refint\LicenseGenerator.dll
+C:\Users\musta\test\LicenseGenerator\obj\Release\net8.0\LicenseGenerator.pdb
+C:\Users\musta\test\LicenseGenerator\obj\Release\net8.0\LicenseGenerator.genruntimeconfig.cache
+C:\Users\musta\test\LicenseGenerator\obj\Release\net8.0\ref\LicenseGenerator.dll
