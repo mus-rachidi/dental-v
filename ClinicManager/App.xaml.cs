@@ -59,9 +59,23 @@ public partial class App : Application
                     // Proceed if activated or user chose "Continue without license"
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // If license check fails (e.g. access denied), proceed without license
+                try
+                {
+                    var logDir = Path.Combine(ClinicManager.Helpers.DataPathHelper.GetClinicManagerDirectory(), "Logs");
+                    Directory.CreateDirectory(logDir);
+                    File.AppendAllText(
+                        Path.Combine(logDir, $"error_{DateTime.Now:yyyyMMdd}.log"),
+                        $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] License startup: {ex}\n\n");
+                }
+                catch { /* ignore */ }
+
+                MessageBox.Show(
+                    $"Could not complete license verification:\n\n{ex.Message}\n\nThe application will continue. You can try activating from Settings if the problem persists.",
+                    "License",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
 
             // Ensure default admin exists (admin / Admin@123)

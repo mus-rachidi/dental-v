@@ -4,6 +4,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Diagnostics;
 
 namespace ClinicManager.Licensing;
 
@@ -83,13 +84,19 @@ public class LicenseManager
             if (license == null) return false;
 
             var currentMachine = HardwareFingerprint.Generate();
-            if (license.MachineId != currentMachine) return false;
+            if (string.IsNullOrEmpty(license.MachineId) ||
+                !string.Equals(license.MachineId, currentMachine, StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            if (string.IsNullOrWhiteSpace(license.LicenseKey)) return false;
 
             return ValidateLicenseKey(license.LicenseKey, license.MachineId);
         }
-        catch
+        catch (Exception ex)
         {
-            return true;
+            // Invalid/corrupt license data must not grant access
+            Trace.WriteLine($"[LicenseManager] IsLicensed error: {ex}");
+            return false;
         }
     }
 
@@ -104,6 +111,7 @@ public class LicenseManager
     public bool ActivateLicense(string licenseKey, string licensedTo)
     {
         LastError = null;
+        licenseKey = licenseKey.Trim().Replace(" ", "", StringComparison.Ordinal);
         var machineId = HardwareFingerprint.Generate();
         if (!ValidateLicenseKey(licenseKey, machineId))
         {
@@ -212,17 +220,15 @@ public class LicenseManager
 
     private LicenseData? LoadLicense()
     {
-        try
+        foreach (var dir in GetLicenseDirectories())
         {
-            foreach (var dir in GetLicenseDirectories())
+            var path = GetLicensePath(dir);
+            try
             {
-                var path = GetLicensePath(dir);
-                try { if (!File.Exists(path)) continue; }
-                catch { continue; }
+                if (!File.Exists(path))
+                    continue;
 
-                try
-                {
-                    var encrypted = File.ReadAllBytes(path);
+                var encrypted = File.ReadAllBytes(path);
                 byte[] plainBytes;
                 try
                 {
@@ -230,14 +236,53 @@ public class LicenseManager
                 }
                 catch
                 {
-                    plainBytes = DecryptLegacyAes(encrypted);
+                    try
+                    {
+                        plainBytes = DecryptLegacyAes(encrypted);
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.WriteLine($"[LicenseManager] Legacy decrypt failed for {path}: {ex.Message}");
+                        continue;
+                    }
                 }
-                var json = Encoding.UTF8.GetString(plainBytes);
-                var license = JsonSerializer.Deserialize<LicenseData>(json);
-                if (license != null)
+
+                string json;
+                try
                 {
-                    try { SaveLicense(license); } catch { /* re-save optional */ }
+                    json = Encoding.UTF8.GetString(plainBytes);
                 }
+                catch
+                {
+                    continue;
+                }
+
+                LicenseData? license;
+                try
+                {
+                    license = JsonSerializer.Deserialize<LicenseData>(json);
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine($"[LicenseManager] Invalid license JSON at {path}: {ex.Message}");
+                    continue;
+                }
+
+                if (license == null ||
+                    string.IsNullOrWhiteSpace(license.LicenseKey) ||
+                    string.IsNullOrWhiteSpace(license.MachineId))
+                    continue;
+
+                // Optional: migrate legacy encryption to DPAPI (best effort)
+                try
+                {
+                    SaveLicense(license);
+                }
+                catch
+                {
+                    /* ignore */
+                }
+
                 return license;
             }
             catch (UnauthorizedAccessException)
@@ -246,15 +291,14 @@ public class LicenseManager
             }
             catch (IOException)
             {
-                /* file locked or inaccessible, try next location */
+                /* file locked or inaccessible */
             }
-            catch
+            catch (Exception ex)
             {
-                /* try next location */
+                Trace.WriteLine($"[LicenseManager] LoadLicense path {path}: {ex.Message}");
             }
         }
-        }
-        catch { /* ignore all */ }
+
         return null;
     }
 

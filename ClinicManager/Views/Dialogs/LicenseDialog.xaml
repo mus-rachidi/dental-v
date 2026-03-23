@@ -73,6 +73,11 @@
                         Margin="0,16,0,0" Style="{DynamicResource SecondaryButtonStyle}"
                         Padding="0,10" Cursor="Hand" FontSize="12"
                         HorizontalContentAlignment="Center" />
+
+                <Button Content="Exit" Click="ExitButton_Click"
+                        Margin="0,8,0,0" Padding="0,8" Cursor="Hand" FontSize="11"
+                        Style="{DynamicResource SecondaryButtonStyle}"
+                        HorizontalContentAlignment="Center" />
             </StackPanel>
         </ScrollViewer>
     </Border>

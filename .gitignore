@@ -1,0 +1,19 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.userosscache
+.vs/
+
+# Local app data (do not commit)
+**/.license
+**/clinic.db
+**/clinic.db-shm
+**/clinic.db-wal
+**/Logs/
+**/settings.json
+
+# NuGet
+*.nupkg
+**/packages/
